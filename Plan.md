@@ -3,6 +3,12 @@
 This file is the shared reference for what is being built. **Status checklist first**, then the
 approved plan (copied verbatim from the planning session on Oct 11, 2026). Updated as each piece lands.
 
+## Decisions log
+- **Oct 11 — Non-English reviews: no translation** (cost). They are still classified by Jev from the
+  original text (required: every nonempty review must be classified; ~4–6% of distinct texts, ~$1 of Jev
+  usage). A free offline language detector flags them `needs_review=true`, reason `non_english_unverified`.
+  README and memo disclose the count and show the ranking with and without them.
+
 ## Status checklist
 
 Legend: ✅ done · 🔄 in progress · ⬜ todo · 👤 needs the user
@@ -17,7 +23,7 @@ Legend: ✅ done · 🔄 in progress · ⬜ todo · 👤 needs the user
 - ✅ 1a Shared label definitions draft — `config/labels.yaml` (labels-v1)
 - ✅ 1a Dev-50 selection — `labeling/select_dev.py` → `labeling/dev_50_to_label.csv` (analysis_10000 rows 501–10,000; golden + checkpoint_500 excluded and asserted)
 - ✅ 1a Labeling page — `labeling/label.html?set=dev_50` (also `?set=golden_50` for later)
-- ⬜👤 1b User labels dev 50 → `evals/dev_50_labeled.csv`
+- ✅ 1b User labeled dev 50 → `evals/dev_50_labeled.csv` (50/50 valid; no `downloads` examples yet → add a few dev downloads cases before tuning)
 - ⬜👤 1c User adds `TYPESAFE_API_KEY` to `.env`
 - ⬜ 1c Jev question set + client, dev before/after test, 100-review cold/warm pilot, calculator v1
 
