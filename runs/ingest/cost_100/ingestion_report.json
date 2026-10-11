@@ -1,0 +1,203 @@
+{
+  "all_checks_pass": true,
+  "checker_profile": {
+    "counts": {
+      "duplicate_review_ids": 0,
+      "empty_review_text": 0,
+      "missing_app_version": 18,
+      "records": 100
+    },
+    "file_sha256": "c884ac3b9be5066995d5063f96ad9af6e5e082975788c1684c4f6b6ea661dd0e",
+    "first_review": "2022-06-02 10:30:18",
+    "last_review": "2023-11-13 15:07:19",
+    "parsed_rows_sha256": "23f840350257c058a03a508754384902373a593c09dbac3d1bd0481651fa1733",
+    "reviews_by_month": {
+      "2022-06": 5,
+      "2022-07": 5,
+      "2022-08": 6,
+      "2022-09": 5,
+      "2022-10": 4,
+      "2022-11": 1,
+      "2022-12": 2,
+      "2023-01": 4,
+      "2023-02": 4,
+      "2023-03": 7,
+      "2023-04": 4,
+      "2023-05": 5,
+      "2023-06": 4,
+      "2023-07": 11,
+      "2023-08": 3,
+      "2023-09": 6,
+      "2023-10": 19,
+      "2023-11": 5
+    },
+    "reviews_by_rating": {
+      "1": 33,
+      "2": 8,
+      "3": 6,
+      "4": 10,
+      "5": 43
+    }
+  },
+  "counts": {
+    "distinct_nonempty_texts": 100,
+    "duplicate_review_ids": 0,
+    "empty_review_text": 0,
+    "invalid_ratings": {},
+    "missing_app_version": 18,
+    "nonempty_review_text": 100,
+    "records": 100,
+    "reviews_reusing_an_exact_text": 0,
+    "texts_appearing_more_than_once": 0,
+    "unparseable_timestamps": 0
+  },
+  "first_review": "2022-06-02 10:30:18",
+  "generated_at": "2026-10-11T20:45:55+00:00",
+  "input": {
+    "bytes": 15466,
+    "path": "cost_100.csv",
+    "sha256": "c884ac3b9be5066995d5063f96ad9af6e5e082975788c1684c4f6b6ea661dd0e"
+  },
+  "last_review": "2023-11-13 15:07:19",
+  "manifest_checks": [
+    {
+      "actual": 15466,
+      "check": "file_bytes",
+      "expected": 15466,
+      "pass": true
+    },
+    {
+      "actual": "c884ac3b9be5066995d5063f96ad9af6e5e082975788c1684c4f6b6ea661dd0e",
+      "check": "file_sha256",
+      "expected": "c884ac3b9be5066995d5063f96ad9af6e5e082975788c1684c4f6b6ea661dd0e",
+      "pass": true
+    },
+    {
+      "actual": 100,
+      "check": "pipeline_count_equals_checker_count",
+      "expected": 100,
+      "pass": true
+    }
+  ],
+  "most_repeated_texts": [
+    {
+      "first_review_id": "035213ba-b1b9-411c-b028-70296e5f0e73",
+      "reviews": 1,
+      "text": "I m using this app from 5 to 6 year but now m uninstald this app cz his premium "
+    },
+    {
+      "first_review_id": "0658feaa-5bec-416e-b6b0-3de2a4c14580",
+      "reviews": 1,
+      "text": "Nice app! But many songs are not present here!"
+    },
+    {
+      "first_review_id": "06a45bd5-3ed9-43af-b7f2-8b9487e2ffff",
+      "reviews": 1,
+      "text": "Worst app"
+    },
+    {
+      "first_review_id": "084077ee-f9be-446a-9935-9e58550d5153",
+      "reviews": 1,
+      "text": "Thik thak hi hai"
+    },
+    {
+      "first_review_id": "0a5ff524-27b1-4f3b-a761-17ca48ee731d",
+      "reviews": 1,
+      "text": "Best app for listening music"
+    },
+    {
+      "first_review_id": "0b52ac4e-1982-46ed-aeaa-74eedaefb5c9",
+      "reviews": 1,
+      "text": "Sexy app"
+    },
+    {
+      "first_review_id": "0f2b7fd2-71a6-4657-998e-da44f5893956",
+      "reviews": 1,
+      "text": "Bablu Bharti 😎😎"
+    },
+    {
+      "first_review_id": "10f09c93-34ef-4a3b-8ee2-97d7c00d44e0",
+      "reviews": 1,
+      "text": "Love this i can choose from all the music that i enjoy"
+    },
+    {
+      "first_review_id": "178c3b49-b689-4fe4-92a2-2257a58e6d95",
+      "reviews": 1,
+      "text": "Worst app."
+    },
+    {
+      "first_review_id": "1807cc68-ba99-4edc-b6f1-2a1478e69109",
+      "reviews": 1,
+      "text": "I love Spotify recommendations music type before more than now. It was more song"
+    },
+    {
+      "first_review_id": "1d9f396e-7a8a-414b-a622-3ad6f9570abe",
+      "reviews": 1,
+      "text": "Exactly good"
+    },
+    {
+      "first_review_id": "21915fcd-9a35-48ba-b277-6296c4154603",
+      "reviews": 1,
+      "text": "This app the new update has made everthing premium and so usless i thought this "
+    },
+    {
+      "first_review_id": "23d905f8-8684-41b3-8faa-42571f3eaeee",
+      "reviews": 1,
+      "text": "Love this app. The developers do a good job keeping up with changes. Not a compl"
+    },
+    {
+      "first_review_id": "23de7958-ccb0-4356-bc12-094935e6857d",
+      "reviews": 1,
+      "text": "I absolutely love Spotify! Best music app there is."
+    },
+    {
+      "first_review_id": "277c75cb-ec6a-4387-902d-eb721d038db6",
+      "reviews": 1,
+      "text": "Amazing"
+    }
+  ],
+  "notes": [
+    "Raw field strings are stored unchanged; source_sha256 uses the course checker's row_sha.",
+    "Empty means review_text.strip() == '' (same rule as the checker); such rows are quarantined with reason empty_review_text and are never sent to a model.",
+    "Missing app_version does not block classification.",
+    "Distinct texts are exact byte-identical review_text values; similar texts are not merged."
+  ],
+  "quarantined_empty_texts": [],
+  "reviews_by_month": {
+    "2022-06": 5,
+    "2022-07": 5,
+    "2022-08": 6,
+    "2022-09": 5,
+    "2022-10": 4,
+    "2022-11": 1,
+    "2022-12": 2,
+    "2023-01": 4,
+    "2023-02": 4,
+    "2023-03": 7,
+    "2023-04": 4,
+    "2023-05": 5,
+    "2023-06": 4,
+    "2023-07": 11,
+    "2023-08": 3,
+    "2023-09": 6,
+    "2023-10": 19,
+    "2023-11": 5
+  },
+  "reviews_by_rating": {
+    "1": 33,
+    "2": 8,
+    "3": 6,
+    "4": 10,
+    "5": 43
+  },
+  "runtime_seconds": 0.01,
+  "status_after_ingest": {
+    "pending": 100
+  },
+  "text_length_chars": {
+    "max": 486,
+    "median": 44.5,
+    "min": 4,
+    "p90": 185.7
+  }
+}

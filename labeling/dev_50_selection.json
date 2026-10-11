@@ -1,0 +1,327 @@
+{
+  "seed": "spotify-insight-dev50-v1",
+  "source": {
+    "file": "analysis_10000.csv",
+    "sha256": "eaa62ca6d44d717302904a9c922e99b0b4584d174309cb45295ecbc2ba2a91b5",
+    "rows_used": "501-10000"
+  },
+  "method": "Keyword buckets for coverage, then lowest SHA-256(seed:review_id) within each bucket. Buckets are sampling aids only, not labels. No model calls.",
+  "excluded": [
+    "checkpoint_500.csv (first 500 rows, includes cost_100.csv)",
+    "golden_50_to_label.csv"
+  ],
+  "buckets": [
+    {
+      "bucket": "access",
+      "target": 5,
+      "pattern": "\\b(log ?in|logged out|log out|sign ?in|sign ?up|password|account|hacked)\\b"
+    },
+    {
+      "bucket": "support",
+      "target": 3,
+      "pattern": "\\b(customer (service|support)|support team|contact(ed)? (spotify|support)|help ?desk)\\b"
+    },
+    {
+      "bucket": "downloads",
+      "target": 4,
+      "pattern": "\\b(download\\w*|offline)\\b"
+    },
+    {
+      "bucket": "billing",
+      "target": 6,
+      "pattern": "\\b(premium|price|pay(ing|ment)?|charged?|subscription|money|trial|refund)\\b"
+    },
+    {
+      "bucket": "catalog",
+      "target": 5,
+      "pattern": "\\b(lyrics?|search|recommend\\w*|podcasts?|not available|missing songs?|artist)\\b"
+    },
+    {
+      "bucket": "playback",
+      "target": 6,
+      "pattern": "\\b(crash\\w*|stops?|stopped|lag\\w*|won'?t play|buffer\\w*|skips?|freez\\w*|battery|bluetooth)\\b"
+    },
+    {
+      "bucket": "usability",
+      "target": 6,
+      "pattern": "\\b(ads?|adverts?|shuffle|layout|interface|ui|navigation|queue|button|design)\\b"
+    },
+    {
+      "bucket": "cancellation",
+      "target": 4,
+      "pattern": "\\b(uninstall\\w*|cancel\\w*|delet\\w*|switch(ing)? to|leaving|goodbye|bye)\\b"
+    },
+    {
+      "bucket": "boycott_or_offtopic",
+      "target": 2,
+      "pattern": "\\b(boycott|sweden|swedish|quran|qur'?an)\\b"
+    },
+    {
+      "bucket": "non_english",
+      "target": 2,
+      "pattern": null
+    },
+    {
+      "bucket": "long_mixed",
+      "target": 3,
+      "pattern": null
+    },
+    {
+      "bucket": "short_praise",
+      "target": 4,
+      "pattern": null
+    }
+  ],
+  "selected": [
+    {
+      "review_id": "e9a7546c-7ced-4016-a7e5-bd6914783ace",
+      "source_sha256": "538a69472fe6f65a2b5d3b08ab9e446a35a1d9d071379e3cbef416c7bee0feb0",
+      "bucket": "usability"
+    },
+    {
+      "review_id": "a1a52508-1b15-478f-8582-d39dfe0df66c",
+      "source_sha256": "3555c5e4eb47879e63b7c182ef1cbcbc1bf7b412e5aee920c596b0e4cdb2bb2c",
+      "bucket": "access"
+    },
+    {
+      "review_id": "f24cd91b-59c0-4f9c-89e9-e8180c339344",
+      "source_sha256": "285c09a450e55b28fb01b0e4fbc5fd8df6b183f4744752cc7125eaa4b2b01756",
+      "bucket": "playback"
+    },
+    {
+      "review_id": "84c09d0f-3a59-4dd8-9413-a62b934accbb",
+      "source_sha256": "444b55b1daec59bc17a8a2da70ddc532543e1fe94aa8aa271b94b16ddcb2cbe1",
+      "bucket": "billing"
+    },
+    {
+      "review_id": "9c1607cc-6e4c-44a0-99ca-5a956bf8d382",
+      "source_sha256": "e3fde1026251c3b1f025e8dab524b86e80784344a1ca3e83a459e38b8ce4e7b1",
+      "bucket": "playback"
+    },
+    {
+      "review_id": "3b6d7be5-c71a-47a3-8490-76bfc48e4279",
+      "source_sha256": "23618a48f3489e76907692a87eafee2a5e7aec28f0589735242c7f9158a68ad3",
+      "bucket": "long_mixed"
+    },
+    {
+      "review_id": "6078b922-0b06-4f91-be0f-98346dc2c766",
+      "source_sha256": "e5e40abbe91251ad8a17377209d1c4d021a2013404dcf6effc627295e36def63",
+      "bucket": "usability"
+    },
+    {
+      "review_id": "641fcc61-7cc8-416f-ba78-017ccb320595",
+      "source_sha256": "24da0308567a3e844868a1432e9ef5cca7b4f464952b6d69275d7c2f9a04c3a3",
+      "bucket": "non_english"
+    },
+    {
+      "review_id": "8585f42d-9038-48d6-bf1d-b26c17c35454",
+      "source_sha256": "3e20b93d3a0328fbc133f9df241e2b6319e2fdc99e228f0029cc7edcf19e0617",
+      "bucket": "boycott_or_offtopic"
+    },
+    {
+      "review_id": "c3fcf858-7b2f-43be-9d2d-73f481c2cba6",
+      "source_sha256": "53497d791aae08e39e6c881968018bad305da8c5b60ac58539e0ecea7665912f",
+      "bucket": "short_praise"
+    },
+    {
+      "review_id": "688ed267-05b4-4ec6-8fb6-0fad0b326733",
+      "source_sha256": "066f66047ea83cbbc78178389907aa9b89a06ff489dc984edb223f6249f4cf14",
+      "bucket": "playback"
+    },
+    {
+      "review_id": "63f6de17-f734-4b3b-9944-7cfe81ed8db1",
+      "source_sha256": "20ab4627d7ecc1aa3cbbf0eaf9f29f33648ca4aa8e2d8f566333ea2568c086e4",
+      "bucket": "usability"
+    },
+    {
+      "review_id": "006b8080-637f-497f-893a-e8b2e44f1a0c",
+      "source_sha256": "9e3d13bb7b0bf319c3743f3f389339eb7a42174c2eb4a78f3842ae46c5bcd113",
+      "bucket": "catalog"
+    },
+    {
+      "review_id": "a1b8d0cf-3c46-45b3-97ef-2673cd1e3f22",
+      "source_sha256": "06d9afefb98a9a4776ab4128478d037ae8af41f68dacb26a8f68ac5cf7be29d0",
+      "bucket": "billing"
+    },
+    {
+      "review_id": "759bb67c-54de-441a-9a0c-c75824f719b5",
+      "source_sha256": "dcf2f0ba742e58879095772e9b3bf3f891a21473d72744777200c7a0afeaa7b7",
+      "bucket": "short_praise"
+    },
+    {
+      "review_id": "d6159d51-817b-4cd2-9180-d694e657d473",
+      "source_sha256": "32a814e8f4ab591944a12ebb0f373bcd40abce92e93e1483d523701107f963ec",
+      "bucket": "cancellation"
+    },
+    {
+      "review_id": "983c5dd7-75f7-43cf-9dee-eb0f5cda9a44",
+      "source_sha256": "822f24e7deb1be4db38a1293aad7d1878e4f1ae4e92d92827bafbf017bfeff0e",
+      "bucket": "playback"
+    },
+    {
+      "review_id": "f1cdfbeb-6453-4804-bfca-cb330a3158e7",
+      "source_sha256": "b21709d8743c24c950c1d277c03913fd00a914ec7757888e6ab803f72544a44a",
+      "bucket": "cancellation"
+    },
+    {
+      "review_id": "90614e21-3f8f-4ba1-97a8-1db8d8c7a764",
+      "source_sha256": "06de8a7896a351793d47406ccfbdde419c636d06adb585b5f10d16ef3e445895",
+      "bucket": "access"
+    },
+    {
+      "review_id": "7dcc7236-07e6-45d5-947f-e49f166c7d61",
+      "source_sha256": "0a3932536a7f927a6558c4519673397942cdbcdfdb6ff697c48b4bcf560182a5",
+      "bucket": "access"
+    },
+    {
+      "review_id": "2c2fefc7-e33e-42d3-be93-6ff1243c1fbd",
+      "source_sha256": "2d4f8d57fb4fd4ba9de608083b23774c1a211b4ab4112f23586b5466f40098fd",
+      "bucket": "support"
+    },
+    {
+      "review_id": "99566d17-45c3-4f4e-86f0-1bef74b8c92a",
+      "source_sha256": "c9b2680540dd64565ff72473bdeb19e6cddd36997e43b2cee40c15ef1cb7ec63",
+      "bucket": "access"
+    },
+    {
+      "review_id": "ff9672ef-cb0e-4740-aa89-ef5dda87ae3f",
+      "source_sha256": "ecdfce7aa348753ad653f7b1ddb654384387e89d23d0d8725350e9bb50b17b82",
+      "bucket": "usability"
+    },
+    {
+      "review_id": "f9203d5d-a629-46b0-b066-804892244365",
+      "source_sha256": "42803411d15380ad8be00f54ec6f9a21ff8089553fa91a87793ed273b6e8c775",
+      "bucket": "downloads"
+    },
+    {
+      "review_id": "dd8818a2-f08c-465a-b77b-4cab4bf17b6d",
+      "source_sha256": "f4c3ee55ce5e1f7da5b005da770c7aba17d080b66e580fa16652ced2e8dc2224",
+      "bucket": "cancellation"
+    },
+    {
+      "review_id": "932efad7-bc7a-4ba3-8f1f-827279f0ec37",
+      "source_sha256": "2f9061beb72d18e16e08b4720e8af0671a4ed58e89f744c27799bd87c7e9ffba",
+      "bucket": "downloads"
+    },
+    {
+      "review_id": "10357057-1b81-436b-b542-bb20aff3b6fe",
+      "source_sha256": "9849122a08790b6b69477b5e48633b079c0de8ae86a9ca4fcdbb25ffdae55292",
+      "bucket": "short_praise"
+    },
+    {
+      "review_id": "1d92f231-b70e-4423-9699-912776b17dca",
+      "source_sha256": "cda78c913ce50d91f57f68ade3bf4b48a1ea883d197a0b6e7a7cae2acf6aec42",
+      "bucket": "catalog"
+    },
+    {
+      "review_id": "2fd0d227-3466-4f6f-ad32-a2d5e614a7ea",
+      "source_sha256": "c49f204a40544f75cb38e97aaaad6ef1dadb6741e24a9b7d89f16c6dc4b06d2e",
+      "bucket": "support"
+    },
+    {
+      "review_id": "3d75f76e-9be9-4062-8964-6fd468043902",
+      "source_sha256": "a25d227f57908c130dc2f44a10c2b4b0108524802c39d5668e3a71703ec04b1c",
+      "bucket": "cancellation"
+    },
+    {
+      "review_id": "772248c9-549d-411f-b81d-55aac25e30a7",
+      "source_sha256": "c2b8f150995991d1a1450bce1baf71bf8de037385e0342d8a91b78fc9eca9b9c",
+      "bucket": "usability"
+    },
+    {
+      "review_id": "be3d80bd-cfa5-4e59-85c7-60a3c7467f7b",
+      "source_sha256": "3c131e443cfcb941b361d8f2060fc0077c43fafed093ef819e528e62686b12a9",
+      "bucket": "catalog"
+    },
+    {
+      "review_id": "fadff833-9cce-4d77-a58a-7a2e06cd0896",
+      "source_sha256": "6501a0690a7617549231ff699da9528604d3012aa45c72d95a6c7119730ed4be",
+      "bucket": "boycott_or_offtopic"
+    },
+    {
+      "review_id": "97c57930-0ead-4e3c-96ad-efda13654871",
+      "source_sha256": "04edbc9d31b81605431c71073362321b052e8963a89d81bf261662791a6d4088",
+      "bucket": "catalog"
+    },
+    {
+      "review_id": "3694cbca-4c67-4afb-b40c-57d2454134ba",
+      "source_sha256": "07c8cb200587d96963e2818f675129c0e6418566f7c06f0b292217311cb50606",
+      "bucket": "billing"
+    },
+    {
+      "review_id": "5feca8dd-8bfb-453f-9b05-6c37c4b551b8",
+      "source_sha256": "9d97a7bcd68043f32bdcec400038f148f5421dd9baf1511deebcc69e8867cd62",
+      "bucket": "billing"
+    },
+    {
+      "review_id": "2ae245b7-9a18-4233-a6f9-b1d955d8a583",
+      "source_sha256": "0874c8cbc9f1b971365efb47d25ad10073c196cf29b947a8edf4cd7181daa03e",
+      "bucket": "access"
+    },
+    {
+      "review_id": "78ccefd8-3987-4dc0-9539-153f32c1db90",
+      "source_sha256": "a1972e3cfdd653516329089c891df79a461f0f657a54f50aa6ae786eb3d0e7ef",
+      "bucket": "downloads"
+    },
+    {
+      "review_id": "5349a2a5-20ba-46d3-821c-c6ebeb45bc80",
+      "source_sha256": "8362b682e09f0e3505fc64b309603923909c341f114f03c013619e95c8600ea2",
+      "bucket": "short_praise"
+    },
+    {
+      "review_id": "db3c28f0-9c0e-4658-a0f2-eab69f540cd0",
+      "source_sha256": "229cf5df23f82d3edeb092efea844a63c4a17d6d13381c76576ff42dc62ef2fe",
+      "bucket": "downloads"
+    },
+    {
+      "review_id": "eb5852f2-a9d2-4c12-bc2e-807c7a1b0244",
+      "source_sha256": "f3c1fac1bcd34f7728cda135b14580bd7bea4a814136a03a233a076b70b72c8d",
+      "bucket": "non_english"
+    },
+    {
+      "review_id": "f29e8bfd-7773-4f4e-8863-6d829fc6985f",
+      "source_sha256": "7f1e5ca63f910dd8cfaf8c64e08c94da22114dc458a4e2e23abdd31a9f413a81",
+      "bucket": "long_mixed"
+    },
+    {
+      "review_id": "116b523e-cf0d-4278-8caf-3c5a7cc41245",
+      "source_sha256": "e43a173cbcfcd0db18031a5cc12aa739768582b9330f84c6d2b406ed25cd52b5",
+      "bucket": "billing"
+    },
+    {
+      "review_id": "5014576b-fe43-437a-a951-0f66c978ed04",
+      "source_sha256": "77ae9f7b1f685d4b2f56712fe077feb2dd2f2920f382a065224c81c7002572a6",
+      "bucket": "long_mixed"
+    },
+    {
+      "review_id": "e1fe3794-beda-4039-bfe4-c7b61bb8e95b",
+      "source_sha256": "e14751327ef8671146560b8ccc4465a99f1b8707d4b61841c3d2d6f5b40965e6",
+      "bucket": "playback"
+    },
+    {
+      "review_id": "84b770bb-1d86-4d4b-99af-4e9dd04c0b3d",
+      "source_sha256": "cc6e7ef2c12967afd7046c77e58bbafdd986f8db20d6304bc396c62e90eac930",
+      "bucket": "catalog"
+    },
+    {
+      "review_id": "48a33ded-2772-485b-9402-9e27b6c2054c",
+      "source_sha256": "ace6e4af4dd945d3e5d5a84ee5f1edfa5cacc4dccc6aac0b54901be9db2ab5df",
+      "bucket": "billing"
+    },
+    {
+      "review_id": "71a7bde2-96c5-4c95-9fa5-19ecae208b06",
+      "source_sha256": "bbe23d1a1945be7b643df356b34198b6c27502d7531321140c0c845b9dc597d8",
+      "bucket": "playback"
+    },
+    {
+      "review_id": "51573c5e-96ba-4e82-a058-d0ec0a8c9e2c",
+      "source_sha256": "27a043c4e7a8c07a2151c762a4361268fbab0ddfcf261da7dbf0c65fb8754d9f",
+      "bucket": "support"
+    },
+    {
+      "review_id": "2e2b057a-525f-4864-9ea2-4b875eb1d681",
+      "source_sha256": "ec2bb44065299eed9da4b1e517938e7607c4c50a6dbaaa4ddc147c57f949908e",
+      "bucket": "usability"
+    }
+  ]
+}

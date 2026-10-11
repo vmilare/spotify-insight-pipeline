@@ -1,0 +1,92 @@
+# Shared label definitions — version labels-v1 (draft, Oct 11 2026)
+# Source of truth: GRADING_CONTRACT.md "Common labels for fair comparison". Wording below is
+# the contract's, plus clarifying notes. Illustrative phrases are invented paraphrases, NOT
+# quotes from the golden set. Worked examples from the hand-labeled dev set are added in
+# labels-v2 after dev labeling (never from golden_50).
+version: labels-v1
+
+classify_from: review_text only. Stars, likes, app version and dates are metadata, never label inputs.
+
+topic:
+  rule: >-
+    Choose the problem with the highest supported severity. On a tie, choose the first specific
+    problem mentioned. For a positive review, choose the first specific praised feature; general
+    praise is `other`. Mentioning a paid plan alone does not make the topic billing.
+  options:
+    access:
+      definition: Login, signup, password or account access
+      illustrations: ["keeps logging me out", "can't sign in with Facebook", "account got locked/hacked"]
+    usability:
+      definition: Navigation, controls, layout, queue/playlist management, ad interruptions
+      illustrations: ["the new home screen is confusing", "too many ads between songs", "can't reorder my queue"]
+    playback:
+      definition: Playback failure, crashes, lag, connection failures, audio quality, resource use
+      illustrations: ["app crashes when I open it", "music stops when the screen locks", "drains my battery"]
+    downloads:
+      definition: Downloading, saved music, offline listening, disappearing downloads
+      illustrations: ["my downloaded songs vanished", "offline mode doesn't work on the plane"]
+    catalog:
+      definition: Missing songs/artists, search/discovery, recommendations, lyrics availability
+      illustrations: ["lyrics are missing", "search can't find the artist", "recommendations are repetitive"]
+    billing:
+      definition: Price, charges, subscriptions, paywalls, premium entitlement; explicitly premium-only controls go here
+      illustrations: ["charged twice this month", "premium didn't activate after paying", "can only pick songs if I pay"]
+      notes:
+        - A subscription failing to activate is billing.
+        - Music crashing for a paying customer is playback, not billing.
+    support:
+      definition: Contacting support and the support response
+      illustrations: ["support never answered my email", "chat agent couldn't help"]
+    other:
+      definition: General praise/criticism, unrelated content, or no supported specific topic
+      illustrations: ["great app", "worst app ever", "boycott slogan with no product issue"]
+
+intent:
+  rule: >-
+    Precedence when several apply: cancellation > complaint > request > praise > unclear.
+  options:
+    cancellation:
+      definition: Explicitly leaving, uninstalling, cancelling, or threatening to do so
+      notes: [Cancellation intent does not automatically raise severity.]
+    complaint:
+      definition: Negative experience, including mixed praise/criticism
+      notes: [General "bad app" is a complaint; do not infer a specific defect.]
+    request:
+      definition: Desired change without a reported failure
+    praise:
+      definition: Positive experience with no complaint
+    unclear:
+      definition: Bare boycott slogans, unrelated or meaningless text, or unsupported language
+      notes: [A boycott becomes complaint/cancellation only with a product complaint or explicit personal departure.]
+
+severity:
+  rule: >-
+    Rate the reported impact, not the emotion. Stars, angry language or cancellation intent alone
+    do not establish severity. Missing context -> needs_review; do not invent impact.
+  levels:
+    1: No reported problem — praise, neutral/unclear content, or a pure feature request
+    2: Dislike, generic criticism, minor annoyance, or a cosmetic issue; no supported functional loss
+    3: A degraded or restricted function; some use or workaround remains
+    4: A clearly blocked core task, such as inability to log in or play music
+    5: Explicit serious financial, privacy, or data harm; an expensive plan, a crash, or angry language alone is insufficient
+
+sentiment:
+  scale: -1.0 (very negative) to 1.0 (very positive)
+  levels: {"-1.0": very negative, "-0.5": negative, "0.0": neutral or mixed, "0.5": positive, "1.0": very positive}
+  note: Labels use these five points; Jev Score 0-4 maps to score/2 - 1.
+
+entities:
+  definition: >-
+    Product features or named things the review explicitly mentions (e.g. "shuffle", "lyrics",
+    "downloads", "premium", "Android Auto"). Lowercase, as written. No personal names or details.
+    Empty list when none.
+
+evidence_quote:
+  definition: >-
+    An exact, unmodified substring of review_text that supports the chosen topic/intent/severity.
+    For a short review the whole text can be the quote.
+
+needs_review:
+  definition: >-
+    true when the text is ambiguous, lacks context needed for topic or severity, is in a language
+    the labeler cannot read confidently, or the labels are a close call.

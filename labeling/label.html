@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Review Labeler</title>
+<style>
+:root {
+  --bg: #f6f7f9; --panel: #ffffff; --text: #1d2330; --muted: #5d6677; --line: #dde1e8;
+  --accent: #1f7a4d; --accent-soft: #e3f3ea; --warn: #b54708; --warn-soft: #fdf0e3;
+  --bad: #b42318; --chip: #eef1f5; --focus: #2563eb;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12151b; --panel: #1b2029; --text: #e6e9ef; --muted: #9aa3b2; --line: #2c3340;
+    --accent: #4cc38a; --accent-soft: #173326; --warn: #f5a35c; --warn-soft: #3a2614;
+    --bad: #f97066; --chip: #252b36; --focus: #6ea0ff;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text);
+  font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+header { position: sticky; top: 0; z-index: 5; background: var(--panel); border-bottom: 1px solid var(--line);
+  padding: 10px 16px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+header h1 { font-size: 16px; margin: 0 12px 0 0; }
+.progress { flex: 1 1 200px; min-width: 160px; }
+.bar { height: 8px; background: var(--chip); border-radius: 4px; overflow: hidden; }
+.bar > div { height: 100%; background: var(--accent); width: 0; transition: width .2s; }
+.progress small { color: var(--muted); }
+button { font: inherit; border: 1px solid var(--line); background: var(--panel); color: var(--text);
+  padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+button:hover { border-color: var(--muted); }
+button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
+main { max-width: 1280px; margin: 0 auto; padding: 16px; display: grid; gap: 16px;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
+@media (max-width: 900px) { main { grid-template-columns: 1fr; } }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px; }
+.left { position: sticky; top: 70px; align-self: start; }
+@media (max-width: 900px) { .left { position: static; } }
+.meta { color: var(--muted); font-size: 13px; display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+#reviewText { white-space: pre-wrap; word-break: break-word; font-size: 17px; line-height: 1.6; margin: 12px 0;
+  padding: 12px; background: var(--chip); border-radius: 8px; max-height: 45vh; overflow: auto; }
+.row { display: flex; gap: 8px; flex-wrap: wrap; }
+.dots { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; margin-top: 14px; }
+.dots button { padding: 4px 0; font-size: 12px; }
+.dots button.done { background: var(--accent-soft); border-color: var(--accent); }
+.dots button.flag { background: var(--warn-soft); border-color: var(--warn); }
+.dots button.current { outline: 2px solid var(--focus); }
+fieldset { border: 0; margin: 0 0 18px; padding: 0; }
+legend { font-weight: 650; margin-bottom: 6px; }
+.hint { color: var(--muted); font-size: 13px; margin: -2px 0 8px; }
+.opts { display: grid; gap: 6px; }
+.opts.cols2 { grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+.opt { display: flex; gap: 8px; align-items: flex-start; border: 1px solid var(--line); border-radius: 8px;
+  padding: 7px 10px; cursor: pointer; }
+.opt:hover { border-color: var(--muted); }
+.opt input { margin-top: 4px; }
+.opt.sel { border-color: var(--accent); background: var(--accent-soft); }
+.opt b { display: block; }
+.opt span { color: var(--muted); font-size: 13px; }
+.opt i { color: var(--muted); font-size: 12px; display: block; font-style: normal; opacity: .85; }
+.sent { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.sent .opt { flex-direction: column; align-items: center; text-align: center; }
+input[type=text], textarea { width: 100%; font: inherit; color: var(--text); background: var(--panel);
+  border: 1px solid var(--line); border-radius: 6px; padding: 7px 9px; }
+textarea { min-height: 64px; resize: vertical; }
+.status { font-size: 13px; margin-top: 4px; }
+.ok { color: var(--accent); } .bad { color: var(--bad); }
+details.rules { margin-top: 14px; font-size: 14px; }
+details.rules summary { cursor: pointer; font-weight: 600; }
+details.rules p { margin: 6px 0; }
+.toast { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); background: var(--text); color: var(--bg);
+  padding: 8px 14px; border-radius: 6px; opacity: 0; transition: opacity .2s; pointer-events: none; }
+.toast.show { opacity: .95; }
+kbd { font-size: 12px; border: 1px solid var(--line); border-radius: 4px; padding: 0 4px; background: var(--chip); }
+</style>
+</head>
+<body>
+<header>
+  <h1 id="title">Review Labeler</h1>
+  <div class="progress"><div class="bar"><div id="barFill"></div></div><small id="progressText"></small></div>
+  <button id="importBtn" title="Load a previously exported CSV">Import CSV</button>
+  <button id="exportBtn" class="primary">Export CSV</button>
+  <input type="file" id="importFile" accept=".csv" hidden>
+</header>
+
+<main>
+  <section class="card left">
+    <div class="meta"><span id="position"></span><span id="reviewId"></span></div>
+    <div id="reviewText"></div>
+    <div class="row">
+      <button id="useSelection">Use highlighted text as quote</button>
+      <button id="useWhole">Use whole review</button>
+    </div>
+    <p class="hint" style="margin-top:10px">Label the <b>text only</b>. Stars and other metadata are hidden on purpose.</p>
+    <div class="row" style="margin-top:6px">
+      <button id="prevBtn">← Prev</button>
+      <button id="nextBtn">Next →</button>
+      <button id="nextOpenBtn">Next unfinished</button>
+    </div>
+    <p class="hint" style="margin-top:8px">Keys: <kbd>←</kbd> <kbd>→</kbd> navigate (outside text boxes). Your work saves automatically in this browser. Export the CSV when done.</p>
+    <div class="dots" id="dots"></div>
+    <details class="rules" id="rules"><summary>Tie-break rules</summary></details>
+  </section>
+
+  <section class="card">
+    <fieldset><legend>Topic</legend><p class="hint" id="topicRule"></p><div class="opts cols2" id="topicOpts"></div></fieldset>
+    <fieldset><legend>Intent</legend><p class="hint" id="intentRule"></p><div class="opts" id="intentOpts"></div></fieldset>
+    <fieldset><legend>Severity</legend><p class="hint" id="severityRule"></p><div class="opts" id="severityOpts"></div></fieldset>
+    <fieldset><legend>Sentiment</legend><div class="sent" id="sentimentOpts"></div></fieldset>
+    <fieldset><legend>Evidence quote</legend>
+      <p class="hint">Must be an exact piece of the review. Highlight text on the left, then click "Use highlighted text as quote".</p>
+      <textarea id="quote"></textarea><div class="status" id="quoteStatus"></div>
+    </fieldset>
+    <fieldset><legend>Entities</legend>
+      <p class="hint" id="entitiesHint"></p>
+      <input type="text" id="entities" placeholder="e.g. shuffle, ads, premium (comma-separated; leave blank if none)">
+    </fieldset>
+    <fieldset>
+      <label class="opt" id="nrLabel"><input type="checkbox" id="needsReview"><div><b>Needs review</b><span id="nrHint"></span></div></label>
+    </fieldset>
+    <fieldset><legend>Note (optional)</legend>
+      <input type="text" id="note" placeholder="Why this was a close call, which rule you applied…">
+    </fieldset>
+  </section>
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+const params = new URLSearchParams(location.search);
+const SET = (params.get("set") || "dev_50").replace(/[^a-z0-9_]/gi, "");
+const s = document.createElement("script");
+s.src = "sets/" + SET + ".js";
+s.onload = start;
+s.onerror = () => { document.body.innerHTML = "<p style='padding:20px'>Could not load sets/" + SET + ".js</p>"; };
+document.head.appendChild(s);
+
+const SOURCE_FIELDS = ["review_id","review_text","review_rating","review_likes","app_version","review_timestamp"];
+const LABEL_FIELDS = ["topic","intent","sentiment","severity","entities","evidence_quote","needs_review"];
+const SENTIMENTS = ["-1.0","-0.5","0.0","0.5","1.0"];
+const $ = id => document.getElementById(id);
+let D, rows, labels = {}, idx = 0;
+
+function storeKey() { return "labels:" + SET; }
+function save() { try { localStorage.setItem(storeKey(), JSON.stringify({ labels, idx })); } catch (e) {} }
+function load() {
+  try { const v = JSON.parse(localStorage.getItem(storeKey()) || "null"); if (v) { labels = v.labels || {}; idx = v.idx || 0; } } catch (e) {}
+}
+function toast(msg) { const t = $("toast"); t.textContent = msg; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 1800); }
+function cur() { return rows[idx]; }
+function lab(id) { return labels[id] || (labels[id] = { topic:"", intent:"", sentiment:"", severity:"", entities:"", evidence_quote:"", needs_review:false, labeler_note:"" }); }
+function complete(r) {
+  const l = labels[r.review_id]; if (!l) return false;
+  return l.topic && l.intent && l.severity && l.sentiment !== "" && l.evidence_quote && r.review_text.includes(l.evidence_quote);
+}
+
+function radioGroup(container, name, options, onPick) {
+  container.innerHTML = "";
+  options.forEach(o => {
+    const el = document.createElement("label"); el.className = "opt";
+    el.innerHTML = `<input type="radio" name="${name}" value="${o.value}"><div><b></b><span></span><i></i></div>`;
+    el.querySelector("b").textContent = o.title; el.querySelector("span").textContent = o.desc || ""; el.querySelector("i").textContent = o.extra || "";
+    // Blur after picking so arrow keys navigate reviews instead of silently changing the choice.
+    el.querySelector("input").addEventListener("change", e => { e.target.blur(); onPick(o.value); });
+    container.appendChild(el);
+  });
+}
+function syncRadios(container, value) {
+  container.querySelectorAll(".opt").forEach(el => { const inp = el.querySelector("input"); inp.checked = inp.value === String(value); el.classList.toggle("sel", inp.checked); });
+}
+
+function start() {
+  D = window.LABEL_SET; rows = D.rows; const L = D.labels;
+  document.title = "Review Labeler — " + D.name;
+  $("title").textContent = D.title;
+  load(); idx = Math.min(idx, rows.length - 1);
+
+  $("topicRule").textContent = L.topic.rule;
+  radioGroup($("topicOpts"), "topic", Object.entries(L.topic.options).map(([k, v]) => ({
+    value: k, title: k, desc: v.definition,
+    extra: [(v.illustrations || []).map(x => "“" + x + "”").join(" · "), ...(v.notes || [])].filter(Boolean).join("  ")
+  })), v => set("topic", v));
+  $("intentRule").textContent = L.intent.rule;
+  radioGroup($("intentOpts"), "intent", Object.entries(L.intent.options).map(([k, v]) => ({
+    value: k, title: k, desc: v.definition, extra: (v.notes || []).join(" ")
+  })), v => set("intent", v));
+  $("severityRule").textContent = L.severity.rule;
+  radioGroup($("severityOpts"), "severity", Object.entries(L.severity.levels).map(([k, v]) => ({ value: k, title: k, desc: v })), v => set("severity", v));
+  radioGroup($("sentimentOpts"), "sentiment", SENTIMENTS.map(k => ({ value: k, title: k, desc: L.sentiment.levels[k] })), v => set("sentiment", v));
+  $("entitiesHint").textContent = L.entities.definition;
+  $("nrHint").textContent = " " + L.needs_review.definition;
+  const rules = $("rules");
+  [["Topic", L.topic.rule], ["Intent", L.intent.rule], ["Severity", L.severity.rule], ["Input", L.classify_from]]
+    .forEach(([h, t]) => { const p = document.createElement("p"); p.innerHTML = "<b></b> "; p.querySelector("b").textContent = h + ":"; p.append(t); rules.appendChild(p); });
+
+  $("quote").addEventListener("input", e => set("evidence_quote", e.target.value, false));
+  $("entities").addEventListener("input", e => set("entities", e.target.value, false));
+  $("note").addEventListener("input", e => set("labeler_note", e.target.value, false));
+  $("needsReview").addEventListener("change", e => { e.target.blur(); set("needs_review", e.target.checked); });
+  $("useWhole").onclick = () => set("evidence_quote", cur().review_text);
+  $("useSelection").onclick = () => {
+    const sel = (window.getSelection() || "").toString();
+    if (!sel) return toast("Highlight part of the review first");
+    if (!cur().review_text.includes(sel)) return toast("Selection isn't an exact piece of the review");
+    set("evidence_quote", sel);
+  };
+  $("prevBtn").onclick = () => go(idx - 1);
+  $("nextBtn").onclick = () => go(idx + 1);
+  $("nextOpenBtn").onclick = () => {
+    for (let k = 1; k <= rows.length; k++) { const j = (idx + k) % rows.length; if (!complete(rows[j])) return go(j); }
+    toast("Everything is labeled. Export the CSV.");
+  };
+  document.addEventListener("keydown", e => {
+    const a = document.activeElement;
+    if (a && (a.tagName === "TEXTAREA" || (a.tagName === "INPUT" && a.type === "text"))) return;
+    if (a && a.tagName === "INPUT") a.blur();
+    if (e.key === "ArrowLeft") go(idx - 1); if (e.key === "ArrowRight") go(idx + 1);
+  });
+  $("exportBtn").onclick = exportCsv;
+  $("importBtn").onclick = () => $("importFile").click();
+  $("importFile").onchange = importCsv;
+  render();
+}
+
+function set(field, value, rerender = true) {
+  lab(cur().review_id)[field] = value; save();
+  if (rerender) render(); else renderStatus();
+}
+function go(j) { if (j < 0 || j >= rows.length) return; idx = j; save(); render(); window.scrollTo({ top: 0 }); }
+
+function render() {
+  const r = cur(), l = lab(r.review_id);
+  $("position").textContent = `Review ${idx + 1} of ${rows.length}`;
+  $("reviewId").textContent = r.review_id;
+  $("reviewText").textContent = r.review_text;
+  syncRadios($("topicOpts"), l.topic); syncRadios($("intentOpts"), l.intent);
+  syncRadios($("severityOpts"), l.severity); syncRadios($("sentimentOpts"), l.sentiment);
+  $("quote").value = l.evidence_quote; $("entities").value = l.entities; $("note").value = l.labeler_note || "";
+  $("needsReview").checked = !!l.needs_review; $("nrLabel").classList.toggle("sel", !!l.needs_review);
+  renderStatus();
+}
+function renderStatus() {
+  const r = cur(), l = lab(r.review_id);
+  const q = $("quoteStatus");
+  if (!l.evidence_quote) { q.textContent = "No quote yet."; q.className = "status"; }
+  else if (r.review_text.includes(l.evidence_quote)) { q.textContent = "✓ Exact substring of the review"; q.className = "status ok"; }
+  else { q.textContent = "✗ Not an exact substring. Re-select it from the review."; q.className = "status bad"; }
+  const done = rows.filter(complete).length;
+  $("barFill").style.width = (100 * done / rows.length) + "%";
+  $("progressText").textContent = `${done} of ${rows.length} complete`;
+  const dots = $("dots"); dots.innerHTML = "";
+  rows.forEach((row, j) => {
+    const b = document.createElement("button"); b.textContent = j + 1;
+    const lj = labels[row.review_id];
+    if (complete(row)) b.classList.add(lj && lj.needs_review ? "flag" : "done");
+    if (j === idx) b.classList.add("current");
+    b.onclick = () => go(j); dots.appendChild(b);
+  });
+}
+
+function csvCell(v) { v = v == null ? "" : String(v); return /[",\n\r]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }
+function entityList(text) { return text.split(",").map(x => x.trim().toLowerCase()).filter(Boolean); }
+function exportCsv() {
+  const header = [...SOURCE_FIELDS, ...LABEL_FIELDS, "labeler_note"];
+  const lines = [header.join(",")];
+  rows.forEach(r => {
+    const l = labels[r.review_id] || {};
+    const out = SOURCE_FIELDS.map(f => r.source[f]).concat([
+      l.topic || "", l.intent || "", l.sentiment ?? "", l.severity || "",
+      l.topic ? JSON.stringify(entityList(l.entities || "")) : "", l.evidence_quote || "",
+      l.topic ? (l.needs_review ? "true" : "false") : "", l.labeler_note || ""]);
+    lines.push(out.map(csvCell).join(","));
+  });
+  const blob = new Blob([lines.join("\n") + "\n"], { type: "text/csv;charset=utf-8" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = SET + "_labeled.csv"; a.click();
+  const done = rows.filter(complete).length;
+  toast(`Exported ${SET}_labeled.csv (${done}/${rows.length} complete)`);
+}
+
+function parseCsv(text) {
+  const out = []; let row = [], cell = "", q = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (q) { if (c === '"') { if (text[i + 1] === '"') { cell += '"'; i++; } else q = false; } else cell += c; }
+    else if (c === '"') q = true;
+    else if (c === ",") { row.push(cell); cell = ""; }
+    else if (c === "\n") { row.push(cell); out.push(row); row = []; cell = ""; }
+    else if (c !== "\r") cell += c;
+  }
+  if (cell || row.length) { row.push(cell); out.push(row); }
+  return out;
+}
+function importCsv(e) {
+  const f = e.target.files[0]; if (!f) return;
+  f.text().then(text => {
+    const [header, ...data] = parseCsv(text); const col = n => header.indexOf(n); let n = 0;
+    data.forEach(cells => {
+      const id = cells[col("review_id")]; if (!rows.some(r => r.review_id === id) || !cells[col("topic")]) return;
+      let ents = []; try { ents = JSON.parse(cells[col("entities")] || "[]"); } catch (err) {}
+      labels[id] = { topic: cells[col("topic")], intent: cells[col("intent")], sentiment: cells[col("sentiment")],
+        severity: cells[col("severity")], entities: ents.join(", "), evidence_quote: cells[col("evidence_quote")],
+        needs_review: cells[col("needs_review")] === "true", labeler_note: col("labeler_note") >= 0 ? cells[col("labeler_note")] : "" };
+      n++;
+    });
+    save(); render(); toast(`Imported ${n} labeled reviews`);
+  });
+  e.target.value = "";
+}
+</script>
+</body>
+</html>

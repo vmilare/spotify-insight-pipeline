@@ -1,0 +1,14 @@
+{
+  "ingested_at": "2026-10-11T20:46:04+00:00",
+  "input": {
+    "bytes": 97400616,
+    "path": "spotify_reviews_18months.csv",
+    "sha256": "1fc85de68a304dd8978b537cfa58793d5f41cbaf417fa32cb53899f83a2fcef6"
+  },
+  "manifest_match": "spotify_reviews_18months.csv",
+  "pending_distinct_texts": 484189,
+  "pending_reviews": 660609,
+  "quarantined": 13,
+  "records": 660622,
+  "state_db": "state_1fc85de68a30.sqlite"
+}
