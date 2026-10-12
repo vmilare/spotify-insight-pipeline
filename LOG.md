@@ -6,7 +6,7 @@ unless marked *estimate*. Per-run spend is tracked automatically in `runs/spend_
 
 | Running API spend | Jev | Anthropic | Total |
 |---|---|---|---|
-| as of last entry | $0.0228 | $0.0029 | **$0.0257** |
+| as of last entry | $0.0228 | $0.0061 | **$0.0289** |
 
 ---
 
@@ -210,3 +210,13 @@ unless marked *estimate*. Per-run spend is tracked automatically in `runs/spend_
   needs_review predicts disagreement: flagged 11/28 (39%) vs unflagged 13/72 (18%).
 - Note: Jev agrees more with Haiku (84% topic) than with the human dev labels (~68%) — the two models may share
   readings that differ from the human's; the golden-set evaluation is the reference for accuracy.
+
+## 2026-10-11 — Stage 4b group review (model role "group", Claude Haiku 5.5) ($0.0032)
+- `pipeline/group_review.py` + `prompts/group_review_v1.md`: one request per topic (8 requests); each issue's
+  rule + up to 12 seeded-sample member quotes under opaque keys → model suggests name/description and lists misfits.
+  Membership is not changed (ranking stays model-free and reproducible).
+- checkpoint_500: 27 issues reviewed, 156 quotes sampled, 27 misfits → **83% fit**. BIL-PAYWALL 12/12, ACC-LOGIN 6/6,
+  USA-ADS 10/12, USA-REDESIGN 10/12. Weakest: small catch-alls (CAT-GENERAL 3/5, BIL-GENERAL 7/10).
+  Output: `runs/analysis/checkpoint_500/issue_review.csv`.
+- Verify note: the 2 "missed" planted errors were cases where the planted wrong topic ("other") equaled the
+  verifier's own choice, so the comparison could not flag them.
