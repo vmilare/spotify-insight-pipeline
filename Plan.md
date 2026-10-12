@@ -9,6 +9,9 @@ approved plan (copied verbatim from the planning session on Oct 11, 2026). Updat
   usage). A free offline language detector flags them `needs_review=true`, reason `non_english_unverified`.
   README and memo disclose the count and show the ranking with and without them.
 
+- **Oct 11 — Budget cap $11** for all API spend (project_cap_usd in `config/settings.yaml`).
+- **Oct 11 — `needs_review` is an indicator, not a filter**: flagged reviews stay in all analyses; sensitivity check without them.
+
 ## Status checklist
 
 Legend: ✅ done · 🔄 in progress · ⬜ todo · 👤 needs the user
@@ -28,7 +31,8 @@ Legend: ✅ done · 🔄 in progress · ⬜ todo · 👤 needs the user
 - ✅ 1c Jev client + dev experiments (see LOG.md) → frozen setup `jev-q-tiny-v1-pack10`
 - ✅ 1c Stage 2 enrich built; tested on cost_100 (cold + warm) and checkpoint_500 → `runs/`, `runs/spend_ledger.csv`
 - ⬜ 1c Formal 100-review cold/warm pilot incl. verify/group/rank/memo + calculator v1 (needs remaining stages)
-- ⬜👤 Decide budget cap ($10 strict vs $11) · re-check severity-5 dev labels
+- ✅ Budget cap: $11 project / $10.50 per run (user, Oct 11)
+- ⬜👤 Re-check severity-5 dev labels
 
 ### Step 2 — Oct 12
 - ⬜👤 Golden 50 labels → `evals/golden_50_labeled.csv`

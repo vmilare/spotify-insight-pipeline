@@ -11,6 +11,6 @@ enrich:
   quote_whole_text_max_chars: 200
 
 budget:
-  project_cap_usd: 10.00        # all runs together (runs/spend_ledger.csv + current run)
-  run_cap_usd: 10.00            # this run alone
+  project_cap_usd: 11.00        # all runs together (user decision 2026-10-11) (runs/spend_ledger.csv + current run)
+  run_cap_usd: 10.50            # this run alone (full Jev pass est. ~$9.50 + retries)
   reservation_tokens_per_review: 650   # worst-case estimate reserved before each request is sent

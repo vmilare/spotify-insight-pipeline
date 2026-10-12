@@ -154,3 +154,12 @@ unless marked *estimate*. Per-run spend is tracked automatically in `runs/spend_
   needs_review 30/100 (low-confidence severity 13, topic 11, intent 5; likely non-English 4).
 - Throughput ~68 texts/s with 1 worker → full pass ≈ 2 hours at 1 worker (*estimate*).
 - Not yet: verification, grouping, ranking, memo (needed for the formal 100-review cost pilot).
+
+## 2026-10-11 — Decision: budget cap $11
+- User approved an **$11 project cap** (all API spend together). `config/settings.yaml`: project_cap_usd 11.00;
+  run_cap_usd 10.50 for any single run (full Jev pass est. ~$9.50 + retries).
+- Planned split (*estimate*): Jev full pass ~$9.50 · retries ~$0.20 · Haiku verification ~$0.30 ·
+  Sonnet memo ~$0.50 · spent so far $0.023.
+- Clarified: `needs_review` is an indicator only. Flagged reviews stay completed and flow into grouping,
+  ranking and memo; the plan adds threshold tuning on dev, flag-vs-error evaluation on golden, and a
+  ranking sensitivity check without flagged reviews.
