@@ -1,48 +1,55 @@
 {
   "check_status": "passed",
-  "headline": "Fund billing/support next quarter, led by the Premium paywall friction (BIL-PAYWALL), the top specific issue in the baseline ranking",
+  "headline": "Fund billing/support next quarter, starting with the Premium paywall experience (BIL-PAYWALL); the area's lead is thin and its labels are only moderately reliable.",
   "recommendations": [
     {
       "claim_ids": [
         "C1",
+        "C2",
         "C4"
       ],
-      "rationale": "BIL-PAYWALL is the top specific issue with a priority score of 26 [C4] and 8 complaints [C1].",
+      "rationale": "BIL-PAYWALL is the highest-priority specific issue, with the top priority score in the pack.",
       "review_ids": [
         "a78d831a-69f4-428a-9235-cfdd9775c509",
-        "d146397f-4a94-4980-be00-ae9212eca3a7"
+        "d146397f-4a94-4980-be00-ae9212eca3a7",
+        "89ea2c30-db8b-459d-8ab7-bbcb7f92c774"
       ],
-      "title": "Fix the free-tier paywall experience"
+      "title": "Fund the Premium paywall experience first"
     },
     {
       "claim_ids": [
-        "C7",
-        "C8"
+        "C3"
       ],
-      "rationale": "PLY-WONTPLAY scores 9 [C8] on 3 complaints [C7], enough to justify a telemetry check before committing build effort.",
+      "rationale": "The verifier agreed on the topic for only 1 of 2 sampled BIL-PAYWALL records, so the evidence is moderately uncertain.",
       "review_ids": [
-        "e16a4550-43e7-4ae1-b538-a65cc652c31b",
-        "9c9757da-6b99-4c95-a0e7-0661ee858027"
+        "89ea2c30-db8b-459d-8ab7-bbcb7f92c774"
       ],
-      "title": "Scope a playback bug triage"
+      "title": "Audit paywall labels before scaling"
     },
     {
       "claim_ids": [
-        "C6",
-        "C10"
+        "C5",
+        "C6"
       ],
-      "rationale": "USA-REDESIGN scores 11 [C6] and USA-ADS 7 [C10], both well below the paywall issue.",
+      "rationale": "USA-ADS is the next-ranked actionable issue and its labels were verified well.",
       "review_ids": [
-        "45c561b9-cc47-4d80-95d3-f0d20bc84af3",
+        "cf6166ae-d71a-4839-9add-088645ad3b78",
         "e5e6c55f-3069-4b7c-9807-f8b5d5bf2726"
       ],
-      "title": "Monitor redesign and ad complaints"
+      "title": "Examine free-tier ads alongside the paywall"
     },
     {
-      "claim_ids": [],
-      "rationale": "28.0% of records are flagged needs_review and counts are small, so a larger human-reviewed sample is needed to confirm the ranking.",
-      "review_ids": [],
-      "title": "Improve evidence quality before the next cycle"
+      "claim_ids": [
+        "C8",
+        "C9",
+        "C10"
+      ],
+      "rationale": "PLY-WONTPLAY is smaller and its area labels were not confirmed by the verifier, and access volume is tiny.",
+      "review_ids": [
+        "e16a4550-43e7-4ae1-b538-a65cc652c31b",
+        "de0a9cdf-8974-48bc-802f-331228df4619"
+      ],
+      "title": "Monitor playback and access, do not fund yet"
     }
   ],
   "recommended_area": "billing_support"

@@ -74,6 +74,245 @@
     "Non-English reviews were classified without translation and flagged needs_review.",
     "Issue membership uses keyword rules within each classified topic; fit rates come from a sampled model audit."
   ],
+  "monthly_complaint_share": {
+    "note": "share = area complaint+cancellation records / all classified reviews that month; first and last months are partial",
+    "rows": [
+      {
+        "access_complaints": 0,
+        "access_share_pct": 0.0,
+        "billing_support_complaints": 0,
+        "billing_support_share_pct": 0.0,
+        "classified_reviews": 5,
+        "month": "2022-06",
+        "partial_month": true,
+        "playback_complaints": 1,
+        "playback_share_pct": 20.0,
+        "usability_complaints": 0,
+        "usability_share_pct": 0.0
+      },
+      {
+        "access_complaints": 0,
+        "access_share_pct": 0.0,
+        "billing_support_complaints": 1,
+        "billing_support_share_pct": 20.0,
+        "classified_reviews": 5,
+        "month": "2022-07",
+        "partial_month": false,
+        "playback_complaints": 1,
+        "playback_share_pct": 20.0,
+        "usability_complaints": 1,
+        "usability_share_pct": 20.0
+      },
+      {
+        "access_complaints": 0,
+        "access_share_pct": 0.0,
+        "billing_support_complaints": 0,
+        "billing_support_share_pct": 0.0,
+        "classified_reviews": 6,
+        "month": "2022-08",
+        "partial_month": false,
+        "playback_complaints": 0,
+        "playback_share_pct": 0.0,
+        "usability_complaints": 1,
+        "usability_share_pct": 16.7
+      },
+      {
+        "access_complaints": 0,
+        "access_share_pct": 0.0,
+        "billing_support_complaints": 0,
+        "billing_support_share_pct": 0.0,
+        "classified_reviews": 5,
+        "month": "2022-09",
+        "partial_month": false,
+        "playback_complaints": 0,
+        "playback_share_pct": 0.0,
+        "usability_complaints": 1,
+        "usability_share_pct": 20.0
+      },
+      {
+        "access_complaints": 0,
+        "access_share_pct": 0.0,
+        "billing_support_complaints": 1,
+        "billing_support_share_pct": 25.0,
+        "classified_reviews": 4,
+        "month": "2022-10",
+        "partial_month": false,
+        "playback_complaints": 0,
+        "playback_share_pct": 0.0,
+        "usability_complaints": 0,
+        "usability_share_pct": 0.0
+      },
+      {
+        "access_complaints": 0,
+        "access_share_pct": 0.0,
+        "billing_support_complaints": 0,
+        "billing_support_share_pct": 0.0,
+        "classified_reviews": 1,
+        "month": "2022-11",
+        "partial_month": false,
+        "playback_complaints": 0,
+        "playback_share_pct": 0.0,
+        "usability_complaints": 1,
+        "usability_share_pct": 100.0
+      },
+      {
+        "access_complaints": 0,
+        "access_share_pct": 0.0,
+        "billing_support_complaints": 0,
+        "billing_support_share_pct": 0.0,
+        "classified_reviews": 2,
+        "month": "2022-12",
+        "partial_month": false,
+        "playback_complaints": 0,
+        "playback_share_pct": 0.0,
+        "usability_complaints": 0,
+        "usability_share_pct": 0.0
+      },
+      {
+        "access_complaints": 1,
+        "access_share_pct": 25.0,
+        "billing_support_complaints": 0,
+        "billing_support_share_pct": 0.0,
+        "classified_reviews": 4,
+        "month": "2023-01",
+        "partial_month": false,
+        "playback_complaints": 1,
+        "playback_share_pct": 25.0,
+        "usability_complaints": 0,
+        "usability_share_pct": 0.0
+      },
+      {
+        "access_complaints": 0,
+        "access_share_pct": 0.0,
+        "billing_support_complaints": 0,
+        "billing_support_share_pct": 0.0,
+        "classified_reviews": 4,
+        "month": "2023-02",
+        "partial_month": false,
+        "playback_complaints": 1,
+        "playback_share_pct": 25.0,
+        "usability_complaints": 1,
+        "usability_share_pct": 25.0
+      },
+      {
+        "access_complaints": 0,
+        "access_share_pct": 0.0,
+        "billing_support_complaints": 0,
+        "billing_support_share_pct": 0.0,
+        "classified_reviews": 7,
+        "month": "2023-03",
+        "partial_month": false,
+        "playback_complaints": 1,
+        "playback_share_pct": 14.3,
+        "usability_complaints": 2,
+        "usability_share_pct": 28.6
+      },
+      {
+        "access_complaints": 0,
+        "access_share_pct": 0.0,
+        "billing_support_complaints": 1,
+        "billing_support_share_pct": 25.0,
+        "classified_reviews": 4,
+        "month": "2023-04",
+        "partial_month": false,
+        "playback_complaints": 0,
+        "playback_share_pct": 0.0,
+        "usability_complaints": 0,
+        "usability_share_pct": 0.0
+      },
+      {
+        "access_complaints": 0,
+        "access_share_pct": 0.0,
+        "billing_support_complaints": 1,
+        "billing_support_share_pct": 20.0,
+        "classified_reviews": 5,
+        "month": "2023-05",
+        "partial_month": false,
+        "playback_complaints": 1,
+        "playback_share_pct": 20.0,
+        "usability_complaints": 0,
+        "usability_share_pct": 0.0
+      },
+      {
+        "access_complaints": 0,
+        "access_share_pct": 0.0,
+        "billing_support_complaints": 0,
+        "billing_support_share_pct": 0.0,
+        "classified_reviews": 4,
+        "month": "2023-06",
+        "partial_month": false,
+        "playback_complaints": 1,
+        "playback_share_pct": 25.0,
+        "usability_complaints": 0,
+        "usability_share_pct": 0.0
+      },
+      {
+        "access_complaints": 0,
+        "access_share_pct": 0.0,
+        "billing_support_complaints": 0,
+        "billing_support_share_pct": 0.0,
+        "classified_reviews": 11,
+        "month": "2023-07",
+        "partial_month": false,
+        "playback_complaints": 1,
+        "playback_share_pct": 9.1,
+        "usability_complaints": 1,
+        "usability_share_pct": 9.1
+      },
+      {
+        "access_complaints": 1,
+        "access_share_pct": 33.3,
+        "billing_support_complaints": 0,
+        "billing_support_share_pct": 0.0,
+        "classified_reviews": 3,
+        "month": "2023-08",
+        "partial_month": false,
+        "playback_complaints": 0,
+        "playback_share_pct": 0.0,
+        "usability_complaints": 0,
+        "usability_share_pct": 0.0
+      },
+      {
+        "access_complaints": 0,
+        "access_share_pct": 0.0,
+        "billing_support_complaints": 0,
+        "billing_support_share_pct": 0.0,
+        "classified_reviews": 6,
+        "month": "2023-09",
+        "partial_month": false,
+        "playback_complaints": 0,
+        "playback_share_pct": 0.0,
+        "usability_complaints": 1,
+        "usability_share_pct": 16.7
+      },
+      {
+        "access_complaints": 0,
+        "access_share_pct": 0.0,
+        "billing_support_complaints": 6,
+        "billing_support_share_pct": 31.6,
+        "classified_reviews": 19,
+        "month": "2023-10",
+        "partial_month": false,
+        "playback_complaints": 2,
+        "playback_share_pct": 10.5,
+        "usability_complaints": 1,
+        "usability_share_pct": 5.3
+      },
+      {
+        "access_complaints": 0,
+        "access_share_pct": 0.0,
+        "billing_support_complaints": 1,
+        "billing_support_share_pct": 20.0,
+        "classified_reviews": 5,
+        "month": "2023-11",
+        "partial_month": true,
+        "playback_complaints": 0,
+        "playback_share_pct": 0.0,
+        "usability_complaints": 0,
+        "usability_share_pct": 0.0
+      }
+    ]
+  },
   "question": "Where should the next quarter of product effort go: access, usability, playback, or billing/support?",
   "ranking_actionable_top10 (excludes OTH-GENERAL)": [
     {
@@ -85,11 +324,19 @@
       "severity_sum": "26"
     },
     {
+      "complaint_count": "5",
+      "issue_id": "USA-ADS",
+      "mean_severity": "2.400000",
+      "priority_score": "12",
+      "rank": "2",
+      "severity_sum": "12"
+    },
+    {
       "complaint_count": "4",
       "issue_id": "USA-REDESIGN",
       "mean_severity": "2.750000",
       "priority_score": "11",
-      "rank": "2",
+      "rank": "3",
       "severity_sum": "11"
     },
     {
@@ -97,16 +344,8 @@
       "issue_id": "PLY-WONTPLAY",
       "mean_severity": "3.000000",
       "priority_score": "9",
-      "rank": "3",
-      "severity_sum": "9"
-    },
-    {
-      "complaint_count": "3",
-      "issue_id": "USA-ADS",
-      "mean_severity": "2.333333",
-      "priority_score": "7",
       "rank": "4",
-      "severity_sum": "7"
+      "severity_sum": "9"
     },
     {
       "complaint_count": "2",
@@ -117,8 +356,90 @@
       "severity_sum": "5"
     },
     {
+      "complaint_count": "1",
+      "issue_id": "ACC-ACCOUNT",
+      "mean_severity": "4.000000",
+      "priority_score": "4",
+      "rank": "6",
+      "severity_sum": "4"
+    },
+    {
+      "complaint_count": "1",
+      "issue_id": "ACC-LOGIN",
+      "mean_severity": "4.000000",
+      "priority_score": "4",
+      "rank": "7",
+      "severity_sum": "4"
+    },
+    {
       "complaint_count": "2",
-      "issue_id": "USA-GENERAL",
+      "issue_id": "BIL-GENERAL",
+      "mean_severity": "2.000000",
+      "priority_score": "4",
+      "rank": "8",
+      "severity_sum": "4"
+    },
+    {
+      "complaint_count": "2",
+      "issue_id": "CAT-GENERAL",
+      "mean_severity": "2.000000",
+      "priority_score": "4",
+      "rank": "9",
+      "severity_sum": "4"
+    },
+    {
+      "complaint_count": "1",
+      "issue_id": "PLY-CRASH",
+      "mean_severity": "4.000000",
+      "priority_score": "4",
+      "rank": "10",
+      "severity_sum": "4"
+    }
+  ],
+  "ranking_baseline_top10": [
+    {
+      "complaint_count": "8",
+      "issue_id": "BIL-PAYWALL",
+      "mean_severity": "3.250000",
+      "priority_score": "26",
+      "rank": "1",
+      "severity_sum": "26"
+    },
+    {
+      "complaint_count": "9",
+      "issue_id": "OTH-GENERAL",
+      "mean_severity": "2.000000",
+      "priority_score": "18",
+      "rank": "2",
+      "severity_sum": "18"
+    },
+    {
+      "complaint_count": "5",
+      "issue_id": "USA-ADS",
+      "mean_severity": "2.400000",
+      "priority_score": "12",
+      "rank": "3",
+      "severity_sum": "12"
+    },
+    {
+      "complaint_count": "4",
+      "issue_id": "USA-REDESIGN",
+      "mean_severity": "2.750000",
+      "priority_score": "11",
+      "rank": "4",
+      "severity_sum": "11"
+    },
+    {
+      "complaint_count": "3",
+      "issue_id": "PLY-WONTPLAY",
+      "mean_severity": "3.000000",
+      "priority_score": "9",
+      "rank": "5",
+      "severity_sum": "9"
+    },
+    {
+      "complaint_count": "2",
+      "issue_id": "CAT-LYRICS",
       "mean_severity": "2.500000",
       "priority_score": "5",
       "rank": "6",
@@ -157,88 +478,6 @@
       "severity_sum": "4"
     }
   ],
-  "ranking_baseline_top10": [
-    {
-      "complaint_count": "8",
-      "issue_id": "BIL-PAYWALL",
-      "mean_severity": "3.250000",
-      "priority_score": "26",
-      "rank": "1",
-      "severity_sum": "26"
-    },
-    {
-      "complaint_count": "9",
-      "issue_id": "OTH-GENERAL",
-      "mean_severity": "2.000000",
-      "priority_score": "18",
-      "rank": "2",
-      "severity_sum": "18"
-    },
-    {
-      "complaint_count": "4",
-      "issue_id": "USA-REDESIGN",
-      "mean_severity": "2.750000",
-      "priority_score": "11",
-      "rank": "3",
-      "severity_sum": "11"
-    },
-    {
-      "complaint_count": "3",
-      "issue_id": "PLY-WONTPLAY",
-      "mean_severity": "3.000000",
-      "priority_score": "9",
-      "rank": "4",
-      "severity_sum": "9"
-    },
-    {
-      "complaint_count": "3",
-      "issue_id": "USA-ADS",
-      "mean_severity": "2.333333",
-      "priority_score": "7",
-      "rank": "5",
-      "severity_sum": "7"
-    },
-    {
-      "complaint_count": "2",
-      "issue_id": "CAT-LYRICS",
-      "mean_severity": "2.500000",
-      "priority_score": "5",
-      "rank": "6",
-      "severity_sum": "5"
-    },
-    {
-      "complaint_count": "2",
-      "issue_id": "USA-GENERAL",
-      "mean_severity": "2.500000",
-      "priority_score": "5",
-      "rank": "7",
-      "severity_sum": "5"
-    },
-    {
-      "complaint_count": "1",
-      "issue_id": "ACC-ACCOUNT",
-      "mean_severity": "4.000000",
-      "priority_score": "4",
-      "rank": "8",
-      "severity_sum": "4"
-    },
-    {
-      "complaint_count": "1",
-      "issue_id": "ACC-LOGIN",
-      "mean_severity": "4.000000",
-      "priority_score": "4",
-      "rank": "9",
-      "severity_sum": "4"
-    },
-    {
-      "complaint_count": "2",
-      "issue_id": "BIL-GENERAL",
-      "mean_severity": "2.000000",
-      "priority_score": "4",
-      "rank": "10",
-      "severity_sum": "4"
-    }
-  ],
   "ranking_without_needs_review_top5": [
     {
       "complaint_count": "6",
@@ -257,24 +496,24 @@
       "severity_sum": "16"
     },
     {
-      "complaint_count": "2",
-      "issue_id": "USA-REDESIGN",
-      "mean_severity": "3.500000",
+      "complaint_count": "3",
+      "issue_id": "USA-ADS",
+      "mean_severity": "2.333333",
       "priority_score": "7",
       "rank": "3",
       "severity_sum": "7"
     },
     {
       "complaint_count": "2",
-      "issue_id": "CAT-LYRICS",
-      "mean_severity": "2.500000",
-      "priority_score": "5",
+      "issue_id": "USA-REDESIGN",
+      "mean_severity": "3.500000",
+      "priority_score": "7",
       "rank": "4",
-      "severity_sum": "5"
+      "severity_sum": "7"
     },
     {
       "complaint_count": "2",
-      "issue_id": "USA-ADS",
+      "issue_id": "CAT-LYRICS",
       "mean_severity": "2.500000",
       "priority_score": "5",
       "rank": "5",
@@ -300,7 +539,7 @@
       "issue_id": "BIL-PAYWALL",
       "mean_severity": "3.250000",
       "membership_fit_rate_in_sample": "0.875",
-      "model_description": "Free users say skipping, choosing songs, and other basic playback features were restricted to paying Premium subscribers after an update.",
+      "model_description": "Free users report that skipping, song choice, and other basic playback features were removed or restricted unless they pay for Premium.",
       "name": "Features locked behind Premium (skips, song choice, playback)",
       "needs_review_count": 2,
       "priority_score": "26",
@@ -343,12 +582,60 @@
       "topic": "billing"
     },
     {
+      "cancellation_count": 0,
+      "complaint_count": "5",
+      "issue_id": "USA-ADS",
+      "mean_severity": "2.400000",
+      "membership_fit_rate_in_sample": "1.0",
+      "model_description": "Free-tier users report that ads play too often, too loudly, and make the app unusable without a premium subscription.",
+      "name": "Ad frequency, length and loudness",
+      "needs_review_count": 2,
+      "priority_score": "12",
+      "quotes": [
+        {
+          "date": "2023-02-09",
+          "helpful_votes": 0,
+          "intent": "complaint",
+          "quote": "DON'T DOWNLOAD THIS:Such a worst app ... that always plays adds instead of songs ...if want to enjoy music free without adds don't download this app ..",
+          "review_id": "cf6166ae-d71a-4839-9add-088645ad3b78",
+          "severity": 3
+        },
+        {
+          "date": "2023-09-30",
+          "helpful_votes": 0,
+          "intent": "complaint",
+          "quote": "Too many ads.... it's literally useless if u hv not taken premium",
+          "review_id": "e5e6c55f-3069-4b7c-9807-f8b5d5bf2726",
+          "severity": 3
+        },
+        {
+          "date": "2022-11-29",
+          "helpful_votes": 0,
+          "intent": "complaint",
+          "quote": "The ads are so loud :'(",
+          "review_id": "ab67a772-c3b7-42ba-9b80-8d21d3857018",
+          "severity": 2
+        }
+      ],
+      "rank": "2",
+      "severity_counts": {
+        "1": 0,
+        "2": 3,
+        "3": 2,
+        "4": 0,
+        "5": 0
+      },
+      "severity_sum": "12",
+      "share_of_baseline_complaints_pct": 10.4,
+      "topic": "usability"
+    },
+    {
       "cancellation_count": 1,
       "complaint_count": "4",
       "issue_id": "USA-REDESIGN",
       "mean_severity": "2.750000",
       "membership_fit_rate_in_sample": "1.0",
-      "model_description": "Users feel recent updates removed basic music player features and replaced the homescreen with a scroll-heavy, social-feed style layout they find unusable.",
+      "model_description": "Users complain that recent updates removed basic music player features and replaced the homescreen with a feed-style layout they find unwelcome.",
       "name": "New update / redesign / navigation and layout",
       "needs_review_count": 2,
       "priority_score": "11",
@@ -378,7 +665,7 @@
           "severity": 2
         }
       ],
-      "rank": "2",
+      "rank": "3",
       "severity_counts": {
         "1": 0,
         "2": 2,
@@ -396,7 +683,7 @@
       "issue_id": "PLY-WONTPLAY",
       "mean_severity": "3.000000",
       "membership_fit_rate_in_sample": "1.0",
-      "model_description": "Customers report songs fail to play, features like volume adjustment, repeat, and voice assistant control do not work after the update.",
+      "model_description": "Customers report songs will not play, specific features like repeat, adjustment, or Google Assistant control fail, and various bugs persist after an update.",
       "name": "Songs won't play / app not working / bugs",
       "needs_review_count": 2,
       "priority_score": "9",
@@ -426,7 +713,7 @@
           "severity": 3
         }
       ],
-      "rank": "3",
+      "rank": "4",
       "severity_counts": {
         "1": 0,
         "2": 0,
@@ -437,54 +724,6 @@
       "severity_sum": "9",
       "share_of_baseline_complaints_pct": 6.2,
       "topic": "playback"
-    },
-    {
-      "cancellation_count": 0,
-      "complaint_count": "3",
-      "issue_id": "USA-ADS",
-      "mean_severity": "2.333333",
-      "membership_fit_rate_in_sample": "1.0",
-      "model_description": "Free-tier users report too many ads that are loud and interrupt listening.",
-      "name": "Ad frequency, length and loudness",
-      "needs_review_count": 1,
-      "priority_score": "7",
-      "quotes": [
-        {
-          "date": "2023-09-30",
-          "helpful_votes": 0,
-          "intent": "complaint",
-          "quote": "Too many ads.... it's literally useless if u hv not taken premium",
-          "review_id": "e5e6c55f-3069-4b7c-9807-f8b5d5bf2726",
-          "severity": 3
-        },
-        {
-          "date": "2022-11-29",
-          "helpful_votes": 0,
-          "intent": "complaint",
-          "quote": "The ads are so loud :'(",
-          "review_id": "ab67a772-c3b7-42ba-9b80-8d21d3857018",
-          "severity": 2
-        },
-        {
-          "date": "2022-07-02",
-          "helpful_votes": 0,
-          "intent": "complaint",
-          "quote": "Soo trash wayy to many ads I don't want premium but too much ads",
-          "review_id": "c2738a4f-e57c-46bc-a4ad-8ec5a4b5d5cd",
-          "severity": 2
-        }
-      ],
-      "rank": "4",
-      "severity_counts": {
-        "1": 0,
-        "2": 2,
-        "3": 1,
-        "4": 0,
-        "5": 0
-      },
-      "severity_sum": "7",
-      "share_of_baseline_complaints_pct": 6.2,
-      "topic": "usability"
     },
     {
       "cancellation_count": 0,
@@ -528,51 +767,11 @@
     },
     {
       "cancellation_count": 0,
-      "complaint_count": "2",
-      "issue_id": "USA-GENERAL",
-      "mean_severity": "2.500000",
-      "membership_fit_rate_in_sample": "1.0",
-      "model_description": "Free-tier users say ads are excessive and play instead of songs, making the app frustrating.",
-      "name": "Other usability complaints",
-      "needs_review_count": 1,
-      "priority_score": "5",
-      "quotes": [
-        {
-          "date": "2023-02-09",
-          "helpful_votes": 0,
-          "intent": "complaint",
-          "quote": "DON'T DOWNLOAD THIS:Such a worst app ... that always plays adds instead of songs ...if want to enjoy music free without adds don't download this app ..",
-          "review_id": "cf6166ae-d71a-4839-9add-088645ad3b78",
-          "severity": 3
-        },
-        {
-          "date": "2022-09-16",
-          "helpful_votes": 0,
-          "intent": "complaint",
-          "quote": "This app is nice but adds are too much",
-          "review_id": "85383985-844d-4f9b-bcd9-d6016ac35f6b",
-          "severity": 2
-        }
-      ],
-      "rank": "6",
-      "severity_counts": {
-        "1": 0,
-        "2": 1,
-        "3": 1,
-        "4": 0,
-        "5": 0
-      },
-      "severity_sum": "5",
-      "share_of_baseline_complaints_pct": 4.2,
-      "topic": "usability"
-    },
-    {
-      "cancellation_count": 0,
       "complaint_count": "1",
       "issue_id": "ACC-ACCOUNT",
       "mean_severity": "4.000000",
       "membership_fit_rate_in_sample": "0.0",
-      "model_description": "Customers report being unable to get into their Spotify account or manage family-plan access, including verification and recovery problems.",
+      "model_description": "The customer reports being blocked from their account, and also complains about excessive ads.",
       "name": "Account lost, hacked or family-plan access",
       "needs_review_count": 0,
       "priority_score": "4",
@@ -586,7 +785,7 @@
           "severity": 4
         }
       ],
-      "rank": "7",
+      "rank": "6",
       "severity_counts": {
         "1": 0,
         "2": 0,
@@ -604,7 +803,7 @@
       "issue_id": "ACC-LOGIN",
       "mean_severity": "4.000000",
       "membership_fit_rate_in_sample": "1.0",
-      "model_description": "Customers report that Spotify does not accept their password or fails to log them in.",
+      "model_description": "The customer reports the app will not accept their password when signing in.",
       "name": "Login, logout and password problems",
       "needs_review_count": 0,
       "priority_score": "4",
@@ -618,7 +817,7 @@
           "severity": 4
         }
       ],
-      "rank": "8",
+      "rank": "7",
       "severity_counts": {
         "1": 0,
         "2": 0,
@@ -629,9 +828,125 @@
       "severity_sum": "4",
       "share_of_baseline_complaints_pct": 2.1,
       "topic": "access"
+    },
+    {
+      "cancellation_count": 0,
+      "complaint_count": "2",
+      "issue_id": "BIL-GENERAL",
+      "mean_severity": "2.000000",
+      "membership_fit_rate_in_sample": "0.5",
+      "model_description": "Customers report general frustration with restrictions or post unrelated, non-billing text that does not describe a specific billing problem.",
+      "name": "Other billing complaints",
+      "needs_review_count": 2,
+      "priority_score": "4",
+      "quotes": [
+        {
+          "date": "2023-10-22",
+          "helpful_votes": 0,
+          "intent": "complaint",
+          "quote": "Aakhir kar spotify ne bhi apni bhikaariyo vali aukaat dikha di \"Gadar karbe\" Chanda mangna got real Bhikaariyo ko training dena bhi shuru kardo haramiyo",
+          "review_id": "3e82cf28-6b0a-4980-902c-b6aa154d353a",
+          "severity": 2
+        },
+        {
+          "date": "2023-10-26",
+          "helpful_votes": 0,
+          "intent": "complaint",
+          "quote": "Too much restrictions",
+          "review_id": "89a8e180-7846-4421-a2b6-fa7787e9d0d2",
+          "severity": 2
+        }
+      ],
+      "rank": "8",
+      "severity_counts": {
+        "1": 0,
+        "2": 2,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      },
+      "severity_sum": "4",
+      "share_of_baseline_complaints_pct": 4.2,
+      "topic": "billing"
     }
   ],
   "verification": {
+    "breakdown_note": "complaint/cancellation records of the random verify sample, grouped by Jev's issue/area; per-issue samples are small (see 'sampled')",
+    "by_area_in_sample": {
+      "billing_support": {
+        "sampled_complaints": 3,
+        "verifier_other_areas": {
+          "other": 1,
+          "usability": 1
+        },
+        "verifier_same_area": 1
+      },
+      "catalog": {
+        "sampled_complaints": 2,
+        "verifier_other_areas": {},
+        "verifier_same_area": 2
+      },
+      "other": {
+        "sampled_complaints": 2,
+        "verifier_other_areas": {},
+        "verifier_same_area": 2
+      },
+      "playback": {
+        "sampled_complaints": 2,
+        "verifier_other_areas": {
+          "usability": 2
+        },
+        "verifier_same_area": 0
+      },
+      "usability": {
+        "sampled_complaints": 2,
+        "verifier_other_areas": {},
+        "verifier_same_area": 2
+      }
+    },
+    "by_issue_in_sample": {
+      "BIL-PAYWALL": {
+        "sampled": 2,
+        "topic_agree": 1,
+        "verifier_other_topics": {
+          "usability": 1
+        }
+      },
+      "CAT-GENERAL": {
+        "sampled": 1,
+        "topic_agree": 1,
+        "verifier_other_topics": {}
+      },
+      "CAT-LYRICS": {
+        "sampled": 1,
+        "topic_agree": 1,
+        "verifier_other_topics": {}
+      },
+      "OTH-GENERAL": {
+        "sampled": 2,
+        "topic_agree": 2,
+        "verifier_other_topics": {}
+      },
+      "PLY-WONTPLAY": {
+        "sampled": 2,
+        "topic_agree": 0,
+        "verifier_other_topics": {
+          "usability": 2
+        }
+      },
+      "SUP-GENERAL": {
+        "sampled": 1,
+        "topic_agree": 0,
+        "verifier_other_topics": {
+          "other": 1
+        }
+      },
+      "USA-ADS": {
+        "sampled": 2,
+        "topic_agree": 2,
+        "verifier_other_topics": {}
+      }
+    },
     "intent_agreement": 18,
     "note": "independent model re-label (blind); agreement counts out of sample_size",
     "sample_size": 20,

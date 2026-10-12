@@ -13,6 +13,12 @@ def main():
     parser = argparse.ArgumentParser(prog="python -m pipeline", description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
 
+    p = commands.add_parser("run", help="ALL stages on an input CSV: ingest -> enrich -> verify -> group -> group-review -> rank -> recommend (PAID)")
+    p.add_argument("--input", type=Path, required=True, help="Input CSV path")
+    p.add_argument("--workspace", default="main", help="Saved-state workspace (a new name = empty cache)")
+    p.add_argument("--workers", type=int, default=None)
+    p.add_argument("--verify-sample", type=int, default=None, help="Declared verification sample (default: settings)")
+
     p = commands.add_parser("ingest", help="Stage 1: read, hash, profile and queue an input CSV (no model calls)")
     p.add_argument("--input", type=Path, default=None,
                    help=f"Input CSV path (default: $DATA_DIR/{FULL_CSV_NAME})")
@@ -64,7 +70,32 @@ def main():
     p.add_argument("--workspace", default="main")
 
     args = parser.parse_args()
-    if args.command == "ingest":
+    if args.command == "run":
+        import time
+        from . import enrich, group, group_review, ingest, rank, recommend, verify
+        stages, t0 = {}, time.monotonic()
+        def stage(name, fn):
+            s0 = time.monotonic(); out = fn(); stages[name] = round(time.monotonic() - s0, 2)
+            print(f"[{name}] done in {stages[name]} s", flush=True); return out
+        stage("ingest", lambda: ingest.run(args.input, workspace=args.workspace))
+        e = stage("enrich", lambda: enrich.run(args.input, workers=args.workers, workspace=args.workspace))
+        if e["stop_reason"] != "complete":
+            raise SystemExit(f"enrichment stopped ({e['stop_reason']}); progress is saved - rerun the same command to resume")
+        v = stage("verify", lambda: verify.run(args.input, args.workspace, args.verify_sample))
+        g = stage("group", lambda: group.run(args.input, args.workspace))
+        gr = stage("group_review", lambda: group_review.run(args.input, args.workspace))
+        r = stage("rank", lambda: rank.run(group.analysis_dir(args.input, args.workspace)))
+        m = stage("recommend", lambda: recommend.run(args.input, args.workspace))
+        print(json.dumps({"input": str(args.input), "workspace": args.workspace, "stage_seconds": stages,
+                          "end_to_end_seconds": round(time.monotonic() - t0, 2),
+                          "enrich": {k: e[k] for k in ("requests", "reviews_completed", "cache_hit_reviews", "cost_usd", "status_counts")},
+                          "verify": {k: v[k] for k in ("verified", "agreement", "stage_cache_hits", "cost_usd")},
+                          "group": {k: g[k] for k in ("issue_taxonomy", "baseline_records(complaint+cancellation)")},
+                          "group_review": {k: gr[k] for k in ("issues_reviewed", "misfits", "stage_cache_hits", "cost_usd")},
+                          "rank_top3_actionable": r["top5_actionable"][:3],
+                          "memo": {k: m[k] for k in ("status", "attempts", "recommended_area", "stage_cache_hits", "cost_usd")},
+                          "outputs": str(group.analysis_dir(args.input, args.workspace))}, indent=2))
+    elif args.command == "ingest":
         from . import ingest
         report = ingest.run(args.input or dataset_file(FULL_CSV_NAME), args.out, args.workspace)
         print(json.dumps({"counts": report["counts"], "all_checks_pass": report["all_checks_pass"],

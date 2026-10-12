@@ -1,26 +1,29 @@
 issue_id,topic,name,keywords,members
-USA-ADS,usability,"Ad frequency, length and loudness",ad|ads|advert|commercial|advertis,3
+USA-ADS,usability,"Ad frequency, length and loudness","ad|ads|advert|commercial|advertis|adds|add,|add.|too many add|an add",5
 USA-SHUFFLE,usability,Forced shuffle / can't choose song order,shuffle|choose song|pick song|pick the song|choose the song|select song|in order,0
 USA-REDESIGN,usability,New update / redesign / navigation and layout,update|new design|layout|interface|home screen|homepage|navigation|button|tiktok|feed|ui,4
 USA-LIBRARY,usability,"Playlist, queue and library management",playlist|queue|library|liked songs|sort|folder,1
-USA-GENERAL,usability,Other usability complaints,,2
-BIL-PAYWALL,billing,"Features locked behind Premium (skips, song choice, playback)",skip|premium|free version|free user|without paying|unless you pay|have to pay|must pay|subscription to,8
+USA-GENERAL,usability,Other usability complaints,,0
+BIL-PAYWALL,billing,"Features locked behind Premium (skips, song choice, playback)",skip|premium|free version|free user|without paying|unless you pay|have to pay|must pay|subscription to|to pay|pay for|pay to|basic feature|for money|for free|to buy|paid version|paywall|pay wall,8
 BIL-PRICE,billing,Price level and price increases,price|expensive|cost|increase|cheaper|afford,0
 BIL-CHARGES,billing,"Charges, refunds, payments and trials",charg|refund|payment|card|billing|trial|money back|deducted,0
 BIL-GENERAL,billing,Other billing complaints,,2
 PLY-CRASH,playback,App crashes / won't open,crash|won't open|wont open|not opening|doesn't open|closes|keeps closing|force close|black screen|shut|shout|kicks me out,1
-PLY-WONTPLAY,playback,Songs won't play / app not working / bugs,can't play|cant play|cannot play|won't play|wont play|doesn't play|doesnt play|not play|unable to play|let me play|not working|doesn't work|doesnt work|isn't working|stopped working|glitch|bug|error|wrong song|another song,3
+PLY-WONTPLAY,playback,Songs won't play / app not working / bugs,can't play|cant play|cannot play|won't play|wont play|doesn't play|doesnt play|not play|unable to play|let me play|not working|doesn't work|doesnt work|isn't working|stopped working|glitch|bug|error|wrong song|another song|can't listen|cant listen|can't even play|unable to listen|won't let me|doesn't let me|random song|other song|plays other|not the song,3
 PLY-STOPS,playback,"Music stops, pauses or cuts out",stop|pause|cut out|cuts out|interrupt|randomly skip,1
 PLY-CONNECTION,playback,"Connection, Bluetooth, car and devices",connect|network|internet|bluetooth|android auto|car|chromecast|speaker|watch,1
 PLY-PERFORMANCE,playback,"Lag, slowness, battery and loading",lag|slow|battery|freez|loading|load|buffer|hang,1
 PLY-AUDIO,playback,Audio quality and volume,audio|sound|volume|quality|loud,0
 PLY-GENERAL,playback,"Other playback problems (bugs, not working)",,1
-ACC-LOGIN,access,"Login, logout and password problems",log in|login|logged out|log out|sign in|password|signin,1
+ACC-LOGIN,access,"Login, logout and password problems",log in|login|logged out|log out|sign in|password|signin|logging|log back|sign up|signup|phone number|can't access|access my,1
+ACC-NOCONNECTION,access,"""No internet connection"" error blocks access",internet|no connection|network|offline,0
 ACC-ACCOUNT,access,"Account lost, hacked or family-plan access",hack|account|family|email|verification|code,1
 ACC-GENERAL,access,Other access problems,,0
 DWN-LOST,downloads,Downloads disappear or must be re-downloaded,disappear|deleted|gone|removed|re-download|redownload|lost,0
+DWN-FAILS,downloads,Downloads fail or won't start,can't download|cant download|cannot download|not download|unable to download|won't download|wont download|download fail|failed to download|downloading,1
+DWN-STORAGE,downloads,SD card and storage location problems,sd card|sdcard|storage|memory,0
 DWN-OFFLINE,downloads,Offline mode not working,offline,1
-DWN-GENERAL,downloads,Other download problems,,1
+DWN-GENERAL,downloads,Other download problems,,0
 CAT-LYRICS,catalog,Lyrics missing or broken,lyric,2
 CAT-RECOMMENDATIONS,catalog,"Recommendations, repeats and smart features",recommend|algorithm|same song|repeat|dj|radio|discover|suggest,1
 CAT-SEARCH,catalog,Search doesn't find content,search|find,0

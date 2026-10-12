@@ -1,0 +1,55 @@
+{
+  "check_status": "passed",
+  "headline": "Fund usability first: ad load and the redesign are the best-supported, most reliably labelled specific problems, with the paywall and playback as caveated alternatives",
+  "recommendations": [
+    {
+      "claim_ids": [
+        "C1",
+        "C2",
+        "C4"
+      ],
+      "rationale": "USA-ADS is the second-highest actionable issue by priority score and had strong label agreement in the blind audit.",
+      "review_ids": [
+        "02ab45da-773e-42fd-93b5-6bc77ed11944",
+        "25c1050d-94e0-4cfc-a08a-2392f03a307f"
+      ],
+      "title": "Reduce ad intrusiveness"
+    },
+    {
+      "claim_ids": [
+        "C3",
+        "C5"
+      ],
+      "rationale": "USA-REDESIGN complaints centre on layout changes and missing basics such as repeat, rewind and like.",
+      "review_ids": [
+        "c84d504f-4edc-4090-a5de-9ab8f05ae083"
+      ],
+      "title": "Restore basic controls removed by the redesign"
+    },
+    {
+      "claim_ids": [
+        "C6",
+        "C7"
+      ],
+      "rationale": "BIL-PAYWALL has the top actionable priority score, but the verifier often relabelled it as usability, so it should be coordinated with the ads work.",
+      "review_ids": [
+        "1be24878-5115-490a-bb7f-dad95d0630ab"
+      ],
+      "title": "Review paywall and ad friction jointly"
+    },
+    {
+      "claim_ids": [
+        "C8",
+        "C9",
+        "C10"
+      ],
+      "rationale": "Playback severity is high but its topic labels had weak verifier agreement, so ownership should be confirmed first.",
+      "review_ids": [
+        "e44f51bb-e199-4c8a-bece-ede36c1e800a",
+        "6c7d8912-de88-4636-95b8-7618937e1258"
+      ],
+      "title": "Re-label playback complaints before funding them"
+    }
+  ],
+  "recommended_area": "usability"
+}

@@ -18,7 +18,7 @@ from tools.check_submission import sha, write_json
 from . import claude, enrich, group, rates, store, verify
 from .paths import REPO
 
-PROMPT_VERSION = "memo-v2"  # v2 adds rule 6 (weigh per-issue/area verification agreement)
+PROMPT_VERSION = "memo-v3"  # v2: weigh per-issue/area verification; v3: weigh the recent monthly trend
 METRICS = ("complaint_count", "severity_sum", "mean_severity", "priority_score")
 AREAS = {"access": ["access"], "usability": ["usability"], "playback": ["playback", "downloads"],
          "billing_support": ["billing", "support"], "catalog": ["catalog"], "other": ["other"]}
@@ -86,6 +86,27 @@ def verification_breakdown(folder, records, membership):
                               "per-issue samples are small (see 'sampled')"}
 
 
+def monthly_trend(records, membership, meta):
+    """Per month: classified reviews and each area's complaint+cancellation count and share of all classified reviews.
+    The first (2022-05) and last (2023-11) months are partial."""
+    area_of = {t: a for a, ts in AREAS.items() for t in ts}
+    member = {rid for ids in membership.values() for rid in ids}
+    totals, counts = defaultdict(int), defaultdict(lambda: defaultdict(int))
+    for rid, rec in records.items():
+        month = meta[rid][1][:7]
+        totals[month] += 1
+        if rid in member:
+            counts[month][area_of[rec["topic"]]] += 1
+    months = sorted(totals)
+    rows = []
+    for m in months:
+        rows.append({"month": m, "partial_month": m in (months[0], months[-1]), "classified_reviews": totals[m],
+                     **{f"{a}_complaints": counts[m][a] for a in ("access", "usability", "playback", "billing_support")},
+                     **{f"{a}_share_pct": pct(counts[m][a], totals[m]) for a in ("access", "usability", "playback", "billing_support")}})
+    return {"rows": rows, "note": "share = area complaint+cancellation records / all classified reviews that month; "
+                                  "first and last months are partial"}
+
+
 def build_pack(input_path, workspace="main", top_n=8, quotes_per_issue=3):
     folder = group.analysis_dir(input_path, workspace)
     records = {json.loads(l)["review_id"]: json.loads(l) for l in (folder / "enriched.jsonl").open(encoding="utf-8")}
@@ -100,6 +121,7 @@ def build_pack(input_path, workspace="main", top_n=8, quotes_per_issue=3):
     manifest = json.loads((folder / "group_manifest.json").read_text(encoding="utf-8"))
     conn = store.connect(sha(Path(input_path)), workspace)
     meta = {rid: (likes, ts) for rid, likes, ts in conn.execute("SELECT review_id, review_likes, review_timestamp FROM reviews")}
+    trend = monthly_trend(records, membership, meta)
     status = dict(conn.execute("SELECT status, COUNT(*) FROM record_status GROUP BY status"))
     conn.close()
     total_rows = sum(status.values())
@@ -160,6 +182,7 @@ def build_pack(input_path, workspace="main", top_n=8, quotes_per_issue=3):
         "ranking_without_needs_review_top5": sens[:5],
         "top_actionable_issues": [issue_card(r) for r in actionable[:top_n]],
         "verification": verification,
+        "monthly_complaint_share": trend,
         "limitations": [
             "Google Play reviews are self-selected and historical; no revenue, plan tier or confirmed churn data.",
             "Labels come from a classifier (Jev) without human review of every record; needs_review flags uncertain labels.",

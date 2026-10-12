@@ -1,5 +1,5 @@
 {
-  "ingested_at": "2026-10-11T20:45:55+00:00",
+  "ingested_at": "2026-10-12T16:41:20+00:00",
   "input": {
     "bytes": 15466,
     "path": "cost_100.csv",
@@ -7,8 +7,8 @@
   },
   "manifest_match": "cost_100.csv",
   "pending_distinct_texts": 100,
-  "pending_reviews": 100,
+  "pending_reviews": 0,
   "quarantined": 0,
   "records": 100,
-  "state_db": "state_c884ac3b9be5.sqlite"
+  "state_db": "data/state/pilot-20261011T215750/state_c884ac3b9be5.sqlite"
 }

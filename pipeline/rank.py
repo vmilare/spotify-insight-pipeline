@@ -7,6 +7,7 @@ Also writes aggregates.csv (extra context), a topic roll-up, and a sensitivity r
 excludes needs_review records.
 """
 import csv
+import gzip
 import json
 from collections import defaultdict
 from decimal import ROUND_HALF_UP, Decimal
@@ -23,11 +24,21 @@ def mean6(total, n):
 
 
 def load(folder):
+    """Saved inputs only. enriched.jsonl (local, >100 MB, not in git) or, in a fresh clone, the committed
+    grading/records.jsonl.gz (same completed records in contract format)."""
     records = {}
-    with (folder / "enriched.jsonl").open(encoding="utf-8") as f:
+    local = folder / "enriched.jsonl"
+    if local.exists():
+        stream = local.open(encoding="utf-8")
+    else:
+        fallback = Path(__file__).resolve().parent.parent / "grading" / "records.jsonl.gz"
+        print(f"{local} not found; reading completed records from {fallback}")
+        stream = gzip.open(fallback, "rt", encoding="utf-8")
+    with stream as f:
         for line in f:
             r = json.loads(line)
-            records[r["review_id"]] = r
+            if r.get("status", "completed") == "completed":
+                records[r["review_id"]] = r
     with (folder / "membership.csv").open(encoding="utf-8") as f:
         membership = [(row["issue_id"], row["review_id"]) for row in csv.DictReader(f)]
     with (folder / "issues.csv").open(encoding="utf-8") as f:
