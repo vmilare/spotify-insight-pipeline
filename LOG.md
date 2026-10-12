@@ -6,7 +6,7 @@ unless marked *estimate*. Per-run spend is tracked automatically in `runs/spend_
 
 | Running API spend | Jev | Anthropic | Total |
 |---|---|---|---|
-| as of last entry | $0.0228 | $0.0061 | **$0.0289** |
+| as of last entry | $0.0228 | $0.0683 | **$0.0911** |
 
 ---
 
@@ -220,3 +220,17 @@ unless marked *estimate*. Per-run spend is tracked automatically in `runs/spend_
   Output: `runs/analysis/checkpoint_500/issue_review.csv`.
 - Verify note: the 2 "missed" planted errors were cases where the planted wrong topic ("other") equaled the
   verifier's own choice, so the comparison could not flag them.
+
+## 2026-10-11 — Stage 6 recommend (memo role, Claude Sonnet 5.5, effort high) ($0.0621)
+- `pipeline/recommend.py` + `prompts/memo_v1.md`. Code builds `evidence_pack.json` (~5.6k tokens): scope counts,
+  area roll-up (access / usability / playback incl. downloads / billing+support / catalog / other), baseline +
+  actionable + no-needs_review rankings, top-8 actionable issue cards with 3 quotes each (highest severity, then
+  helpful votes), verification summary, limitations. Sonnet returns structured JSON (memo, claims, dashboard
+  recommendations). Server-side `fallbacks: "default"` enabled.
+- Code checker: every claim's value must equal `ranking.csv`; cited [C#] must exist; review IDs must come from the
+  pack; every number in the prose must appear in the pack. One corrective retry allowed.
+- checkpoint_500 result: **checker passed on attempt 1**, 11 claims, recommended area **billing/support**
+  (BIL-PAYWALL first, USA-ADS second); notes playback has the higher area severity sum (166 vs 150) but is spread
+  across smaller issues. 10,459 in / 4,123 out tokens, 32 s. Output: `runs/analysis/checkpoint_500/memo.md`.
+  *500-review sample — pipeline test, not the final recommendation.*
+- All six stages now run end to end on the 500 checkpoint. Total project spend so far: $0.091.

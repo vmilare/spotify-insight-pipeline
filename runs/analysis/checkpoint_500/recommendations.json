@@ -1,0 +1,56 @@
+{
+  "check_status": "passed",
+  "headline": "Fund billing/support first: Premium-paywall friction (BIL-PAYWALL) is the largest specific complaint in this sample, with ad load second",
+  "recommendations": [
+    {
+      "claim_ids": [
+        "C1",
+        "C3"
+      ],
+      "rationale": "BIL-PAYWALL is the largest specific issue by complaints and priority score, and some reports describe a broken purchase flow.",
+      "review_ids": [
+        "1d1480fb-0142-46da-8570-45bf3983bf6d",
+        "2313bd8e-43bd-4777-bff9-3ae753288f0e",
+        "be84cf74-541f-49c8-8262-fe6e9faedfb8"
+      ],
+      "title": "Fix paywall and purchase-flow friction first"
+    },
+    {
+      "claim_ids": [
+        "C4",
+        "C5"
+      ],
+      "rationale": "USA-ADS is the second-ranked actionable issue and is closely tied to the free-versus-paid experience.",
+      "review_ids": [
+        "3bfefa06-133c-419b-a435-1fea919d6a44",
+        "f1abd13b-2391-4b04-8109-efa7f3cfed0b"
+      ],
+      "title": "Investigate ad load as a secondary item"
+    },
+    {
+      "claim_ids": [
+        "C6",
+        "C7",
+        "C8"
+      ],
+      "rationale": "PLY-WONTPLAY is small but high-severity and is better handled as targeted bug triage than as a quarter-long program.",
+      "review_ids": [
+        "651e6e7b-f93e-4369-9631-15c73ddcd4ad",
+        "4c34f240-76d4-451a-ac74-5bc6bd484825"
+      ],
+      "title": "Keep playback reliability as a watch item"
+    },
+    {
+      "claim_ids": [
+        "C10",
+        "C11"
+      ],
+      "rationale": "ACC-LOGIN has few complaints but the highest mean severity, which fits a quick targeted fix.",
+      "review_ids": [
+        "12efd15d-4d4f-4a71-8e71-69d03b6f983a"
+      ],
+      "title": "Triage login bugs separately"
+    }
+  ],
+  "recommended_area": "billing_support"
+}

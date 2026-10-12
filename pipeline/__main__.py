@@ -40,6 +40,10 @@ def main():
     p.add_argument("--input", type=Path, default=None, help=f"Input CSV (default: $DATA_DIR/{FULL_CSV_NAME})")
     p.add_argument("--workspace", default="main")
 
+    p = commands.add_parser("recommend", help="Stage 6: decision memo from saved aggregates (Claude Sonnet 5.5, PAID)")
+    p.add_argument("--input", type=Path, default=None, help=f"Input CSV (default: $DATA_DIR/{FULL_CSV_NAME})")
+    p.add_argument("--workspace", default="main")
+
     p = commands.add_parser("rerank", help="Stage 5: recompute ranking from saved files only (no model calls)")
     p.add_argument("--input", type=Path, default=None, help="Input CSV whose analysis folder to rank")
     p.add_argument("--folder", type=Path, default=None, help="Or an analysis folder path directly")
@@ -72,6 +76,9 @@ def main():
     elif args.command == "group-review":
         from . import group_review
         print(json.dumps(group_review.run(args.input or dataset_file(FULL_CSV_NAME), args.workspace), indent=2))
+    elif args.command == "recommend":
+        from . import recommend
+        print(json.dumps(recommend.run(args.input or dataset_file(FULL_CSV_NAME), args.workspace), indent=2))
     elif args.command == "rerank":
         from . import group, rank
         folder = args.folder or group.analysis_dir(args.input or dataset_file(FULL_CSV_NAME))

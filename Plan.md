@@ -31,8 +31,8 @@ Legend: ✅ done · 🔄 in progress · ⬜ todo · 👤 needs the user
 - ✅ 1c Jev client + dev experiments (see LOG.md) → frozen setup `jev-q-tiny-v1-pack10`
 - ✅ 1c Stage 2 enrich built; tested on cost_100 (cold + warm) and checkpoint_500 → `runs/`, `runs/spend_ledger.csv`
 - ✅ Stages 4–5 group + rank (code) built; rerank reproducible (LOG.md)
-- ⬜👤 Add Anthropic credit (key valid, balance $0)
-- ⬜ Verify (Haiku 5.5) + group naming (Haiku 5.5) + memo (Sonnet 5.5)
+- ✅ Anthropic credit added
+- ✅ Verify (Haiku 5.5) + group review (Haiku 5.5) + memo (Sonnet 5.5) built; all 6 stages run end to end on checkpoint_500
 - ⬜ 1c Formal 100-review cold/warm pilot incl. verify/group/rank/memo + calculator v1 (needs remaining stages)
 - ✅ Budget cap: $11 project / $10.50 per run (user, Oct 11)
 - ✅ Severity-5 dev labels reviewed by user; kept as is

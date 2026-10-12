@@ -1,0 +1,8 @@
+{
+  "attempts": 1,
+  "config": "claude-sonnet-5-5+memo-v1+effort-high+fallbacks-default",
+  "errors": [],
+  "run_id": "main-checkpoint_500-memo-20261011T214332",
+  "status": "passed",
+  "warnings": []
+}
