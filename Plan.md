@@ -40,17 +40,16 @@ Legend: ✅ done · 🔄 in progress · ⬜ todo · 👤 needs the user
 - ✅ Budget cap: $11 project / $10.50 per run (user, Oct 11)
 - ✅ Severity-5 dev labels reviewed by user; kept as is
 
-### Step 2 — Oct 12
-- ✅ Golden 50 labeled by user → `evals/golden_50_labeled.csv` (50/50 valid)
-- ⬜ Tune descriptions/threshold on dev; labels-v2 with worked examples
-- ⬜ 500 → 10k runs, refresh estimates
-- ⬜ Full run + interrupt/resume demo (👤 screen recording)
-- ⬜ Verifier (Haiku), planted-error and injection tests
-- ⬜ Backend + dashboard + DB (👤 Render + Neon accounts)
-
-### Step 3 — Oct 13
-- ⬜ Golden eval · group → rank → memo (👤 `ANTHROPIC_API_KEY`) · DB load + deploy
-- ⬜ Export `grading/` + run checker · README · push + signed-out link check
+### Step 2–3 — Oct 12 (done)
+- ✅ Golden 50 labeled; golden evaluation → `evals/results/golden/`
+- ✅ System tests A–E pass → `evals/results/system_tests/`
+- ✅ Cost pilot + calculator → `cost/`; 10k checkpoint refresh
+- ✅ Full run: 660,609 classified, 13 quarantined, 0 pending, 0 failed calls; recorded interrupt/resume → `evals/resume_demo.mov`
+- ✅ Issues v3, verify 500, group review, ranking, memo-v2 (memo-v1 kept) → `memo.md`
+- ✅ Dashboard live: https://spotify-insight-pipeline.vercel.app (Vercel FastAPI + Neon Postgres)
+- ✅ `grading/` export; course self-check pass (no issues)
+- ✅ README with rubric → evidence map; release v1.0 with large files
+- ⬜👤 Final review by the author (memo choice incl. late-2023 billing trend), signed-out link check, submit URL on bCourses
 
 ---
 
