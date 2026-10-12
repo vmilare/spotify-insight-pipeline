@@ -373,3 +373,11 @@ unless marked *estimate*. Per-run spend is tracked automatically in `runs/spend_
 - **Database** (Neon): 660,622 review rows, 33 issues, 98 ranking rows, 12 claims, 264 evidence quotes; 160 MB.
 - Vercel: backend now deployed (FastAPI preset); returns "DATABASE_URL not configured" → env var to be added in Vercel.
 - Project spend: **$9.8165** of $11.
+
+## 2026-10-12 — Dashboard live
+- User added `DATABASE_URL` in Vercel and redeployed (FastAPI preset, root `web`).
+- Live checks (https://spotify-insight-pipeline.vercel.app): page 200; /api/health, summary, areas, trend, ranking ×3,
+  issues/{id}, recommendations all 200; unknown issue → 404. First-call latency 0.06–2.2 s (trend scans all 660k
+  rows), cached repeat calls ~0.04 s. Health: 660,622 reviews, 33 issues, 264 evidence quotes served from Neon.
+- Visual check (headless Chrome, light theme, full data): tiles, recommendation with ✓ claim chips, area bars,
+  severity mix, issue ranking, monthly trend with end labels, quality notes all render.
