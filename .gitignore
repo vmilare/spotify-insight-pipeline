@@ -17,3 +17,9 @@ __pycache__/
 
 # OS
 .DS_Store
+
+# Full-corpus outputs exceed GitHub's 100 MB limit: published as gzip release assets instead
+runs/*spotify_reviews_18months*/enriched.jsonl
+runs/*spotify_reviews_18months*/calls.jsonl
+runs/analysis/spotify_reviews_18months/enriched.jsonl
+*.jsonl.gz

@@ -32,6 +32,10 @@ def main():
     p.add_argument("--workspace", default="main")
     p.add_argument("--sample", type=int, default=None, help="Override verify.sample_size")
 
+    p = commands.add_parser("status", help="Show saved progress for an input (no model calls)")
+    p.add_argument("--input", type=Path, default=None, help=f"Input CSV (default: $DATA_DIR/{FULL_CSV_NAME})")
+    p.add_argument("--workspace", default="main")
+
     p = commands.add_parser("group", help="Stage 4: assign complaint/cancellation records to issues (no model calls)")
     p.add_argument("--input", type=Path, default=None, help=f"Input CSV (default: $DATA_DIR/{FULL_CSV_NAME})")
     p.add_argument("--workspace", default="main")
@@ -71,6 +75,24 @@ def main():
         print(json.dumps({k: r[k] for k in ("verified", "missing_verifier_labels", "agreement",
                                             "planted_error_test", "needs_review_vs_disagreement", "requests",
                                             "failed_attempts", "usage", "cost_usd", "wall_clock_seconds")}, indent=2))
+    elif args.command == "status":
+        from . import enrich, store
+        from tools.check_submission import sha
+        path = args.input or dataset_file(FULL_CSV_NAME)
+        conn = store.connect(sha(path), args.workspace)
+        config = enrich.label_config(enrich.load_settings())
+        counts = dict(conn.execute("SELECT status, COUNT(*) FROM record_status GROUP BY status"))
+        calls = conn.execute("SELECT COUNT(*), COALESCE(SUM(cost_usd),0) FROM calls WHERE role='enrich'").fetchone()
+        runs = conn.execute("SELECT run_id, phase, COUNT(*) FROM calls WHERE role='enrich' GROUP BY run_id, phase ORDER BY MIN(started_at)").fetchall()
+        conn.close()
+        total = sum(counts.values())
+        print(f"input: {path.name} | label_config: {config}")
+        print(f"records: {total:,} | completed: {counts.get('completed', 0):,} | pending: {counts.get('pending', 0):,} | "
+              f"quarantined: {counts.get('quarantined', 0):,} | done: {100 * counts.get('completed', 0) / total:.1f}%")
+        print(f"Jev enrichment calls logged: {calls[0]:,} | Jev spend on this input: ${calls[1]:.4f} | "
+              f"project spend (ledger): ${enrich.project_spend():.4f}")
+        for run_id, phase, n in runs:
+            print(f"  run {run_id} | phase {phase} | calls {n:,}")
     elif args.command == "group":
         from . import group
         print(json.dumps(group.run(args.input or dataset_file(FULL_CSV_NAME), args.workspace), indent=2))

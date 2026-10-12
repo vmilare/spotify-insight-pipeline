@@ -300,3 +300,13 @@ unless marked *estimate*. Per-run spend is tracked automatically in `runs/spend_
   (much closer). Area roll-up: playback+downloads 2,887 · usability 2,752 · billing+support 2,609 severity sum.
   PLY-GENERAL is large → keyword rules worth refining before the final grouping (code only, $0).
 - Project spend to date: $0.3218.
+
+## 2026-10-11/12 — Step 5, full run part 1 (planned stop) ($4.746)
+- `python -m pipeline enrich --workers 2 --stop-after-requests 24000` on the full file (main workspace).
+  Cache lookup: 484,189 pending distinct texts; **129,565 reviews completed from saved results** (texts already
+  labeled in the 100/500/10k/golden runs under the same label_config, incl. high-frequency texts like "Good");
+  475,697 texts left to call.
+- Part 1: 24,000 requests, **0 failed, 0 invalid**, 240,000 texts labeled → 267,494 reviews; 113.0 M input tokens,
+  **$4.746**, 29.2 min, 137 texts/s (2 workers), 470.9 tokens/text → full-pass projection $9.58.
+- Status after part 1: 397,059 completed · 263,550 pending · 13 quarantined (empty text). Project spend $5.07.
+- Part 2 (resume) is reserved for the recorded interrupt/resume demonstration.
