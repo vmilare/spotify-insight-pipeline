@@ -1,4 +1,4 @@
-"""Dashboard backend (Vercel Python function). Read-only: every response is retrieved from the Postgres
+"""Dashboard backend (FastAPI on Vercel, zero-config entrypoint `web/app.py`). Read-only: every response is retrieved from the Postgres
 database loaded by `python -m pipeline load-db`. No model calls are made here.
 
 Routes:
@@ -145,9 +145,3 @@ def recommendations():
     return {"recommendations": m.get("recommendations"), "memo_markdown": m.get("memo_markdown"),
             "memo_check": m.get("memo_check"), "claims": claims}
 
-
-# Local preview only (Vercel serves web/public itself): SERVE_STATIC=1 uvicorn api.index:app
-if os.environ.get("SERVE_STATIC"):
-    from pathlib import Path
-    from fastapi.staticfiles import StaticFiles
-    app.mount("/", StaticFiles(directory=Path(__file__).resolve().parent.parent / "public", html=True), name="static")
