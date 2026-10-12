@@ -32,10 +32,10 @@ Legend: ✅ done · 🔄 in progress · ⬜ todo · 👤 needs the user
 - ✅ 1c Stage 2 enrich built; tested on cost_100 (cold + warm) and checkpoint_500 → `runs/`, `runs/spend_ledger.csv`
 - ⬜ 1c Formal 100-review cold/warm pilot incl. verify/group/rank/memo + calculator v1 (needs remaining stages)
 - ✅ Budget cap: $11 project / $10.50 per run (user, Oct 11)
-- ⬜👤 Re-check severity-5 dev labels
+- ✅ Severity-5 dev labels reviewed by user; kept as is
 
 ### Step 2 — Oct 12
-- ⬜👤 Golden 50 labels → `evals/golden_50_labeled.csv`
+- ✅ Golden 50 labeled by user → `evals/golden_50_labeled.csv` (50/50 valid)
 - ⬜ Tune descriptions/threshold on dev; labels-v2 with worked examples
 - ⬜ 500 → 10k runs, refresh estimates
 - ⬜ Full run + interrupt/resume demo (👤 screen recording)

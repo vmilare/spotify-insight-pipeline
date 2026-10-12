@@ -163,3 +163,10 @@ unless marked *estimate*. Per-run spend is tracked automatically in `runs/spend_
 - Clarified: `needs_review` is an indicator only. Flagged reviews stay completed and flow into grouping,
   ranking and memo; the plan adds threshold tuning on dev, flag-vs-error evaluation on golden, and a
   ranking sensitivity check without flagged reviews.
+
+## 2026-10-11 — Golden 50 labeled by the user; dev labels kept
+- `evals/golden_50_labeled.csv` (exported 21:29): 50/50 complete and valid, source fields unchanged, every quote an
+  exact substring. User flagged needs_review on 0. **Held-out test set**: not used for descriptions, prompts,
+  thresholds or sentiment calibration; Jev has not been run on these reviews.
+- User reviewed the severity-5 note and kept the dev labels unchanged (decision recorded; affects how dev
+  severity agreement should be read).
