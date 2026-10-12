@@ -1,0 +1,71 @@
+{
+  "baseline_records": 4480,
+  "issues_ranked": 30,
+  "top5": [
+    [
+      "OTH-GENERAL",
+      2689
+    ],
+    [
+      "BIL-PAYWALL",
+      1870
+    ],
+    [
+      "USA-ADS",
+      1161
+    ],
+    [
+      "PLY-GENERAL",
+      765
+    ],
+    [
+      "PLY-WONTPLAY",
+      737
+    ]
+  ],
+  "top5_actionable": [
+    [
+      "BIL-PAYWALL",
+      1870
+    ],
+    [
+      "USA-ADS",
+      1161
+    ],
+    [
+      "PLY-GENERAL",
+      765
+    ],
+    [
+      "PLY-WONTPLAY",
+      737
+    ],
+    [
+      "USA-GENERAL",
+      676
+    ]
+  ],
+  "top5_without_needs_review": [
+    [
+      "OTH-GENERAL",
+      1975
+    ],
+    [
+      "BIL-PAYWALL",
+      705
+    ],
+    [
+      "USA-ADS",
+      685
+    ],
+    [
+      "PLY-WONTPLAY",
+      417
+    ],
+    [
+      "PLY-GENERAL",
+      371
+    ]
+  ],
+  "top_issue_same_without_needs_review": true
+}

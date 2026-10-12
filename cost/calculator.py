@@ -87,7 +87,8 @@ def project(m, costs, rates, a, refresh):
     jev_rate = rates[("jev-1.13.0", "input_tokens")]
     latest = refresh[-1] if refresh else None
     tok = latest["tokens_per_text"] if latest else m["stages"]["enrich"]["tokens_per_text"]
-    tps = latest["texts_per_second"] if latest else m["stages"]["enrich"]["texts_per_second"]
+    # Per-worker throughput: a run with W workers is divided by W (the 10k run at 2 workers measured ~2.0x of 1 worker).
+    tps = latest["texts_per_second"] / latest["workers"] if latest else m["stages"]["enrich"]["texts_per_second"]
     c = a["controls"]
     workers = c["max_workers"]
     speedup = 1 + (workers - 1) * c["parallel_efficiency"]
@@ -172,11 +173,11 @@ def replay(args):
           "- API spend vs other costs: all figures above are API spend from recorded usage. Local compute "
           f"(laptop CPU/electricity): **unknown, not measured** ({a['local_compute']['note']})", "",
           "## 2. Estimate refreshes on development checkpoints (enrichment, main workspace)", "",
-          "| Checkpoint | Run | Texts labeled | Cache-hit reviews | Tokens / text | Texts / s | Workers |", "|---|---|---|---|---|---|---|"]
+          "| Checkpoint | Run | Texts labeled | Cache-hit reviews | Tokens / text | Texts / s | Workers | Texts / s per worker |", "|---|---|---|---|---|---|---|---|"]
     for r in refresh:
         L.append(f"| {r['checkpoint']} | `{r['run_id']}` | {r['texts_labeled']:,} | {r['cache_hit_reviews']:,} | "
-                 f"{r['tokens_per_text']} | {r['texts_per_second']} | {r['workers']} |")
-    L += ["", f"Projection basis: **{basis['tokens_per_text']} tokens/text**, **{basis['texts_per_second_per_worker']} texts/s per "
+                 f"{r['tokens_per_text']} | {r['texts_per_second']} | {r['workers']} | {r['texts_per_second'] / r['workers']:.1f} |")
+    L += ["", f"Projection basis: **{basis['tokens_per_text']} tokens/text**, **{basis['texts_per_second_per_worker']:.1f} texts/s per "
           f"worker** from {basis['source']}; {basis['workers']} workers at {a['controls']['parallel_efficiency']} efficiency "
           f"→ {basis['speedup']:.1f}× (modeled, not measured).", "",
           "## 3. Full-run projection (660,622 rows · 660,609 nonempty · 13 empty-text quarantines)", "",

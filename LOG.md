@@ -6,7 +6,7 @@ unless marked *estimate*. Per-run spend is tracked automatically in `runs/spend_
 
 | Running API spend | Jev | Anthropic | Total |
 |---|---|---|---|
-| as of last entry | $0.0238 | $0.0683 | **$0.0921** |
+| as of last entry (from runs/spend_ledger.csv) | see ledger | see ledger | **$0.3218** |
 
 ---
 
@@ -277,3 +277,26 @@ unless marked *estimate*. Per-run spend is tracked automatically in `runs/spend_
      0 completed IDs re-sent.
   E. 4 injection attacks (incl. one mimicking our "Answer for review rN only" packing line): Jev resisted 4/4,
      Haiku 4/4; both matched expected labels 5/5 this run.
+
+## 2026-10-11 — Step 3: formal 100-review cost pilot + calculator ($0.065)
+- `cost/calculator.py`: default = offline replay (no key, no network; importing makes no calls); `pilot` = explicit
+  paid command. Files in `cost/`: rates.csv, assumptions.yaml, usage.csv, pilot_calls.jsonl, pilot_records.jsonl,
+  pilot_measurements.json, report.md, README.md.
+- Pilot on `cost_100.csv` (checksum = manifest), fresh workspace `pilot-20261011T215750`, 1 worker, all 7 stages,
+  declared verify sample 20. **Cold:** 100/100 completed, $0.064722 (enrich $0.001966 · verify $0.000621 ·
+  group review $0.001999 · memo $0.060136), 52.6 s end to end. **Warm:** 0 enrichment requests, 0 downstream model
+  calls (stage cache), $0, 0.034 s.
+- Arithmetic check: `--rate-scale 2` → measured cost ×2.0, all projections ×2.0, measured and projected time unchanged.
+
+## 2026-10-11 — Step 4: 10,000-review development checkpoint ($0.157)
+- `enrich` on analysis_10000.csv, main workspace, **2 workers** (first concurrency step): 798 requests, 0 failed,
+  0 invalid, 7,972 texts labeled + 1,138 cache-hit reviews (500 checkpoint + exact duplicates), 57 s,
+  139.4 texts/s = 69.7 per worker (≈2.0× the 1-worker 68.5) → concurrency scales linearly at 2.
+- Tokens/text stable across refreshes: 468.1 (100) · 467.7 (500) · 468.4 (10k).
+- Calculator refreshed (per-worker throughput fix): full run base **$9.79**, conservative $10.63 with exact-text
+  reuse; no-reuse $13.33 / $14.44 (over budget → reuse is required). Elapsed ~0.7 h at 4 workers (modeled).
+- Free group + rank on 10k (4,480 complaint/cancellation records): actionable top 5 BIL-PAYWALL 1,870 · USA-ADS 1,161 ·
+  PLY-GENERAL 765 · PLY-WONTPLAY 737 · USA-GENERAL 676. Without needs_review records BIL-PAYWALL 705 vs USA-ADS 685
+  (much closer). Area roll-up: playback+downloads 2,887 · usability 2,752 · billing+support 2,609 severity sum.
+  PLY-GENERAL is large → keyword rules worth refining before the final grouping (code only, $0).
+- Project spend to date: $0.3218.

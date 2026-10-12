@@ -1,0 +1,31 @@
+rank,issue_id,complaint_count,severity_sum,mean_severity,priority_score,topic,name,cancellation_count,needs_review_count,severity_1,severity_2,severity_3,severity_4,severity_5
+1,OTH-GENERAL,1291,2689,2.082881,2689,other,"General dissatisfaction, no specific product issue",75,316,19,1197,38,23,14
+2,BIL-PAYWALL,612,1870,3.055556,1870,billing,"Features locked behind Premium (skips, song choice, playback)",99,385,5,162,252,180,13
+3,USA-ADS,477,1161,2.433962,1161,usability,"Ad frequency, length and loudness",34,177,0,299,153,21,4
+4,PLY-GENERAL,235,765,3.255319,765,playback,"Other playback problems (bugs, not working)",13,124,0,22,133,78,2
+5,PLY-WONTPLAY,209,737,3.526316,737,playback,Songs won't play / app not working / bugs,15,92,0,0,101,106,2
+6,USA-GENERAL,262,676,2.580153,676,usability,Other usability complaints,15,148,2,136,96,26,2
+7,USA-REDESIGN,199,590,2.964824,590,usability,New update / redesign / navigation and layout,30,107,0,45,118,34,2
+8,BIL-GENERAL,198,584,2.949495,584,billing,Other billing complaints,21,122,2,93,41,37,25
+9,ACC-LOGIN,99,393,3.969697,393,access,"Login, logout and password problems",5,13,0,0,5,92,2
+10,PLY-STOPS,105,355,3.380952,355,playback,"Music stops, pauses or cuts out",17,46,0,0,67,36,2
+11,PLY-CRASH,80,291,3.637500,291,playback,App crashes / won't open,2,31,1,0,27,51,1
+12,CAT-GENERAL,83,235,2.831325,235,catalog,Other catalog complaints,6,54,2,30,33,16,2
+13,ACC-GENERAL,60,225,3.750000,225,access,Other access problems,4,29,1,2,12,41,4
+14,PLY-PERFORMANCE,65,209,3.215385,209,playback,"Lag, slowness, battery and loading",6,27,0,4,43,18,0
+15,USA-LIBRARY,64,190,2.968750,190,usability,"Playlist, queue and library management",3,35,0,14,38,12,0
+16,DWN-GENERAL,50,177,3.540000,177,downloads,Other download problems,2,27,0,1,22,26,1
+17,CAT-LYRICS,61,175,2.868852,175,catalog,Lyrics missing or broken,3,25,0,12,45,4,0
+18,PLY-CONNECTION,43,146,3.395349,146,playback,"Connection, Bluetooth, car and devices",3,27,0,0,26,17,0
+19,USA-SHUFFLE,45,135,3.000000,135,usability,Forced shuffle / can't choose song order,2,28,0,5,35,5,0
+20,CAT-SEARCH,31,103,3.322581,103,catalog,Search doesn't find content,3,17,0,3,15,13,0
+21,DWN-OFFLINE,25,90,3.600000,90,downloads,Offline mode not working,0,11,0,0,11,13,1
+22,CAT-RECOMMENDATIONS,32,86,2.687500,86,catalog,"Recommendations, repeats and smart features",3,18,0,10,22,0,0
+23,CAT-AVAILABILITY,27,80,2.962963,80,catalog,"Songs, artists or podcasts unavailable",2,15,0,7,15,4,1
+24,ACC-ACCOUNT,19,75,3.947368,75,access,"Account lost, hacked or family-plan access",0,9,0,0,4,12,3
+25,PLY-AUDIO,24,67,2.791667,67,playback,Audio quality and volume,2,17,0,10,9,5,0
+26,BIL-CHARGES,16,63,3.937500,63,billing,"Charges, refunds, payments and trials",5,7,1,2,1,5,7
+27,DWN-LOST,13,50,3.846154,50,downloads,Downloads disappear or must be re-downloaded,2,8,0,0,6,3,4
+28,SUP-GENERAL,14,48,3.428571,48,support,Customer support contact and response,2,9,0,5,3,1,5
+29,BIL-PRICE,19,44,2.315789,44,billing,Price level and price increases,1,11,0,15,3,0,1
+30,OTH-BOYCOTT,22,43,1.954545,43,other,Boycott / political protest with a complaint or departure,8,19,1,21,0,0,0

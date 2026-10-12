@@ -1,0 +1,43 @@
+{
+  "budget": {
+    "project_cap_usd": 11.0,
+    "project_spend_before_run_usd": 0.16495,
+    "run_cap_usd": 10.5
+  },
+  "cache_hit_reviews": 1138,
+  "completed_after": 10000,
+  "completed_before": 0,
+  "cost_usd": 0.156827,
+  "ended_at": "2026-10-12T05:00:15+00:00",
+  "failed_requests": 0,
+  "input": "analysis_10000.csv",
+  "input_sha256": "eaa62ca6d44d717302904a9c922e99b0b4584d174309cb45295ecbc2ba2a91b5",
+  "input_tokens": 3733971,
+  "invalid_outputs": 0,
+  "label_config": "jev-1.13.0+jev-q-tiny-v1-pack10+schema-v1+quote-v1+sent-from-intent-v1",
+  "phase": "initial",
+  "price": {
+    "model": "jev-1.13.0",
+    "output_tokens": "free",
+    "source": "https://docs.typesafe.ai/models (checked 2026-10-11)",
+    "usd_per_million_input_tokens": 0.042
+  },
+  "projection_full_pass_usd": 9.53,
+  "projection_note": "tokens per labeled text in this run x 484,189 distinct texts; this input's texts (8448) may differ in length from the full corpus",
+  "quarantined_texts": 0,
+  "requests": 798,
+  "reviews_completed": 8862,
+  "reviews_per_request": 10,
+  "run_id": "main-analysis_10000-20261011T215918452",
+  "started_at": "2026-10-12T04:59:18+00:00",
+  "status_counts": {
+    "completed": 10000
+  },
+  "stop_reason": "complete",
+  "texts_labeled": 7972,
+  "throughput_texts_per_second": 139.43,
+  "tokens_per_text": 468.4,
+  "wall_clock_seconds": 57.17,
+  "workers": 2,
+  "workspace": "main"
+}

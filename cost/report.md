@@ -1,6 +1,6 @@
 # Cost and runtime calculator — report
 
-Generated 2026-10-12T04:58:57+00:00 by `python cost/calculator.py` (offline replay; rate scale 1.0). Inputs: `cost/usage.csv`, `cost/rates.csv`, `cost/pilot_measurements.json`, `cost/assumptions.yaml`.
+Generated 2026-10-12T05:00:30+00:00 by `python cost/calculator.py` (offline replay; rate scale 1.0). Inputs: `cost/usage.csv`, `cost/rates.csv`, `cost/pilot_measurements.json`, `cost/assumptions.yaml`.
 
 ## 1. Measured: real 100-review pilot (`cost_100.csv`)
 
@@ -25,33 +25,34 @@ Generated 2026-10-12T04:58:57+00:00 by `python cost/calculator.py` (offline repl
 
 ## 2. Estimate refreshes on development checkpoints (enrichment, main workspace)
 
-| Checkpoint | Run | Texts labeled | Cache-hit reviews | Tokens / text | Texts / s | Workers |
-|---|---|---|---|---|---|---|
-| cost_100 | `main-cost_100-20261011T203957` | 100 | 0 | 468.1 | 68.37 | 1 |
-| checkpoint_500 | `main-checkpoint_500-20261011T204012` | 379 | 112 | 467.7 | 68.52 | 1 |
+| Checkpoint | Run | Texts labeled | Cache-hit reviews | Tokens / text | Texts / s | Workers | Texts / s per worker |
+|---|---|---|---|---|---|---|---|
+| cost_100 | `main-cost_100-20261011T203957` | 100 | 0 | 468.1 | 68.37 | 1 | 68.4 |
+| checkpoint_500 | `main-checkpoint_500-20261011T204012` | 379 | 112 | 467.7 | 68.52 | 1 | 68.5 |
+| analysis_10000 | `main-analysis_10000-20261011T215918452` | 7,972 | 1,138 | 468.4 | 139.43 | 2 | 69.7 |
 
-Projection basis: **467.7 tokens/text**, **68.52 texts/s per worker** from checkpoint_500 run main-checkpoint_500-20261011T204012; 4 workers at 0.8 efficiency → 3.4× (modeled, not measured).
+Projection basis: **468.4 tokens/text**, **69.7 texts/s per worker** from analysis_10000 run main-analysis_10000-20261011T215918452; 4 workers at 0.8 efficiency → 3.4× (modeled, not measured).
 
 ## 3. Full-run projection (660,622 rows · 660,609 nonempty · 13 empty-text quarantines)
 
 | Scenario | Exact-text reuse | Model work units | Enrich | Verify | Group review | Memo | Total API | Elapsed |
 |---|---|---|---|---|---|---|---|---|
-| base | yes (484,189 texts) | 484,189 | $9.70 | $0.016 | $0.002 | $0.060 | **$9.78** | 0.7 h |
-| base | no (660,609 reviews) | 660,609 | $13.24 | $0.016 | $0.002 | $0.060 | **$13.31** | 0.9 h |
-| conservative | yes (484,189 texts) | 484,189 | $10.46 | $0.023 | $0.004 | $0.120 | **$10.61** | 0.7 h |
-| conservative | no (660,609 reviews) | 660,609 | $14.27 | $0.023 | $0.004 | $0.120 | **$14.42** | 1.0 h |
+| base | yes (484,189 texts) | 484,189 | $9.72 | $0.016 | $0.002 | $0.060 | **$9.79** | 0.7 h |
+| base | no (660,609 reviews) | 660,609 | $13.26 | $0.016 | $0.002 | $0.060 | **$13.33** | 0.9 h |
+| conservative | yes (484,189 texts) | 484,189 | $10.48 | $0.023 | $0.004 | $0.120 | **$10.63** | 0.7 h |
+| conservative | no (660,609 reviews) | 660,609 | $14.30 | $0.023 | $0.004 | $0.120 | **$14.44** | 0.9 h |
 
 Fixed overhead (group review, memo) is counted once, not per review. Fallback model cost is $0 by design (no stronger-model fallback; low-confidence labels are flagged needs_review instead).
 
 ## 4. Controls and budget
 
-- Budget (project spending limit): **$11.00** · already spent (ledger): **$0.1650** · remaining: **$10.8351**
+- Budget (project spending limit): **$11.00** · already spent (ledger): **$0.3218** · remaining: **$10.6782**
 - Max workers: 4 · fallback fraction: 0.0 · output-token caps per request: {'verify': 3000, 'group_review': 3000, 'memo': 16000} (Jev output tokens are free)
 - Enforcement in code: spend ledger reserves worst-case cost before each request and refuses to send past the cap (`config/settings.yaml` budget); circuit breaker after consecutive failures; bounded retries with backoff + jitter.
-- ✓ base / reuse fits: $9.94 ≤ $11.00
-- ⚠ **base / no reuse exceeds the budget**: $0.16 + $13.31 = $13.48 > $11.00
-- ✓ conservative / reuse fits: $10.77 ≤ $11.00
-- ⚠ **conservative / no reuse exceeds the budget**: $0.16 + $14.42 = $14.59 > $11.00
+- ✓ base / reuse fits: $10.12 ≤ $11.00
+- ⚠ **base / no reuse exceeds the budget**: $0.32 + $13.33 = $13.66 > $11.00
+- ✓ conservative / reuse fits: $10.95 ≤ $11.00
+- ⚠ **conservative / no reuse exceeds the budget**: $0.32 + $14.44 = $14.76 > $11.00
 
 ## 5. Rates used (editable `cost/rates.csv`)
 

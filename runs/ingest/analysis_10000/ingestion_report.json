@@ -1,0 +1,205 @@
+{
+  "all_checks_pass": true,
+  "checker_profile": {
+    "counts": {
+      "duplicate_review_ids": 0,
+      "empty_review_text": 0,
+      "missing_app_version": 2447,
+      "records": 10000
+    },
+    "file_sha256": "eaa62ca6d44d717302904a9c922e99b0b4584d174309cb45295ecbc2ba2a91b5",
+    "first_review": "2022-05-17 02:29:15",
+    "last_review": "2023-11-15 22:13:05",
+    "parsed_rows_sha256": "3a21df52adbf2ab3185b73e93b30a9539c1806379e097b0f4a904c869ed40e20",
+    "reviews_by_month": {
+      "2022-05": 232,
+      "2022-06": 421,
+      "2022-07": 506,
+      "2022-08": 466,
+      "2022-09": 438,
+      "2022-10": 412,
+      "2022-11": 406,
+      "2022-12": 520,
+      "2023-01": 451,
+      "2023-02": 337,
+      "2023-03": 425,
+      "2023-04": 359,
+      "2023-05": 423,
+      "2023-06": 391,
+      "2023-07": 1246,
+      "2023-08": 459,
+      "2023-09": 625,
+      "2023-10": 1381,
+      "2023-11": 502
+    },
+    "reviews_by_rating": {
+      "1": 3685,
+      "2": 469,
+      "3": 498,
+      "4": 836,
+      "5": 4512
+    }
+  },
+  "counts": {
+    "distinct_nonempty_texts": 8448,
+    "duplicate_review_ids": 0,
+    "empty_review_text": 0,
+    "invalid_ratings": {},
+    "missing_app_version": 2447,
+    "nonempty_review_text": 10000,
+    "records": 10000,
+    "reviews_reusing_an_exact_text": 1552,
+    "texts_appearing_more_than_once": 287,
+    "unparseable_timestamps": 0
+  },
+  "first_review": "2022-05-17 02:29:15",
+  "generated_at": "2026-10-12T04:59:18+00:00",
+  "input": {
+    "bytes": 1477793,
+    "path": "analysis_10000.csv",
+    "sha256": "eaa62ca6d44d717302904a9c922e99b0b4584d174309cb45295ecbc2ba2a91b5"
+  },
+  "last_review": "2023-11-15 22:13:05",
+  "manifest_checks": [
+    {
+      "actual": 1477793,
+      "check": "file_bytes",
+      "expected": 1477793,
+      "pass": true
+    },
+    {
+      "actual": "eaa62ca6d44d717302904a9c922e99b0b4584d174309cb45295ecbc2ba2a91b5",
+      "check": "file_sha256",
+      "expected": "eaa62ca6d44d717302904a9c922e99b0b4584d174309cb45295ecbc2ba2a91b5",
+      "pass": true
+    },
+    {
+      "actual": 10000,
+      "check": "pipeline_count_equals_checker_count",
+      "expected": 10000,
+      "pass": true
+    }
+  ],
+  "most_repeated_texts": [
+    {
+      "first_review_id": "4aee0d75-6901-426e-b0f7-11d042ccc73e",
+      "reviews": 214,
+      "text": "Good"
+    },
+    {
+      "first_review_id": "ee7da374-2a0d-4f3a-836e-07f40f2d3d0b",
+      "reviews": 79,
+      "text": "Nice"
+    },
+    {
+      "first_review_id": "dc73ecd9-3293-4ede-90d5-dd6cd1e8d087",
+      "reviews": 60,
+      "text": "Great"
+    },
+    {
+      "first_review_id": "051540ac-7d80-406a-aad4-87fbf9bb7ce7",
+      "reviews": 53,
+      "text": "Awesome"
+    },
+    {
+      "first_review_id": "4c0242ca-099a-4c89-b11b-219ef28f1e16",
+      "reviews": 48,
+      "text": "Love it"
+    },
+    {
+      "first_review_id": "710e1aee-ed80-4753-9c4e-c63bee84fd56",
+      "reviews": 48,
+      "text": "Excellent"
+    },
+    {
+      "first_review_id": "8454aa1e-ceb7-4676-adf7-e20f6989f5c9",
+      "reviews": 37,
+      "text": "Super"
+    },
+    {
+      "first_review_id": "06a45bd5-3ed9-43af-b7f2-8b9487e2ffff",
+      "reviews": 34,
+      "text": "Worst app"
+    },
+    {
+      "first_review_id": "35008b46-daf1-497c-ac9b-fe98f120f912",
+      "reviews": 31,
+      "text": "Good app"
+    },
+    {
+      "first_review_id": "24e63383-4646-4f63-ae37-2014857c236b",
+      "reviews": 30,
+      "text": "Very good"
+    },
+    {
+      "first_review_id": "dc1041ce-994c-4553-a4ad-43cf76c62590",
+      "reviews": 28,
+      "text": "Nice app"
+    },
+    {
+      "first_review_id": "e89712aa-fb32-4df6-8195-71b31578c2e5",
+      "reviews": 24,
+      "text": "Best"
+    },
+    {
+      "first_review_id": "00363dc8-2117-4565-9af9-efadf8fa90cf",
+      "reviews": 23,
+      "text": "Worst"
+    },
+    {
+      "first_review_id": "277c75cb-ec6a-4387-902d-eb721d038db6",
+      "reviews": 21,
+      "text": "Amazing"
+    },
+    {
+      "first_review_id": "bb77bfb2-6eb8-4c6c-88bb-491c7da75196",
+      "reviews": 21,
+      "text": "Very bad"
+    }
+  ],
+  "notes": [
+    "Raw field strings are stored unchanged; source_sha256 uses the course checker's row_sha.",
+    "Empty means review_text.strip() == '' (same rule as the checker); such rows are quarantined with reason empty_review_text and are never sent to a model.",
+    "Missing app_version does not block classification.",
+    "Distinct texts are exact byte-identical review_text values; similar texts are not merged."
+  ],
+  "quarantined_empty_texts": [],
+  "reviews_by_month": {
+    "2022-05": 232,
+    "2022-06": 421,
+    "2022-07": 506,
+    "2022-08": 466,
+    "2022-09": 438,
+    "2022-10": 412,
+    "2022-11": 406,
+    "2022-12": 520,
+    "2023-01": 451,
+    "2023-02": 337,
+    "2023-03": 425,
+    "2023-04": 359,
+    "2023-05": 423,
+    "2023-06": 391,
+    "2023-07": 1246,
+    "2023-08": 459,
+    "2023-09": 625,
+    "2023-10": 1381,
+    "2023-11": 502
+  },
+  "reviews_by_rating": {
+    "1": 3685,
+    "2": 469,
+    "3": 498,
+    "4": 836,
+    "5": 4512
+  },
+  "runtime_seconds": 0.15,
+  "status_after_ingest": {
+    "pending": 10000
+  },
+  "text_length_chars": {
+    "max": 615,
+    "median": 32.0,
+    "min": 1,
+    "p90": 210.0
+  }
+}

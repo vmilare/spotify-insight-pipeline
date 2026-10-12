@@ -35,7 +35,8 @@ Legend: ✅ done · 🔄 in progress · ⬜ todo · 👤 needs the user
 - ✅ Verify (Haiku 5.5) + group review (Haiku 5.5) + memo (Sonnet 5.5) built; all 6 stages run end to end on checkpoint_500
 - ✅ Golden-set evaluation (topic 35/50, intent 45/50, severity 36/50) → `evals/results/golden/`
 - ✅ System tests A–E pass (retry, breaker+recovery, malformed→quarantine, budget cap+resume, injection) → `evals/results/system_tests/`
-- ⬜ 1c Formal 100-review cold/warm pilot incl. verify/group/rank/memo + calculator v1 (needs remaining stages)
+- ✅ Formal 100-review cold/warm pilot + calculator (offline replay, rate-scale check) → `cost/`
+- ✅ 10,000-review checkpoint (2 workers) + estimate refresh → full run est. $9.79 base / $10.63 conservative
 - ✅ Budget cap: $11 project / $10.50 per run (user, Oct 11)
 - ✅ Severity-5 dev labels reviewed by user; kept as is
 
