@@ -6,7 +6,7 @@ unless marked *estimate*.
 
 | Running API spend | Jev | Anthropic | Total |
 |---|---|---|---|
-| as of last entry | $0.0068 | $0.00 | **$0.0068** |
+| as of last entry | $0.0134 | $0.00 | **$0.0134** |
 
 ---
 
@@ -99,3 +99,30 @@ unless marked *estimate*.
   and says cancellation intent and crashes alone don't raise severity. If these are re-checked against
   the rubric, measured severity agreement may change. (Dev labels may be revised; golden labels may not
   be tuned against.)
+
+## 2026-10-11 — Experiment B: tiny wording + sentiment computed from intent ($0.0066, two runs)
+- Goal: get one full Jev pass under ~$10 (user chose option B).
+- Changes tested: `prompts/jev_tiny_v1.yaml` (keyword-level option descriptions, 3 questions) and no
+  sentiment question — sentiment = Σ P(intent) × value, values = mean human dev sentiment per intent
+  (`config/sentiment_from_intent.yaml`: cancellation −1.0, complaint −0.55, unclear −0.4, request −0.25,
+  praise +0.7). Calibrated and scored on the same dev 50 → the sentiment MAE below is optimistic.
+- **Bug found and fixed:** the first run projected $4.71 for 20 reviews/request. The length adjustment fit
+  a line through requests of unequal size (20+20+10), confusing review count with review length. Fixed:
+  unequal sizes now use measured mean − 0.22 tokens/char × (dev − corpus mean length). Re-ran (+$0.0033);
+  outputs in `evals/results/dev_compare_b/` are from the corrected run.
+
+  | Config | Topic | Intent | Sev. exact | Sev. ±1 | Sev. MAE | Sent. MAE | Tokens/review | Full pass |
+  |---|---|---|---|---|---|---|---|---|
+  | short, no sentiment q, 10/request | 34/50 | 37/50 | 24/50 | 40/50 | 0.76 | 0.26 | 581 | $11.81 |
+  | **tiny, 10/request** | 34/50 | 35/50 | 27/50 | 44/50 | 0.62 | 0.25 | 467 | **$9.49** |
+  | tiny, 20/request | 32/50 | 37/50 | 27/50 | 44/50 | 0.62 | 0.25 | 462 | $9.40 |
+  | *(ref) short + sentiment q, 10/request* | 34/50 | 38/50 | 24/50 | 41/50 | 0.72 | 0.16 | 638 | $12.97 |
+
+- **Learned:**
+  1. Keyword-level wording cut ~20% more tokens with no visible accuracy loss on topic/intent/severity.
+  2. Dropping the sentiment question saves ~9% but sentiment error rises (MAE 0.16 → 0.25).
+  3. 20 vs 10 reviews per request: no meaningful extra saving (each review still needs its own questions).
+  4. Jev is not perfectly repeatable: identical reruns differed by 1–3 reviews on some fields. Saved
+     results (cache) are what make the final ranking reproducible.
+- Projected total with tiny/10: Jev full pass ~$9.5 + retries ~$0.2 + 100/500/10k dev runs ~$0.2 +
+  Haiku verify ~$0.3 + Sonnet memo ~$0.5 ≈ **$10.5–11** (estimate). Decision pending with the user.

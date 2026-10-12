@@ -1,0 +1,11 @@
+# Sentiment computed by code when the Jev question set has no sentiment question:
+#   sentiment = sum over intents of P(intent) * value(intent), clipped to [-1, 1]
+# Values = mean human sentiment per intent on the hand-labeled DEV 50 (2026-10-11), rounded.
+# Calibrated on dev data only; never on the golden set.
+version: sent-from-intent-v1
+values:
+  cancellation: -1.0
+  complaint: -0.55
+  unclear: -0.4
+  request: -0.25
+  praise: 0.7

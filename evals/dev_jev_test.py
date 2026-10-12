@@ -21,6 +21,7 @@ from pipeline.paths import REPO
 HERE = Path(__file__).resolve().parent
 OUT = HERE / "results" / "dev_compare"
 DISTINCT_TEXTS = 484189
+CHAR_SLOPE = 0.22  # billed tokens per review character, measured with 1 review/request (LOG.md)
 FIELDS = ("topic", "intent", "severity", "sentiment")
 
 
@@ -84,20 +85,31 @@ def project(requests, pack, corpus_chars):
     out = {"requests": len(requests), "failed_requests": sum(1 for q in requests if not q["input_tokens"]),
            "billed_input_tokens": tokens, "tokens_per_review_measured": round(tokens / reviews, 1),
            "cost_measured_usd": round(tokens * jev.PRICE_PER_M_INPUT / 1e6, 6)}
-    if len(set(xs)) > 1 and corpus_chars:
+    if not corpus_chars:
+        return out
+    sizes = {len(q["review_ids"]) for q in good}
+    if len(sizes) == 1 and len(set(xs)) > 1:
         fit = statistics.linear_regression(xs, ys)
-        per_request = fit.intercept + fit.slope * corpus_chars * pack
-        per_review = per_request / pack
-        out.update({"fit_tokens_per_request": f"{fit.intercept:.0f} + {fit.slope:.3f} x chars",
-                    "tokens_per_review_at_corpus_mean_length": round(per_review, 1),
-                    "projected_full_pass_usd": round(per_review * DISTINCT_TEXTS * jev.PRICE_PER_M_INPUT / 1e6, 2)})
+        per_review = (fit.intercept + fit.slope * corpus_chars * pack) / pack
+        out["length_adjustment"] = f"fit per request: {fit.intercept:.0f} + {fit.slope:.3f} x chars"
+    else:
+        # Unequal request sizes (e.g. 20+20+10) make a per-request fit confound review count with
+        # length, so adjust the measured mean by the per-character slope measured with 1 review/request.
+        dev_chars = sum(xs) / reviews
+        per_review = tokens / reviews - CHAR_SLOPE * (dev_chars - corpus_chars)
+        out["length_adjustment"] = f"measured mean - {CHAR_SLOPE} x (dev {dev_chars:.0f} - corpus {corpus_chars:.0f} chars)"
+    out.update({"tokens_per_review_at_corpus_mean_length": round(per_review, 1),
+                "projected_full_pass_usd": round(per_review * DISTINCT_TEXTS * jev.PRICE_PER_M_INPUT / 1e6, 2)})
     return out
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--configs", nargs="+", default=["full:1", "short:1", "full:10", "short:10"])
+    ap.add_argument("--out", default="dev_compare", help="folder name under evals/results/")
     args = ap.parse_args()
+    global OUT
+    OUT = HERE / "results" / args.out
     OUT.mkdir(parents=True, exist_ok=True)
     rows = list(csv.DictReader((HERE / "dev_50_labeled.csv").open(encoding="utf-8")))
     labels = jev.load_labels()

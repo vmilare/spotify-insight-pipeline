@@ -29,14 +29,15 @@ def build_questions(labels, variant="full"):
     """Enrichment questions.
     'full'  = contract definitions from config/labels.yaml (~900 billed tokens per request);
     'short' = prompts/jev_short_v1.yaml, compressed phrases of the same rules (fewer tokens)."""
-    if variant == "short":
-        spec = yaml.safe_load((REPO / "prompts" / "jev_short_v1.yaml").read_text(encoding="utf-8"))
-        return {
-            "topic": {"type": "choice", **spec["topic"]},
-            "intent": {"type": "choice", **spec["intent"]},
-            "severity": {"type": "choice", **spec["severity"]},
-            "sentiment": {"type": "score", **spec["sentiment"]},
-        }
+    if variant in ("short", "short3", "tiny"):
+        # short3 = short wording without the sentiment question (sentiment computed from intent).
+        source = "jev_tiny_v1.yaml" if variant == "tiny" else "jev_short_v1.yaml"
+        spec = yaml.safe_load((REPO / "prompts" / source).read_text(encoding="utf-8"))
+        types = {"topic": "choice", "intent": "choice", "severity": "choice", "sentiment": "score"}
+        questions = {name: {"type": types[name], **spec[name]} for name in types if name in spec}
+        if variant == "short3":
+            questions.pop("sentiment")
+        return questions
 
     def describe(opt):
         return opt["definition"]
@@ -77,8 +78,15 @@ def pack_request(texts, questions):
 def unpack(payload, n):
     """Split a packed response back into per-review answer dicts (same shape as an unpacked response)."""
     answers = payload["answers"]
-    return [{"answers": {name: answers[f"r{i}__{name}"] for name in ("topic", "intent", "severity", "sentiment")}}
-            for i in range(1, n + 1)]
+    names = {key.split("__", 1)[1] for key in answers}
+    return [{"answers": {name: answers[f"r{i}__{name}"] for name in names}} for i in range(1, n + 1)]
+
+
+def sentiment_from_intent(intent_probabilities):
+    """Code-computed sentiment for question sets without a sentiment question."""
+    values = yaml.safe_load((CONFIG_DIR / "sentiment_from_intent.yaml").read_text(encoding="utf-8"))["values"]
+    raw = sum(p * values[k] for k, p in intent_probabilities.items())
+    return round(max(-1.0, min(1.0, raw)), 2)
 
 
 def call(state, questions, *, max_attempts=3, timeout=60, log=None, meta=None):
@@ -124,12 +132,16 @@ def call(state, questions, *, max_attempts=3, timeout=60, log=None, meta=None):
 def parse(payload):
     """Map Jev answers to our schema fields (code owns the mapping, not the model)."""
     a = payload["answers"]
-    score = a["sentiment"]["score"]
+    if "sentiment" in a:
+        sentiment = round(a["sentiment"]["score"] / 2 - 1, 2)  # Score 0..4 -> -1..1
+    else:
+        sentiment = sentiment_from_intent(a["intent"]["probabilities"])
     return {
         "topic": a["topic"]["choice"],
         "intent": a["intent"]["choice"],
         "severity": int(a["severity"]["choice"]),
-        "sentiment": round(score / 2 - 1, 2),  # Score 0..4 -> -1..1
-        "confidence": {k: a[k].get("confidence") for k in ("topic", "intent", "severity", "sentiment")},
+        "sentiment": sentiment,
+        "sentiment_source": "jev_score" if "sentiment" in a else "computed_from_intent",
+        "confidence": {k: a[k].get("confidence") for k in ("topic", "intent", "severity", "sentiment") if k in a},
         "probabilities": {k: a[k].get("probabilities") for k in ("topic", "intent", "severity")},
     }

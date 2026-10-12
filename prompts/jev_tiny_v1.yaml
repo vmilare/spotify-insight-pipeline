@@ -1,0 +1,30 @@
+# Jev enrichment questions — "tiny" variant, version jev-q-tiny-v1
+# Keyword-level wording of the same rules (config/labels.yaml) and NO sentiment question:
+# sentiment is computed by code from Jev's intent probabilities (config/sentiment_from_intent.yaml).
+topic:
+  instructions: "Main topic: the most severe problem; for praise, the first praised feature."
+  criteria:
+    access: "login, account"
+    usability: "navigation, controls, ads"
+    playback: "playback, crashes, lag, audio"
+    downloads: "downloads, offline"
+    catalog: "songs available, search, recommendations, lyrics"
+    billing: "price, subscription, paywall, premium-only features"
+    support: "customer support"
+    other: "general or unrelated"
+intent:
+  instructions: "Intent. Precedence: cancellation > complaint > request > praise > unclear."
+  criteria:
+    cancellation: "leaving, uninstalling, cancelling"
+    complaint: "negative experience"
+    request: "wants a change, no failure"
+    praise: "positive"
+    unclear: "boycott slogan or meaningless"
+severity:
+  instructions: "Impact severity, not emotion."
+  criteria:
+    "1": "no problem, or pure request"
+    "2": "dislike, generic criticism, minor annoyance"
+    "3": "function degraded, some use remains"
+    "4": "core task blocked"
+    "5": "explicit financial, privacy or data harm"
