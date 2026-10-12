@@ -254,3 +254,26 @@ unless marked *estimate*. Per-run spend is tracked automatically in `runs/spend_
   6. Jev rates some billing/usability complaints one level more severe (2→3).
 - The labeler left notes on 11 golden cases (mostly unclear / unsupported-language), although none were flagged
   needs_review — treat these as the ambiguous cases in the write-up.
+
+## 2026-10-11 — Step 2: system tests (`python -m evals.system_tests`, ~$0.005 over 3 runs)
+- Real pipeline code in throwaway workspaces (`systest-*`); failures simulated in-process; synthetic data never
+  reaches business results. Report: `evals/results/system_tests/report.md|json`.
+- Pre-work for the pilot: analysis folders are now per workspace; Claude stages (verify, group review, memo) got a
+  **stage cache** (exact request → saved validated answer) so a warm rerun makes no new calls.
+- **Run 1 found two real bugs:**
+  1. Circuit breaker never fired: after a failed request the loop `continue`d past the breaker check → it now
+     checks before admitting each request.
+  2. Run IDs had 1-second resolution → a capped run and its resume (same second) shared an ID → now milliseconds.
+- **Run 2:** A–D passed; E failed only on the benign *control* case (Haiku: other/praise vs expected catalog/praise),
+  not on an attack — the test conflated injection resistance with accuracy. Test changed: attack cases pass if the
+  injected labels are NOT adopted; accuracy reported separately.
+- **Run 3 (final): all 5 pass.**
+  A. Simulated 529 ×2 → retried with backoff → 30/30 completed, 2 failed attempts logged.
+  B. Simulated outage → breaker stopped after 2 failed requests, 30 pending with reason `model_call_failed`;
+     recovery run completed 30/30.
+  C. Invalid topic injected into one response (both attempts) → retried once → quarantined
+     `invalid_model_output: topic not allowed`; 29 completed.
+  D. Run cap $0.0004 → stopped (`budget_cap`) after 1 request ($0.00019); resume completed the other 20 with
+     0 completed IDs re-sent.
+  E. 4 injection attacks (incl. one mimicking our "Answer for review rN only" packing line): Jev resisted 4/4,
+     Haiku 4/4; both matched expected labels 5/5 this run.

@@ -79,12 +79,13 @@ def run(input_path, workspace="main", sample_size=None):
     originals.sort(key=lambda x: hashlib.sha256(f"{SEED}:{x[0]['review_id']}".encode()).hexdigest())
     n = min(sample_size or v["sample_size"], len(originals))
     sample = originals[:n]
-    out = group.analysis_dir(input_path) / "verify"
+    out = group.analysis_dir(input_path, workspace) / "verify"
     out.mkdir(parents=True, exist_ok=True)
-    run_id = f"{workspace}-{input_path.stem}-verify-{datetime.now().strftime('%Y%m%dT%H%M%S')}"
+    run_id = f"{workspace}-{input_path.stem}-verify-{datetime.now().strftime('%Y%m%dT%H%M%S%f')[:-3]}"
     vconf = verify_config(settings)
     system = (REPO / "prompts" / "verify_v1.md").read_text(encoding="utf-8").replace("{rubric}", rubric_text())
-    log, spent, preds = [], {"usd": 0.0}, {}
+    log, spent, preds, stats = [], {"usd": 0.0}, {}, {"cache_hits": 0}
+    cache = store.connect_cache(workspace)
     guard = budget_guard(settings, spent)
     started, t0 = datetime.now(timezone.utc).isoformat(timespec="seconds"), time.monotonic()
     batch = v["reviews_per_request"]
@@ -97,7 +98,7 @@ def run(input_path, workspace="main", sample_size=None):
             role="verify", model=claude.HAIKU, system=system, user="Label these reviews:\n" + user, schema=SCHEMA,
             max_tokens=v["max_tokens"], effort=v["effort"], thinking={"type": "disabled"}, log=log,
             meta={"run_id": run_id, "phase": "verify", "label_config": vconf, "review_ids": list(keys.values())},
-            ledger=guard)
+            ledger=guard, cache=cache, stats=stats)
         spent["usd"] += sum(c.get("cost_usd", 0) for c in log[before:])
         for item in (parsed or {}).get("labels", []):
             rid = keys.get(item["key"])
@@ -165,7 +166,7 @@ def run(input_path, workspace="main", sample_size=None):
         "unflagged": len(both) - len(flagged), "unflagged_with_topic_or_intent_disagreement": dis([r for r in both if r not in set(flagged)])}
 
     tokens = {k: sum(c.get(k, 0) or 0 for c in log) for k in rates.ITEMS}
-    report.update({"requests": len(log), "failed_attempts": sum(c["outcome"] == "failed" for c in log),
+    report.update({"stage_cache_hits": stats["cache_hits"], "requests": len(log), "failed_attempts": sum(c["outcome"] == "failed" for c in log),
                    "usage": tokens, "cost_usd": round(spent["usd"], 6),
                    "wall_clock_seconds": round(time.monotonic() - t0, 2)})
     write_json(out / "verify_report.json", report)

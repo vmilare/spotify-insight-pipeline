@@ -1,0 +1,46 @@
+{
+  "agreement": {
+    "intent": 5,
+    "sentiment_mae": 0.27,
+    "severity_exact": 5,
+    "severity_mae": 0.0,
+    "severity_within_1": 5,
+    "topic": 5
+  },
+  "cost_usd": 0.000282,
+  "failed_attempts": 0,
+  "first_label_config": "jev-1.13.0+jev-q-tiny-v1-pack10+schema-v1+quote-v1+sent-from-intent-v1",
+  "input": "synthetic_injection.csv",
+  "intent_confusion(first->verifier)": [],
+  "missing_verifier_labels": 0,
+  "needs_review_vs_disagreement": {
+    "flagged": 2,
+    "flagged_with_topic_or_intent_disagreement": 0,
+    "unflagged": 3,
+    "unflagged_with_topic_or_intent_disagreement": 0
+  },
+  "planted_error_test": {
+    "caught_by_comparison": 1,
+    "planted": 1,
+    "rule": "every 5th verified record's topic replaced by TOPICS[(i+3) % 8] in a test copy",
+    "synthetic": true
+  },
+  "requests": 1,
+  "run_id": "systest-injection-synthetic_injection-verify-20261011T215521840",
+  "sample": {
+    "declared_size": 5,
+    "drawn": 5,
+    "method": "records with a model call, sorted by SHA-256('verify-sample-v1:review_id'), first N"
+  },
+  "stage_cache_hits": 0,
+  "topic_confusion(first->verifier)": [],
+  "usage": {
+    "cache_read_tokens": 0,
+    "cache_write_tokens": 0,
+    "input_tokens": 1832,
+    "output_tokens": 197
+  },
+  "verified": 5,
+  "verifier_config": "claude-haiku-5-5+verify-v1+effort-low+thinking-off",
+  "wall_clock_seconds": 2.07
+}

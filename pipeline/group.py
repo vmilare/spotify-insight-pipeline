@@ -50,8 +50,10 @@ def assign(topic, text, taxonomy):
     raise AssertionError("unreachable: general issue has no keywords")
 
 
-def analysis_dir(input_path):
-    return RUNS_DIR / "analysis" / Path(input_path).stem
+def analysis_dir(input_path, workspace="main"):
+    """runs/analysis/<input> for the main workspace; runs/analysis/<workspace>/<input> otherwise."""
+    base = RUNS_DIR / "analysis" if workspace == "main" else RUNS_DIR / "analysis" / workspace
+    return base / Path(input_path).stem
 
 
 def run(input_path, workspace="main"):
@@ -67,7 +69,7 @@ def run(input_path, workspace="main"):
     if status.get("pending"):
         print(f"WARNING: {status['pending']} reviews are still pending; grouping covers completed records only.")
 
-    out = analysis_dir(input_path)
+    out = analysis_dir(input_path, workspace)
     out.mkdir(parents=True, exist_ok=True)
     membership = []
     with (out / "enriched.jsonl").open("w", encoding="utf-8") as f:

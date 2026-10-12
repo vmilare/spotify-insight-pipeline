@@ -3,6 +3,7 @@
 SDK retries are disabled (max_retries=0) and replaced by a bounded loop here, so every attempt,
 including failures, is logged with its usage and cost, like the Jev client.
 """
+import hashlib
 import json
 import random
 import time
@@ -33,14 +34,23 @@ def usage_dict(u):
 
 
 def call_json(*, role, model, system, user, schema, max_tokens, effort, thinking=None, fallback=False,
-              log=None, meta=None, attempts=3, ledger=None):
+              log=None, meta=None, attempts=3, ledger=None, cache=None, stats=None):
     """One structured-output request. Returns (parsed_json or None, response or None).
-    `ledger` (optional) is checked before each attempt: ledger(estimated_usd) -> bool."""
+    `ledger` (optional) is checked before each attempt: ledger(estimated_usd) -> bool.
+    `cache` (optional sqlite connection with stage_cache): an identical earlier request's validated answer is
+    reused with NO new API call (counted in stats["cache_hits"], never logged as a call)."""
     params = {"model": model, "max_tokens": max_tokens, "system": system,
               "messages": [{"role": "user", "content": user}],
               "output_config": {"effort": effort, "format": {"type": "json_schema", "schema": schema}}}
     if thinking:
         params["thinking"] = thinking
+    key = hashlib.sha256(json.dumps({**params, "fallback": fallback}, sort_keys=True).encode()).hexdigest()
+    if cache is not None:
+        hit = cache.execute("SELECT response_json FROM stage_cache WHERE request_sha256=?", (key,)).fetchone()
+        if hit:
+            if stats is not None:
+                stats["cache_hits"] = stats.get("cache_hits", 0) + 1
+            return json.loads(hit[0]), None
     for attempt in range(1, attempts + 1):
         if ledger and not ledger(rates.cost(model, {"input_tokens": len(system + user) // 2,
                                                     "output_tokens": max_tokens})):
@@ -93,6 +103,10 @@ def call_json(*, role, model, system, user, schema, max_tokens, effort, thinking
                         "effort": effort, **usage, "cost_usd": round(cost, 8), "cost_basis": cost_basis,
                         "started_at": started, "seconds": round(time.time() - started, 3), **(meta or {})})
         if parsed is not None:
+            if cache is not None:
+                cache.execute("INSERT OR REPLACE INTO stage_cache VALUES (?,?,?,?,?,?)",
+                              (key, role, resp.model, json.dumps(parsed), resp._request_id, time.time()))
+                cache.commit()
             return parsed, resp
         retryable = status is None or status == 429 or (status and status >= 500)
         if not retryable and not (error or "").startswith("invalid_json"):

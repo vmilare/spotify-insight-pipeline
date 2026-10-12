@@ -1,0 +1,16 @@
+{
+  "completed_ids": [
+    "0ffa5006-c03e-4239-85f8-05381a605766",
+    "1b788a1a-edf2-4cad-add6-e3b3f330013c",
+    "30631c07-11d7-4a48-9824-e897a8ec34d9",
+    "37a5e398-10e4-400d-8e9e-777453033a20",
+    "37f0afed-3273-44f8-b5b1-9b2d7c6f1af7",
+    "538d1be7-edb0-4a38-abed-df5d5aa49e0c",
+    "6dbc942a-615e-4fdc-bd7d-bacb197f9a5c",
+    "74a04c66-051b-4593-aec8-fdca4eb668fc",
+    "7d62e05d-4d25-4aea-9389-e6c1764c5fd1",
+    "ad194a56-53e2-4cd7-a996-08f5a0557a73"
+  ],
+  "label_config": "jev-1.13.0+jev-q-tiny-v1-pack10+schema-v1+quote-v1+sent-from-intent-v1",
+  "run_id": "systest-budget-sample_30-20261011T215521406"
+}

@@ -1,0 +1,14 @@
+{
+  "ingested_at": "2026-10-12T04:55:21+00:00",
+  "input": {
+    "bytes": 4327,
+    "path": "sample_30.csv",
+    "sha256": "99996d1455038551e205c4e025c955fdd2161c15183e2f38aceedddb3bbabaa0"
+  },
+  "manifest_match": null,
+  "pending_distinct_texts": 30,
+  "pending_reviews": 30,
+  "quarantined": 0,
+  "records": 30,
+  "state_db": "data/state/systest-budget/state_99996d145503.sqlite"
+}

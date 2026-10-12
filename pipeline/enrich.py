@@ -172,7 +172,7 @@ def run(input_path, *, stop_after_requests=None, workers=None, workspace="main",
     questions = jev.build_questions(jev.load_labels(), e["question_set"])
     already = conn.execute("SELECT COUNT(*) FROM results WHERE label_config=?", (config,)).fetchone()[0]
     phase = "resume" if already else "initial"
-    run_id = f"{workspace}-{input_path.stem}-{datetime.now().strftime('%Y%m%dT%H%M%S')}"
+    run_id = f"{workspace}-{input_path.stem}-{datetime.now().strftime('%Y%m%dT%H%M%S%f')[:-3]}"  # ms: unique per run
     out = Path(out_dir or RUNS_DIR / run_id)
     out.mkdir(parents=True, exist_ok=True)
     started_at, t0 = now(), time.monotonic()
@@ -259,6 +259,9 @@ def run(input_path, *, stop_after_requests=None, workers=None, workspace="main",
                 if interrupted["flag"]:
                     stop_reason = "interrupted"
                     break
+                if consecutive_failures >= e["max_consecutive_failed_requests"]:
+                    stop_reason = "too_many_consecutive_failures"  # circuit breaker; progress is already saved
+                    break
                 if stop_after_requests is not None and stats["requests"] + len(in_flight) >= stop_after_requests:
                     stop_reason = f"stop_after_requests={stop_after_requests}"
                     break
@@ -313,8 +316,6 @@ def run(input_path, *, stop_after_requests=None, workers=None, workspace="main",
                     cache.commit()
                     if retry_group:
                         queue.insert(0, retry_group)
-                if consecutive_failures >= e["max_consecutive_failed_requests"] and not stop_reason:
-                    stop_reason = "too_many_consecutive_failures"
                 if stats["requests"] % 50 == 0:
                     event("progress", **stats, spent_usd=round(ledger.spent, 6))
     signal.signal(signal.SIGINT, previous_handler)

@@ -1,0 +1,43 @@
+{
+  "budget": {
+    "project_cap_usd": 11.0,
+    "project_spend_before_run_usd": 0.092566,
+    "run_cap_usd": 10.5
+  },
+  "cache_hit_reviews": 0,
+  "completed_after": 30,
+  "completed_before": 0,
+  "cost_usd": 0.000584,
+  "ended_at": "2026-10-12T04:54:04+00:00",
+  "failed_requests": 0,
+  "input": "sample_30.csv",
+  "input_sha256": "99996d1455038551e205c4e025c955fdd2161c15183e2f38aceedddb3bbabaa0",
+  "input_tokens": 13904,
+  "invalid_outputs": 0,
+  "label_config": "jev-1.13.0+jev-q-tiny-v1-pack10+schema-v1+quote-v1+sent-from-intent-v1",
+  "phase": "initial",
+  "price": {
+    "model": "jev-1.13.0",
+    "output_tokens": "free",
+    "source": "https://docs.typesafe.ai/models (checked 2026-10-11)",
+    "usd_per_million_input_tokens": 0.042
+  },
+  "projection_full_pass_usd": 9.43,
+  "projection_note": "tokens per labeled text in this run x 484,189 distinct texts; this input's texts (30) may differ in length from the full corpus",
+  "quarantined_texts": 0,
+  "requests": 3,
+  "reviews_completed": 30,
+  "reviews_per_request": 10,
+  "run_id": "systest-outage-sample_30-20261011T215404",
+  "started_at": "2026-10-12T04:54:04+00:00",
+  "status_counts": {
+    "completed": 30
+  },
+  "stop_reason": "complete",
+  "texts_labeled": 30,
+  "throughput_texts_per_second": 64.61,
+  "tokens_per_text": 463.5,
+  "wall_clock_seconds": 0.46,
+  "workers": 1,
+  "workspace": "systest-outage"
+}

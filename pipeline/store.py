@@ -79,6 +79,16 @@ CREATE TABLE IF NOT EXISTS cache (
     run_id           TEXT NOT NULL,
     PRIMARY KEY (text_sha256, label_config)
 );
+
+-- Downstream model-stage cache: exact request (model + settings + prompt + input) -> validated JSON answer.
+CREATE TABLE IF NOT EXISTS stage_cache (
+    request_sha256 TEXT PRIMARY KEY,
+    role           TEXT NOT NULL,
+    model          TEXT NOT NULL,
+    response_json  TEXT NOT NULL,
+    request_id     TEXT NOT NULL,
+    created_at     REAL NOT NULL
+);
 """
 
 

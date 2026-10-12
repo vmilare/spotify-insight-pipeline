@@ -15,7 +15,7 @@ from pathlib import Path
 
 from tools.check_submission import write_json
 
-from . import claude, enrich, group, rates, verify
+from . import claude, enrich, group, rates, store, verify
 from .paths import REPO
 
 PROMPT_VERSION = "group-review-v1"
@@ -34,16 +34,17 @@ SCHEMA = {
 
 def run(input_path, workspace="main"):
     settings = enrich.load_settings()
-    folder = group.analysis_dir(input_path)
+    folder = group.analysis_dir(input_path, workspace)
     records = {json.loads(l)["review_id"]: json.loads(l) for l in (folder / "enriched.jsonl").open(encoding="utf-8")}
     members = defaultdict(list)
     for row in csv.DictReader((folder / "membership.csv").open(encoding="utf-8")):
         members[row["issue_id"]].append(row["review_id"])
     issues = {r["issue_id"]: r for r in csv.DictReader((folder / "issues.csv").open(encoding="utf-8"))}
     system = (REPO / "prompts" / "group_review_v1.md").read_text(encoding="utf-8")
-    run_id = f"{workspace}-{Path(input_path).stem}-groupreview-{datetime.now().strftime('%Y%m%dT%H%M%S')}"
+    run_id = f"{workspace}-{Path(input_path).stem}-groupreview-{datetime.now().strftime('%Y%m%dT%H%M%S%f')[:-3]}"
     gconf = f"{claude.HAIKU}+{PROMPT_VERSION}+effort-low+thinking-off"
-    log, spent, results, keymaps = [], {"usd": 0.0}, {}, {}
+    log, spent, results, keymaps, stats = [], {"usd": 0.0}, {}, {}, {"cache_hits": 0}
+    cache = store.connect_cache(workspace)
     guard = verify.budget_guard(settings, spent)
     started, t0 = datetime.now(timezone.utc).isoformat(timespec="seconds"), time.monotonic()
     by_topic = defaultdict(list)
@@ -63,7 +64,7 @@ def run(input_path, workspace="main"):
         parsed, _ = claude.call_json(
             role="group", model=claude.HAIKU, system=system,
             user=f"Topic: {topic}\nIssues:\n" + json.dumps(payload, ensure_ascii=False), schema=SCHEMA,
-            max_tokens=3000, effort="low", thinking={"type": "disabled"}, log=log, ledger=guard,
+            max_tokens=3000, effort="low", thinking={"type": "disabled"}, log=log, ledger=guard, cache=cache, stats=stats,
             meta={"run_id": run_id, "phase": "group", "label_config": gconf,
                   "review_ids": [rid for i in by_topic[topic] for rid in keymaps[i].values()]})
         spent["usd"] += sum(c.get("cost_usd", 0) for c in log[before:])
@@ -90,7 +91,7 @@ def run(input_path, workspace="main"):
     reviewed = [r for r in rows if r["reviewed"]]
     summary = {"run_id": run_id, "config": gconf, "issues_reviewed": len(reviewed), "issues_total": len(rows),
                "sampled_quotes": sum(r["sampled"] for r in reviewed), "misfits": sum(r["misfits"] for r in reviewed),
-               "requests": len(log), "failed_attempts": sum(c["outcome"] == "failed" for c in log),
+               "stage_cache_hits": stats["cache_hits"], "requests": len(log), "failed_attempts": sum(c["outcome"] == "failed" for c in log),
                "usage": tokens, "cost_usd": round(spent["usd"], 6), "wall_clock_seconds": round(time.monotonic() - t0, 2),
                "note": "Membership unchanged; fit rates are a quality signal for the keyword rules."}
     write_json(folder / "group_review.json", summary)

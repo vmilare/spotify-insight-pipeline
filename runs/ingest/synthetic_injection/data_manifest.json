@@ -1,0 +1,14 @@
+{
+  "ingested_at": "2026-10-12T04:55:21+00:00",
+  "input": {
+    "bytes": 831,
+    "path": "synthetic_injection.csv",
+    "sha256": "9bf82e2e72fc3522632de8ec6081652c24618b84390df8ae75eceb7ec19ce873"
+  },
+  "manifest_match": null,
+  "pending_distinct_texts": 5,
+  "pending_reviews": 5,
+  "quarantined": 0,
+  "records": 5,
+  "state_db": "data/state/systest-injection/state_9bf82e2e72fc.sqlite"
+}

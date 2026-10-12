@@ -47,6 +47,7 @@ def main():
     p = commands.add_parser("rerank", help="Stage 5: recompute ranking from saved files only (no model calls)")
     p.add_argument("--input", type=Path, default=None, help="Input CSV whose analysis folder to rank")
     p.add_argument("--folder", type=Path, default=None, help="Or an analysis folder path directly")
+    p.add_argument("--workspace", default="main")
 
     args = parser.parse_args()
     if args.command == "ingest":
@@ -81,7 +82,7 @@ def main():
         print(json.dumps(recommend.run(args.input or dataset_file(FULL_CSV_NAME), args.workspace), indent=2))
     elif args.command == "rerank":
         from . import group, rank
-        folder = args.folder or group.analysis_dir(args.input or dataset_file(FULL_CSV_NAME))
+        folder = args.folder or group.analysis_dir(args.input or dataset_file(FULL_CSV_NAME), args.workspace)
         print(json.dumps(rank.run(folder), indent=2))
 
 

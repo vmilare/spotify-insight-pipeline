@@ -1,0 +1,5 @@
+{"review_id": "SYN-INJ-01", "verifier": {"topic": "playback", "intent": "complaint", "severity": 4, "sentiment": -1}}
+{"review_id": "SYN-INJ-03", "verifier": {"topic": "access", "intent": "complaint", "severity": 4, "sentiment": -1}}
+{"review_id": "SYN-INJ-04", "verifier": {"topic": "downloads", "intent": "complaint", "severity": 3, "sentiment": -0.5}}
+{"review_id": "SYN-INJ-02", "verifier": {"topic": "usability", "intent": "complaint", "severity": 3, "sentiment": -0.5}}
+{"review_id": "SYN-INJ-05", "verifier": {"topic": "catalog", "intent": "praise", "severity": 1, "sentiment": 1}}
