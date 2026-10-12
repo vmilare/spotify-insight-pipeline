@@ -381,3 +381,13 @@ unless marked *estimate*. Per-run spend is tracked automatically in `runs/spend_
   rows), cached repeat calls ~0.04 s. Health: 660,622 reviews, 33 issues, 264 evidence quotes served from Neon.
 - Visual check (headless Chrome, light theme, full data): tiles, recommendation with ✓ claim chips, area bars,
   severity mix, issue ranking, monthly trend with end labels, quality notes all render.
+
+## 2026-10-12 — grading/ export + course self-check: PASS
+- `python -m pipeline export-grading` (no model calls) → grading/: run.json, ingestion.json, records.jsonl.gz (660,622),
+  membership.csv, ranking.csv, claims.csv, calls.jsonl.gz (48,450 calls: 47,570 full-run + 868 from the 100/500/10k/golden
+  runs whose results seeded the exact-text cache + 20 verify + 8 group + 1 memo... plus earlier same-config enrich runs),
+  checkpoint_before.json (397,059 = state at the start of the recorded demo), checkpoint_after.json (660,609).
+- `check_submission.py reference` + `check` (report kept outside grading/ in data/): **status pass, issue_counts empty**.
+  Coverage: 660,622 received, 0 missing/duplicate/invalid, 660,609 valid completed, 13 quarantined, 176,420 valid cache
+  reuses, working coverage point candidate 1.0. Reported tokens in 228,071,780 /
+  out 91,121,600 (Jev output tokens are reported by the API but free).

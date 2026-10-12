@@ -23,3 +23,4 @@ runs/*spotify_reviews_18months*/enriched.jsonl
 runs/*spotify_reviews_18months*/calls.jsonl
 runs/analysis/spotify_reviews_18months/enriched.jsonl
 *.jsonl.gz
+!grading/*.jsonl.gz
