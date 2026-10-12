@@ -1,0 +1,69 @@
+{
+  "label_config": "jev-1.13.0+jev-q-tiny-v1-pack10+schema-v1+quote-v1+sent-from-intent-v1",
+  "golden_cases": 50,
+  "predicted": 50,
+  "missing_or_quarantined": 0,
+  "denominator_note": "missing/quarantined predictions count as incorrect",
+  "topic_agreement": "35/50",
+  "intent_agreement": "45/50",
+  "topic_and_intent_both": "33/50",
+  "severity_exact": "36/50",
+  "severity_within_1": "49/50",
+  "severity_mae": 0.3,
+  "sentiment_mae": 0.305,
+  "sentiment_within_0.5": "46/50",
+  "evidence_quote_exact_substring": "50/50",
+  "evidence_quote_whole_text": "46/50",
+  "entities_unsupported_by_text": 0,
+  "ambiguous_cases_flagged_by_labeler": 0,
+  "cases_with_labeler_note": 11,
+  "needs_review_as_predictor": {
+    "flagged": 11,
+    "flagged_with_topic_or_intent_error": 7,
+    "unflagged": 39,
+    "unflagged_with_topic_or_intent_error": 10,
+    "errors_caught_by_flag": "7/17"
+  },
+  "per_topic_counts": {
+    "access": {
+      "human": 2,
+      "predicted": 0,
+      "correct": 0
+    },
+    "usability": {
+      "human": 4,
+      "predicted": 10,
+      "correct": 3
+    },
+    "playback": {
+      "human": 7,
+      "predicted": 6,
+      "correct": 4
+    },
+    "downloads": {
+      "human": 1,
+      "predicted": 1,
+      "correct": 1
+    },
+    "catalog": {
+      "human": 2,
+      "predicted": 6,
+      "correct": 2
+    },
+    "billing": {
+      "human": 5,
+      "predicted": 2,
+      "correct": 1
+    },
+    "support": {
+      "human": 0,
+      "predicted": 0,
+      "correct": 0
+    },
+    "other": {
+      "human": 29,
+      "predicted": 25,
+      "correct": 24
+    }
+  }
+}

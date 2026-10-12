@@ -1,0 +1,201 @@
+{
+  "all_checks_pass": true,
+  "checker_profile": {
+    "counts": {
+      "duplicate_review_ids": 0,
+      "empty_review_text": 0,
+      "missing_app_version": 12,
+      "records": 50
+    },
+    "file_sha256": "1a125c3e509f58b0246ba16d0ea332675a53ffadb1928be4338a0bd7053a11c7",
+    "first_review": "2022-05-31 10:50:59",
+    "last_review": "2023-11-15 13:31:03",
+    "parsed_rows_sha256": "32f9562d48193e1ac3f4c4dc44d4e3c46922019f21848b8342f46b4de3ac4a50",
+    "reviews_by_month": {
+      "2022-05": 1,
+      "2022-06": 2,
+      "2022-07": 2,
+      "2022-08": 6,
+      "2022-09": 2,
+      "2022-11": 2,
+      "2022-12": 2,
+      "2023-01": 1,
+      "2023-02": 2,
+      "2023-03": 2,
+      "2023-04": 2,
+      "2023-05": 1,
+      "2023-07": 6,
+      "2023-08": 3,
+      "2023-09": 7,
+      "2023-10": 7,
+      "2023-11": 2
+    },
+    "reviews_by_rating": {
+      "1": 22,
+      "2": 1,
+      "3": 2,
+      "4": 4,
+      "5": 21
+    }
+  },
+  "counts": {
+    "distinct_nonempty_texts": 49,
+    "duplicate_review_ids": 0,
+    "empty_review_text": 0,
+    "invalid_ratings": {},
+    "missing_app_version": 12,
+    "nonempty_review_text": 50,
+    "records": 50,
+    "reviews_reusing_an_exact_text": 1,
+    "texts_appearing_more_than_once": 1,
+    "unparseable_timestamps": 0
+  },
+  "first_review": "2022-05-31 10:50:59",
+  "generated_at": "2026-10-12T04:47:53+00:00",
+  "input": {
+    "bytes": 7905,
+    "path": "golden_50_to_label.csv",
+    "sha256": "1a125c3e509f58b0246ba16d0ea332675a53ffadb1928be4338a0bd7053a11c7"
+  },
+  "last_review": "2023-11-15 13:31:03",
+  "manifest_checks": [
+    {
+      "actual": 7905,
+      "check": "file_bytes",
+      "expected": 7905,
+      "pass": true
+    },
+    {
+      "actual": "1a125c3e509f58b0246ba16d0ea332675a53ffadb1928be4338a0bd7053a11c7",
+      "check": "file_sha256",
+      "expected": "1a125c3e509f58b0246ba16d0ea332675a53ffadb1928be4338a0bd7053a11c7",
+      "pass": true
+    },
+    {
+      "actual": 50,
+      "check": "pipeline_count_equals_checker_count",
+      "expected": 50,
+      "pass": true
+    }
+  ],
+  "most_repeated_texts": [
+    {
+      "first_review_id": "1d15724a-98ff-400a-8083-0d9afc801098",
+      "reviews": 2,
+      "text": "Good"
+    },
+    {
+      "first_review_id": "01d453b0-dca3-42e9-8aa4-5fc167b08070",
+      "reviews": 1,
+      "text": "I like it but god I hate it when the music Interrupts my ads"
+    },
+    {
+      "first_review_id": "083811c7-d469-499b-9bef-5b9fb096653d",
+      "reviews": 1,
+      "text": "best app ever"
+    },
+    {
+      "first_review_id": "0c6ca545-3f89-4da6-b3db-1a352371fb6e",
+      "reviews": 1,
+      "text": "Hate this application 🤮🤮🤮🤮🤮🤮"
+    },
+    {
+      "first_review_id": "0d4f8b48-74c1-4e2a-89b5-11eaa737027e",
+      "reviews": 1,
+      "text": "It's really an amazing experience with Spotify...I love it🥰"
+    },
+    {
+      "first_review_id": "111f9048-f7bd-4be0-813e-76b8fc49f73f",
+      "reviews": 1,
+      "text": "Excellent"
+    },
+    {
+      "first_review_id": "16d640e9-b281-4746-9562-c7dbcf7126b6",
+      "reviews": 1,
+      "text": "It's my best music app but now it's not...everything basic features is premium.."
+    },
+    {
+      "first_review_id": "1a41c7e1-a655-4c63-b4db-c22bdff18003",
+      "reviews": 1,
+      "text": "Worst application 👎👎👎"
+    },
+    {
+      "first_review_id": "1fc8b08f-7d6a-472f-b317-8ceb28d00f22",
+      "reviews": 1,
+      "text": "Duo Premium .... No ads at all!"
+    },
+    {
+      "first_review_id": "215463ae-95b7-4481-8747-1754b68f31fa",
+      "reviews": 1,
+      "text": "What is happening with Spotify?? Recently I'm trying to play a song but it doesn"
+    },
+    {
+      "first_review_id": "283b5843-a992-464f-b1dc-9dc7281ff390",
+      "reviews": 1,
+      "text": "Beth, we all got to give me a free dollar to go with 3 months, bro I can't be li"
+    },
+    {
+      "first_review_id": "292ce26a-815d-4bce-a3b6-93cb6c9e7e2c",
+      "reviews": 1,
+      "text": "Staff must be full of mentally ill kool-aid heads. Banning conservative music th"
+    },
+    {
+      "first_review_id": "2aa566c6-b98d-4513-b900-83702a8db8eb",
+      "reviews": 1,
+      "text": "Nice app, very less advertising"
+    },
+    {
+      "first_review_id": "36609c5c-fe48-4459-86b8-cc78fd3c77cd",
+      "reviews": 1,
+      "text": "Bheekhmangon"
+    },
+    {
+      "first_review_id": "372d4e67-59cc-4c54-879f-3e8a202ee554",
+      "reviews": 1,
+      "text": "Please ye ads ko thoda kumm Karo harr ek song ke baad ad 🙏🙄"
+    }
+  ],
+  "notes": [
+    "Raw field strings are stored unchanged; source_sha256 uses the course checker's row_sha.",
+    "Empty means review_text.strip() == '' (same rule as the checker); such rows are quarantined with reason empty_review_text and are never sent to a model.",
+    "Missing app_version does not block classification.",
+    "Distinct texts are exact byte-identical review_text values; similar texts are not merged."
+  ],
+  "quarantined_empty_texts": [],
+  "reviews_by_month": {
+    "2022-05": 1,
+    "2022-06": 2,
+    "2022-07": 2,
+    "2022-08": 6,
+    "2022-09": 2,
+    "2022-11": 2,
+    "2022-12": 2,
+    "2023-01": 1,
+    "2023-02": 2,
+    "2023-03": 2,
+    "2023-04": 2,
+    "2023-05": 1,
+    "2023-07": 6,
+    "2023-08": 3,
+    "2023-09": 7,
+    "2023-10": 7,
+    "2023-11": 2
+  },
+  "reviews_by_rating": {
+    "1": 22,
+    "2": 1,
+    "3": 2,
+    "4": 4,
+    "5": 21
+  },
+  "runtime_seconds": 0.0,
+  "status_after_ingest": {
+    "pending": 50
+  },
+  "text_length_chars": {
+    "max": 329,
+    "median": 39.0,
+    "min": 4,
+    "p90": 196.7
+  }
+}

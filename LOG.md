@@ -6,7 +6,7 @@ unless marked *estimate*. Per-run spend is tracked automatically in `runs/spend_
 
 | Running API spend | Jev | Anthropic | Total |
 |---|---|---|---|
-| as of last entry | $0.0228 | $0.0683 | **$0.0911** |
+| as of last entry | $0.0238 | $0.0683 | **$0.0921** |
 
 ---
 
@@ -234,3 +234,23 @@ unless marked *estimate*. Per-run spend is tracked automatically in `runs/spend_
   across smaller issues. 10,459 in / 4,123 out tokens, 32 s. Output: `runs/analysis/checkpoint_500/memo.md`.
   *500-review sample — pipeline test, not the final recommendation.*
 - All six stages now run end to end on the 500 checkpoint. Total project spend so far: $0.091.
+
+## 2026-10-11 — Golden-set evaluation (held-out test, $0.001)
+- Ran the frozen setup (`jev-q-tiny-v1-pack10`, threshold 0.6, sent-from-intent-v1) on `golden_50_to_label.csv`
+  via the normal enrich stage (5 requests, 49 distinct texts, 50 reviews). Then `python -m evals.eval_golden`
+  (no model calls) → `evals/results/golden/` (per_case.csv, summary.json, summary.md with confusion tables).
+- **Results vs the user's labels:** topic 35/50 · intent 45/50 · both 33/50 · severity exact 36/50, ±1 49/50,
+  MAE 0.30 · sentiment MAE 0.31, within 0.5 (predeclared tolerance) 46/50 · evidence quote exact substring 50/50
+  (whole text 46/50) · entities not in text 0 · missing/quarantined 0.
+- needs_review as a predictor: 7 of 11 flagged had a topic/intent error (64%) vs 10 of 39 unflagged (26%);
+  the flag catches 7 of 17 such errors.
+- **Golden results did not change the setup.** No descriptions, thresholds or mappings were edited after seeing them.
+- Preliminary error-analysis themes (to be written up per case):
+  1. Ads boundary: human billing/playback vs Jev usability on ad reviews (contract puts ad interruptions in usability).
+  2. App won't open / crashes: human access vs Jev playback (contract: crashes are playback).
+  3. Generic "hate this app" complaints: human severity 1 vs Jev 2 (contract: generic criticism = 2) — 6 cases.
+  4. Short non-English texts: human other/unclear vs Jev catalog/usability request; 2 of 3 flagged by Jev.
+  5. Praise topic: general praise human usability vs Jev other; recommendation praise human playback vs Jev catalog.
+  6. Jev rates some billing/usability complaints one level more severe (2→3).
+- The labeler left notes on 11 golden cases (mostly unclear / unsupported-language), although none were flagged
+  needs_review — treat these as the ambiguous cases in the write-up.
