@@ -406,3 +406,14 @@ unless marked *estimate*. Per-run spend is tracked automatically in `runs/spend_
   regenerating; the choice of memo to present is the user's.
 - DB reloaded, grading/ re-exported (48,451 calls incl. both memo calls), self-check pass (no issues). Live API serves memo-v2.
 - Project spend: $9.8937.
+
+## 2026-10-12 — Wrap-up
+- README rewritten as the grader's entry point (results, architecture diagram, trace of review 4b5220da…, ambiguous case,
+  golden error analysis, system tests, resume evidence, calculator, ranking sensitivity and trend, limitations, rubric map,
+  setup and commands). Final memo copied to `memo.md`. `.env.example` gained a blank `DATABASE_URL`.
+- Secret scan over the working tree and all git history: no keys or credentialed URLs; `.env` ignored and untracked.
+- GitHub release v1.0: `full_enriched_with_confidences.jsonl.gz` (90 MB), `grading_export.zip` (112 MB).
+- Signed-out access check: repository, README, grading folder, memo, release and assets, live dashboard and API all public.
+- Total API spend: $9.89 of the $11 cap.
+- Open for the author: choose the memo to present (memo-v2 usability vs the late-2023 billing surge not in its pack),
+  final read-through, submit the repository URL on bCourses.
