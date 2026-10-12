@@ -1,0 +1,208 @@
+{
+  "agreement": {
+    "intent": 462,
+    "sentiment_mae": 0.27,
+    "severity_exact": 378,
+    "severity_mae": 0.29,
+    "severity_within_1": 480,
+    "topic": 413
+  },
+  "cost_usd": 0.014745,
+  "failed_attempts": 0,
+  "first_label_config": "jev-1.13.0+jev-q-tiny-v1-pack10+schema-v1+quote-v1+sent-from-intent-v1",
+  "input": "spotify_reviews_18months.csv",
+  "intent_confusion(first->verifier)": [
+    [
+      "complaint->cancellation",
+      8
+    ],
+    [
+      "request->complaint",
+      7
+    ],
+    [
+      "complaint->unclear",
+      5
+    ],
+    [
+      "complaint->praise",
+      3
+    ],
+    [
+      "complaint->request",
+      3
+    ],
+    [
+      "cancellation->complaint",
+      3
+    ],
+    [
+      "praise->complaint",
+      3
+    ],
+    [
+      "unclear->praise",
+      2
+    ],
+    [
+      "request->cancellation",
+      1
+    ],
+    [
+      "request->unclear",
+      1
+    ],
+    [
+      "praise->request",
+      1
+    ],
+    [
+      "unclear->complaint",
+      1
+    ]
+  ],
+  "missing_verifier_labels": 0,
+  "needs_review_vs_disagreement": {
+    "flagged": 192,
+    "flagged_with_topic_or_intent_disagreement": 73,
+    "unflagged": 308,
+    "unflagged_with_topic_or_intent_disagreement": 45
+  },
+  "planted_error_test": {
+    "caught_by_comparison": 96,
+    "planted": 100,
+    "rule": "every 5th verified record's topic replaced by TOPICS[(i+3) % 8] in a test copy",
+    "synthetic": true
+  },
+  "requests": 20,
+  "run_id": "main-spotify_reviews_18months-verify-20261012T090942768",
+  "sample": {
+    "declared_size": 500,
+    "drawn": 500,
+    "method": "records with a model call, sorted by SHA-256('verify-sample-v1:review_id'), first N"
+  },
+  "stage_cache_hits": 0,
+  "topic_confusion(first->verifier)": [
+    [
+      "playback->usability",
+      13
+    ],
+    [
+      "billing->usability",
+      9
+    ],
+    [
+      "usability->other",
+      8
+    ],
+    [
+      "catalog->other",
+      6
+    ],
+    [
+      "playback->other",
+      6
+    ],
+    [
+      "catalog->usability",
+      5
+    ],
+    [
+      "billing->other",
+      4
+    ],
+    [
+      "usability->playback",
+      4
+    ],
+    [
+      "playback->catalog",
+      4
+    ],
+    [
+      "usability->catalog",
+      4
+    ],
+    [
+      "billing->catalog",
+      3
+    ],
+    [
+      "other->catalog",
+      2
+    ],
+    [
+      "playback->downloads",
+      2
+    ],
+    [
+      "other->playback",
+      2
+    ],
+    [
+      "access->other",
+      2
+    ],
+    [
+      "usability->downloads",
+      1
+    ],
+    [
+      "playback->billing",
+      1
+    ],
+    [
+      "access->playback",
+      1
+    ],
+    [
+      "downloads->other",
+      1
+    ],
+    [
+      "catalog->playback",
+      1
+    ],
+    [
+      "usability->billing",
+      1
+    ],
+    [
+      "catalog->downloads",
+      1
+    ],
+    [
+      "access->usability",
+      1
+    ],
+    [
+      "usability->support",
+      1
+    ],
+    [
+      "other->downloads",
+      1
+    ],
+    [
+      "catalog->billing",
+      1
+    ],
+    [
+      "downloads->usability",
+      1
+    ],
+    [
+      "other->access",
+      1
+    ]
+  ],
+  "usage": {
+    "cache_read_tokens": 0,
+    "cache_write_tokens": 0,
+    "input_tokens": 54754,
+    "output_tokens": 18539
+  },
+  "verified": 500,
+  "verifier_config": "claude-haiku-5-5+verify-v1+effort-low+thinking-off",
+  "wall_clock_seconds": 71.53
+}

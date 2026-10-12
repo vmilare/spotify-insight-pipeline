@@ -1,0 +1,689 @@
+{
+  "area_rollup": [
+    {
+      "area": "playback",
+      "cancellation_count": 4574,
+      "complaint_count": 57248,
+      "severity_sum": 193130,
+      "share_of_baseline_complaints_pct": 19.7,
+      "topics": [
+        "playback",
+        "downloads"
+      ]
+    },
+    {
+      "area": "other",
+      "cancellation_count": 6067,
+      "complaint_count": 87972,
+      "severity_sum": 184827,
+      "share_of_baseline_complaints_pct": 30.3,
+      "topics": [
+        "other"
+      ]
+    },
+    {
+      "area": "usability",
+      "cancellation_count": 5759,
+      "complaint_count": 66495,
+      "severity_sum": 174227,
+      "share_of_baseline_complaints_pct": 22.9,
+      "topics": [
+        "usability"
+      ]
+    },
+    {
+      "area": "billing_support",
+      "cancellation_count": 8263,
+      "complaint_count": 51040,
+      "severity_sum": 154065,
+      "share_of_baseline_complaints_pct": 17.6,
+      "topics": [
+        "billing",
+        "support"
+      ]
+    },
+    {
+      "area": "catalog",
+      "cancellation_count": 970,
+      "complaint_count": 16321,
+      "severity_sum": 46245,
+      "share_of_baseline_complaints_pct": 5.6,
+      "topics": [
+        "catalog"
+      ]
+    },
+    {
+      "area": "access",
+      "cancellation_count": 679,
+      "complaint_count": 11644,
+      "severity_sum": 45817,
+      "share_of_baseline_complaints_pct": 4.0,
+      "topics": [
+        "access"
+      ]
+    }
+  ],
+  "definitions": {
+    "area_mapping": "playback area includes downloads (offline playback); billing/support = billing + support topics",
+    "priority_score": "severity_sum = complaint_count x mean_severity (required baseline)",
+    "severity": "1 no problem ... 4 core task blocked, 5 explicit financial/privacy/data harm"
+  },
+  "limitations": [
+    "Google Play reviews are self-selected and historical; no revenue, plan tier or confirmed churn data.",
+    "Labels come from a classifier (Jev) without human review of every record; needs_review flags uncertain labels.",
+    "Non-English reviews were classified without translation and flagged needs_review.",
+    "Issue membership uses keyword rules within each classified topic; fit rates come from a sampled model audit."
+  ],
+  "question": "Where should the next quarter of product effort go: access, usability, playback, or billing/support?",
+  "ranking_actionable_top10 (excludes OTH-GENERAL)": [
+    {
+      "complaint_count": "38784",
+      "issue_id": "BIL-PAYWALL",
+      "mean_severity": "3.055925",
+      "priority_score": "118521",
+      "rank": "1",
+      "severity_sum": "118521"
+    },
+    {
+      "complaint_count": "35935",
+      "issue_id": "USA-ADS",
+      "mean_severity": "2.421845",
+      "priority_score": "87029",
+      "rank": "2",
+      "severity_sum": "87029"
+    },
+    {
+      "complaint_count": "16888",
+      "issue_id": "PLY-WONTPLAY",
+      "mean_severity": "3.470156",
+      "priority_score": "58604",
+      "rank": "3",
+      "severity_sum": "58604"
+    },
+    {
+      "complaint_count": "14543",
+      "issue_id": "PLY-GENERAL",
+      "mean_severity": "3.206147",
+      "priority_score": "46627",
+      "rank": "4",
+      "severity_sum": "46627"
+    },
+    {
+      "complaint_count": "12080",
+      "issue_id": "USA-REDESIGN",
+      "mean_severity": "2.851490",
+      "priority_score": "34446",
+      "rank": "5",
+      "severity_sum": "34446"
+    },
+    {
+      "complaint_count": "8212",
+      "issue_id": "ACC-LOGIN",
+      "mean_severity": "3.972966",
+      "priority_score": "32626",
+      "rank": "6",
+      "severity_sum": "32626"
+    },
+    {
+      "complaint_count": "11853",
+      "issue_id": "USA-GENERAL",
+      "mean_severity": "2.741753",
+      "priority_score": "32498",
+      "rank": "7",
+      "severity_sum": "32498"
+    },
+    {
+      "complaint_count": "9183",
+      "issue_id": "BIL-GENERAL",
+      "mean_severity": "2.802134",
+      "priority_score": "25732",
+      "rank": "8",
+      "severity_sum": "25732"
+    },
+    {
+      "complaint_count": "5409",
+      "issue_id": "PLY-CRASH",
+      "mean_severity": "3.677390",
+      "priority_score": "19891",
+      "rank": "9",
+      "severity_sum": "19891"
+    },
+    {
+      "complaint_count": "5747",
+      "issue_id": "PLY-STOPS",
+      "mean_severity": "3.367148",
+      "priority_score": "19351",
+      "rank": "10",
+      "severity_sum": "19351"
+    }
+  ],
+  "ranking_baseline_top10": [
+    {
+      "complaint_count": "85894",
+      "issue_id": "OTH-GENERAL",
+      "mean_severity": "2.101672",
+      "priority_score": "180521",
+      "rank": "1",
+      "severity_sum": "180521"
+    },
+    {
+      "complaint_count": "38784",
+      "issue_id": "BIL-PAYWALL",
+      "mean_severity": "3.055925",
+      "priority_score": "118521",
+      "rank": "2",
+      "severity_sum": "118521"
+    },
+    {
+      "complaint_count": "35935",
+      "issue_id": "USA-ADS",
+      "mean_severity": "2.421845",
+      "priority_score": "87029",
+      "rank": "3",
+      "severity_sum": "87029"
+    },
+    {
+      "complaint_count": "16888",
+      "issue_id": "PLY-WONTPLAY",
+      "mean_severity": "3.470156",
+      "priority_score": "58604",
+      "rank": "4",
+      "severity_sum": "58604"
+    },
+    {
+      "complaint_count": "14543",
+      "issue_id": "PLY-GENERAL",
+      "mean_severity": "3.206147",
+      "priority_score": "46627",
+      "rank": "5",
+      "severity_sum": "46627"
+    },
+    {
+      "complaint_count": "12080",
+      "issue_id": "USA-REDESIGN",
+      "mean_severity": "2.851490",
+      "priority_score": "34446",
+      "rank": "6",
+      "severity_sum": "34446"
+    },
+    {
+      "complaint_count": "8212",
+      "issue_id": "ACC-LOGIN",
+      "mean_severity": "3.972966",
+      "priority_score": "32626",
+      "rank": "7",
+      "severity_sum": "32626"
+    },
+    {
+      "complaint_count": "11853",
+      "issue_id": "USA-GENERAL",
+      "mean_severity": "2.741753",
+      "priority_score": "32498",
+      "rank": "8",
+      "severity_sum": "32498"
+    },
+    {
+      "complaint_count": "9183",
+      "issue_id": "BIL-GENERAL",
+      "mean_severity": "2.802134",
+      "priority_score": "25732",
+      "rank": "9",
+      "severity_sum": "25732"
+    },
+    {
+      "complaint_count": "5409",
+      "issue_id": "PLY-CRASH",
+      "mean_severity": "3.677390",
+      "priority_score": "19891",
+      "rank": "10",
+      "severity_sum": "19891"
+    }
+  ],
+  "ranking_without_needs_review_top5": [
+    {
+      "complaint_count": "65178",
+      "issue_id": "OTH-GENERAL",
+      "mean_severity": "2.029120",
+      "priority_score": "132254",
+      "rank": "1",
+      "severity_sum": "132254"
+    },
+    {
+      "complaint_count": "22150",
+      "issue_id": "USA-ADS",
+      "mean_severity": "2.276704",
+      "priority_score": "50429",
+      "rank": "2",
+      "severity_sum": "50429"
+    },
+    {
+      "complaint_count": "14028",
+      "issue_id": "BIL-PAYWALL",
+      "mean_severity": "3.080767",
+      "priority_score": "43217",
+      "rank": "3",
+      "severity_sum": "43217"
+    },
+    {
+      "complaint_count": "9319",
+      "issue_id": "PLY-WONTPLAY",
+      "mean_severity": "3.528597",
+      "priority_score": "32883",
+      "rank": "4",
+      "severity_sum": "32883"
+    },
+    {
+      "complaint_count": "6696",
+      "issue_id": "ACC-LOGIN",
+      "mean_severity": "4.001493",
+      "priority_score": "26794",
+      "rank": "5",
+      "severity_sum": "26794"
+    }
+  ],
+  "scope": {
+    "baseline_complaint_and_cancellation_records": 290720,
+    "completed_classifications": 660609,
+    "first_review_date": "2022-05-17",
+    "input": "spotify_reviews_18months.csv",
+    "last_review_date": "2023-11-15",
+    "needs_review_records": 210531,
+    "needs_review_share_pct": 31.9,
+    "pending_unclassified": 0,
+    "quarantined": 13,
+    "source_rows": 660622
+  },
+  "top_actionable_issues": [
+    {
+      "cancellation_count": 6494,
+      "complaint_count": "38784",
+      "issue_id": "BIL-PAYWALL",
+      "mean_severity": "3.055925",
+      "membership_fit_rate_in_sample": "0.917",
+      "model_description": "Customers say basic functions such as choosing songs, skipping, and playlist use require Premium, and some who paid still find features not working.",
+      "name": "Features locked behind Premium (skips, song choice, playback)",
+      "needs_review_count": 24756,
+      "priority_score": "118521",
+      "quotes": [
+        {
+          "date": "2023-03-26",
+          "helpful_votes": 377,
+          "intent": "cancellation",
+          "quote": "I have already cancelled the premium subscription bcz of this.",
+          "review_id": "1be24878-5115-490a-bb7f-dad95d0630ab",
+          "severity": 5
+        },
+        {
+          "date": "2023-04-28",
+          "helpful_votes": 217,
+          "intent": "cancellation",
+          "quote": "But it's easy to rejoin Premium anytime.",
+          "review_id": "cff065a1-e826-4ea2-af1d-dd43f7ebcf4f",
+          "severity": 5
+        },
+        {
+          "date": "2023-08-26",
+          "helpful_votes": 84,
+          "intent": "complaint",
+          "quote": "Changing payments and adding payment Even with premium there are ads and they're formatted to be as annoying and intrusive as possible.",
+          "review_id": "b5543c5b-e63b-4e70-a915-de5d3a01f9d3",
+          "severity": 5
+        }
+      ],
+      "rank": "1",
+      "severity_counts": {
+        "1": 272,
+        "2": 10467,
+        "3": 16450,
+        "4": 10010,
+        "5": 1585
+      },
+      "severity_sum": "118521",
+      "share_of_baseline_complaints_pct": 13.3,
+      "topic": "billing"
+    },
+    {
+      "cancellation_count": 2155,
+      "complaint_count": "35935",
+      "issue_id": "USA-ADS",
+      "mean_severity": "2.421845",
+      "membership_fit_rate_in_sample": "0.833",
+      "model_description": "Users report too many ads, including an ad after nearly every song, and ads that feel intrusive or louder than the music.",
+      "name": "Ad frequency, length and loudness",
+      "needs_review_count": 13785,
+      "priority_score": "87029",
+      "quotes": [
+        {
+          "date": "2023-10-30",
+          "helpful_votes": 500,
+          "intent": "cancellation",
+          "quote": "This app used to be 4 stars until they decided to add a like/dislike button to ads that no one asked for.",
+          "review_id": "02ab45da-773e-42fd-93b5-6bc77ed11944",
+          "severity": 5
+        },
+        {
+          "date": "2023-05-18",
+          "helpful_votes": 80,
+          "intent": "complaint",
+          "quote": "I very much dislike opening the app and being shown a full screen ad pushing the family plan (or anything else)!",
+          "review_id": "25c1050d-94e0-4cfc-a08a-2392f03a307f",
+          "severity": 5
+        },
+        {
+          "date": "2023-02-04",
+          "helpful_votes": 43,
+          "intent": "complaint",
+          "quote": "Make playlists, save liked songs to own playlist, etc.",
+          "review_id": "6ccd45da-4447-473b-b98b-2a84065bf46a",
+          "severity": 5
+        }
+      ],
+      "rank": "2",
+      "severity_counts": {
+        "1": 46,
+        "2": 22822,
+        "3": 11203,
+        "4": 1590,
+        "5": 274
+      },
+      "severity_sum": "87029",
+      "share_of_baseline_complaints_pct": 12.4,
+      "topic": "usability"
+    },
+    {
+      "cancellation_count": 1349,
+      "complaint_count": "16888",
+      "issue_id": "PLY-WONTPLAY",
+      "mean_severity": "3.470156",
+      "membership_fit_rate_in_sample": "0.833",
+      "model_description": "Selected songs or playlists fail to play, pause early, or are replaced by other suggested or random tracks.",
+      "name": "Songs won't play / app not working / bugs",
+      "needs_review_count": 7569,
+      "priority_score": "58604",
+      "quotes": [
+        {
+          "date": "2023-09-13",
+          "helpful_votes": 93,
+          "intent": "complaint",
+          "quote": "The app has very good quality music, only that in the new version, it plays songs that aren't even on your playlist.",
+          "review_id": "e44f51bb-e199-4c8a-bece-ede36c1e800a",
+          "severity": 5
+        },
+        {
+          "date": "2022-08-11",
+          "helpful_votes": 72,
+          "intent": "cancellation",
+          "quote": "The latest version leaves the last song playing in the notification window.",
+          "review_id": "f9ad8f06-6a4a-421c-8b1e-eaf2216f6a79",
+          "severity": 5
+        },
+        {
+          "date": "2023-06-05",
+          "helpful_votes": 33,
+          "intent": "complaint",
+          "quote": "Won't play what's on my playlist.",
+          "review_id": "6c7d8912-de88-4636-95b8-7618937e1258",
+          "severity": 5
+        }
+      ],
+      "rank": "3",
+      "severity_counts": {
+        "1": 5,
+        "2": 406,
+        "3": 8189,
+        "4": 8220,
+        "5": 68
+      },
+      "severity_sum": "58604",
+      "share_of_baseline_complaints_pct": 5.8,
+      "topic": "playback"
+    },
+    {
+      "cancellation_count": 1191,
+      "complaint_count": "14543",
+      "issue_id": "PLY-GENERAL",
+      "mean_severity": "3.206147",
+      "membership_fit_rate_in_sample": "0.917",
+      "model_description": "Customers report that tapping a song or playlist plays different tracks, autoplay or shuffle takes over, or playlists and loops behave incorrectly.",
+      "name": "Other playback problems (bugs, not working)",
+      "needs_review_count": 8011,
+      "priority_score": "46627",
+      "quotes": [
+        {
+          "date": "2023-09-05",
+          "helpful_votes": 6,
+          "intent": "complaint",
+          "quote": "Shuffle is the worst, the same music is played over and over while the rest get played almost never",
+          "review_id": "f6d6b107-8f2d-43d5-bc48-fde0a0af05c7",
+          "severity": 5
+        },
+        {
+          "date": "2022-07-18",
+          "helpful_votes": 5,
+          "intent": "complaint",
+          "quote": "As of yesterday and today, Spotify has erased my Liked Songs and Playlists.",
+          "review_id": "e1b71aaf-893e-4d2a-a12f-ea548cb1b99b",
+          "severity": 5
+        },
+        {
+          "date": "2022-09-11",
+          "helpful_votes": 5,
+          "intent": "cancellation",
+          "quote": "Was playing from my liked songs playlist then went to skip to the next song, app froze like it does every single day but when I reopened it all my liked songs were gone.",
+          "review_id": "fd4a071c-7658-4862-92d6-5f8e01818e3d",
+          "severity": 5
+        }
+      ],
+      "rank": "4",
+      "severity_counts": {
+        "1": 64,
+        "2": 1470,
+        "3": 8476,
+        "4": 4470,
+        "5": 63
+      },
+      "severity_sum": "46627",
+      "share_of_baseline_complaints_pct": 5.0,
+      "topic": "playback"
+    },
+    {
+      "cancellation_count": 2022,
+      "complaint_count": "12080",
+      "issue_id": "USA-REDESIGN",
+      "mean_severity": "2.851490",
+      "membership_fit_rate_in_sample": "0.917",
+      "model_description": "Users say recent updates changed the layout and removed basic functions such as repeat, rewind, and liking songs.",
+      "name": "New update / redesign / navigation and layout",
+      "needs_review_count": 6775,
+      "priority_score": "34446",
+      "quotes": [
+        {
+          "date": "2023-04-01",
+          "helpful_votes": 179,
+          "intent": "complaint",
+          "quote": "The latest update is terrible.",
+          "review_id": "c84d504f-4edc-4090-a5de-9ab8f05ae083",
+          "severity": 5
+        },
+        {
+          "date": "2023-03-29",
+          "helpful_votes": 93,
+          "intent": "complaint",
+          "quote": "*Update x2* Back to 1 star again.",
+          "review_id": "f8558786-744b-49c3-8a52-f4e02a3e801c",
+          "severity": 5
+        },
+        {
+          "date": "2023-03-27",
+          "helpful_votes": 76,
+          "intent": "cancellation",
+          "quote": "Been with Spotify for many years as an artist and also a listener.",
+          "review_id": "05660be9-1db9-47be-97b0-f8427ee1e95d",
+          "severity": 5
+        }
+      ],
+      "rank": "5",
+      "severity_counts": {
+        "1": 12,
+        "2": 3418,
+        "3": 7100,
+        "4": 1452,
+        "5": 98
+      },
+      "severity_sum": "34446",
+      "share_of_baseline_complaints_pct": 4.2,
+      "topic": "usability"
+    },
+    {
+      "cancellation_count": 419,
+      "complaint_count": "8212",
+      "issue_id": "ACC-LOGIN",
+      "mean_severity": "3.972966",
+      "membership_fit_rate_in_sample": "0.917",
+      "model_description": "Customers cannot log in or sign up with their phone number, password, or account, or get logged out repeatedly, often seeing 'something went wrong' errors.",
+      "name": "Login, logout and password problems",
+      "needs_review_count": 1516,
+      "priority_score": "32626",
+      "quotes": [
+        {
+          "date": "2023-09-11",
+          "helpful_votes": 100,
+          "intent": "complaint",
+          "quote": "But I can't login after reinstalling the app, now I'm afraid I will be charged when 3 months get over, but I can't use my account!",
+          "review_id": "efad1c88-44f9-4448-b330-599e0aac4003",
+          "severity": 5
+        },
+        {
+          "date": "2022-09-09",
+          "helpful_votes": 36,
+          "intent": "complaint",
+          "quote": "Every few weeks I get a message saying my password is comprimised and that it needs to be changed.",
+          "review_id": "0854bc49-c3aa-4e5b-a38a-fcbcc4534929",
+          "severity": 5
+        },
+        {
+          "date": "2023-07-16",
+          "helpful_votes": 30,
+          "intent": "cancellation",
+          "quote": "It was good experience at first but for some reason I had to reinstall the app and from then on I couldn't login to my premium account I have subscription but it's not working.",
+          "review_id": "db5a74eb-563f-4eb6-ac23-f4b70cc25a46",
+          "severity": 5
+        }
+      ],
+      "rank": "6",
+      "severity_counts": {
+        "1": 6,
+        "2": 79,
+        "3": 374,
+        "4": 7425,
+        "5": 328
+      },
+      "severity_sum": "32626",
+      "share_of_baseline_complaints_pct": 2.8,
+      "topic": "access"
+    },
+    {
+      "cancellation_count": 998,
+      "complaint_count": "11853",
+      "issue_id": "USA-GENERAL",
+      "mean_severity": "2.741753",
+      "membership_fit_rate_in_sample": "0.667",
+      "model_description": "Users complain about limited skips, unwanted autoplay, inability to pick or go back to songs, and pushy premium prompts.",
+      "name": "Other usability complaints",
+      "needs_review_count": 7421,
+      "priority_score": "32498",
+      "quotes": [
+        {
+          "date": "2023-05-16",
+          "helpful_votes": 59,
+          "intent": "cancellation",
+          "quote": "Yet no matter how many times I remove and redownload the app it's still automatically starts every time I start my vehicle.",
+          "review_id": "3f26a4a1-54be-4d2c-9a1a-d245308e01e3",
+          "severity": 5
+        },
+        {
+          "date": "2023-05-11",
+          "helpful_votes": 25,
+          "intent": "complaint",
+          "quote": "It was great until it wasn't.",
+          "review_id": "b93d2a14-d105-48a6-a84d-af994f6488d3",
+          "severity": 5
+        },
+        {
+          "date": "2023-10-20",
+          "helpful_votes": 25,
+          "intent": "complaint",
+          "quote": "Pretty good.",
+          "review_id": "894778b8-dd4f-4b15-8802-3c07310c4b1d",
+          "severity": 5
+        }
+      ],
+      "rank": "7",
+      "severity_counts": {
+        "1": 64,
+        "2": 4764,
+        "3": 5304,
+        "4": 1611,
+        "5": 110
+      },
+      "severity_sum": "32498",
+      "share_of_baseline_complaints_pct": 4.1,
+      "topic": "usability"
+    },
+    {
+      "cancellation_count": 1335,
+      "complaint_count": "9183",
+      "issue_id": "BIL-GENERAL",
+      "mean_severity": "2.802134",
+      "membership_fit_rate_in_sample": "0.833",
+      "model_description": "Customers feel the app pushes them to pay, restricts free use (shuffle-only playback, no song choice, ads) and generally dislike management's monetization approach.",
+      "name": "Other billing complaints",
+      "needs_review_count": 5959,
+      "priority_score": "25732",
+      "quotes": [
+        {
+          "date": "2023-04-19",
+          "helpful_votes": 246,
+          "intent": "complaint",
+          "quote": "This is the worst, buggiest app I think I've ever used by such a large margin.",
+          "review_id": "b24290fc-281e-4a79-8bb1-652f207e642c",
+          "severity": 5
+        },
+        {
+          "date": "2022-05-20",
+          "helpful_votes": 18,
+          "intent": "cancellation",
+          "quote": "Also as someone who is paying for listening to a whole world of music I rather enjoy the musics that I like and can access to them and unfortunately this app takes money from you to not to listen to some musics and that is a disaster in my ",
+          "review_id": "8cb4bf7e-47d8-4697-9776-1bcd89c421f6",
+          "severity": 5
+        },
+        {
+          "date": "2023-09-21",
+          "helpful_votes": 17,
+          "intent": "cancellation",
+          "quote": "Update 21 09 2023.",
+          "review_id": "fceb7b17-5986-4be3-b187-7a4a1e09d5fc",
+          "severity": 5
+        }
+      ],
+      "rank": "8",
+      "severity_counts": {
+        "1": 149,
+        "2": 4843,
+        "3": 1733,
+        "4": 1592,
+        "5": 866
+      },
+      "severity_sum": "25732",
+      "share_of_baseline_complaints_pct": 3.2,
+      "topic": "billing"
+    }
+  ],
+  "verification": {
+    "intent_agreement": 462,
+    "note": "independent model re-label (blind); agreement counts out of sample_size",
+    "sample_size": 500,
+    "severity_exact_agreement": 378,
+    "topic_agreement": 413
+  }
+}

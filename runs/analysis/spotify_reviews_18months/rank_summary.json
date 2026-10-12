@@ -1,0 +1,71 @@
+{
+  "baseline_records": 290720,
+  "issues_ranked": 33,
+  "top5": [
+    [
+      "OTH-GENERAL",
+      180521
+    ],
+    [
+      "BIL-PAYWALL",
+      118521
+    ],
+    [
+      "USA-ADS",
+      87029
+    ],
+    [
+      "PLY-WONTPLAY",
+      58604
+    ],
+    [
+      "PLY-GENERAL",
+      46627
+    ]
+  ],
+  "top5_actionable": [
+    [
+      "BIL-PAYWALL",
+      118521
+    ],
+    [
+      "USA-ADS",
+      87029
+    ],
+    [
+      "PLY-WONTPLAY",
+      58604
+    ],
+    [
+      "PLY-GENERAL",
+      46627
+    ],
+    [
+      "USA-REDESIGN",
+      34446
+    ]
+  ],
+  "top5_without_needs_review": [
+    [
+      "OTH-GENERAL",
+      132254
+    ],
+    [
+      "USA-ADS",
+      50429
+    ],
+    [
+      "BIL-PAYWALL",
+      43217
+    ],
+    [
+      "PLY-WONTPLAY",
+      32883
+    ],
+    [
+      "ACC-LOGIN",
+      26794
+    ]
+  ],
+  "top_issue_same_without_needs_review": true
+}

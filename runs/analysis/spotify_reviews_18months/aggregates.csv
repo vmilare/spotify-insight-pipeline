@@ -1,0 +1,34 @@
+rank,issue_id,complaint_count,severity_sum,mean_severity,priority_score,topic,name,cancellation_count,needs_review_count,severity_1,severity_2,severity_3,severity_4,severity_5
+1,OTH-GENERAL,85894,180521,2.101672,180521,other,"General dissatisfaction, no specific product issue",5479,20716,1299,78824,2604,2073,1094
+2,BIL-PAYWALL,38784,118521,3.055925,118521,billing,"Features locked behind Premium (skips, song choice, playback)",6494,24756,272,10467,16450,10010,1585
+3,USA-ADS,35935,87029,2.421845,87029,usability,"Ad frequency, length and loudness",2155,13785,46,22822,11203,1590,274
+4,PLY-WONTPLAY,16888,58604,3.470156,58604,playback,Songs won't play / app not working / bugs,1349,7569,5,406,8189,8220,68
+5,PLY-GENERAL,14543,46627,3.206147,46627,playback,"Other playback problems (bugs, not working)",1191,8011,64,1470,8476,4470,63
+6,USA-REDESIGN,12080,34446,2.851490,34446,usability,New update / redesign / navigation and layout,2022,6775,12,3418,7100,1452,98
+7,ACC-LOGIN,8212,32626,3.972966,32626,access,"Login, logout and password problems",419,1516,6,79,374,7425,328
+8,USA-GENERAL,11853,32498,2.741753,32498,usability,Other usability complaints,998,7421,64,4764,5304,1611,110
+9,BIL-GENERAL,9183,25732,2.802134,25732,billing,Other billing complaints,1335,5959,149,4843,1733,1592,866
+10,PLY-CRASH,5409,19891,3.677390,19891,playback,App crashes / won't open,343,1946,1,10,1771,3578,49
+11,PLY-STOPS,5747,19351,3.367148,19351,playback,"Music stops, pauses or cuts out",647,2634,1,82,3511,2112,41
+12,CAT-GENERAL,6021,16575,2.752865,16575,catalog,Other catalog complaints,418,4101,105,2385,2519,917,95
+13,CAT-LYRICS,4391,12653,2.881576,12653,catalog,Lyrics missing or broken,147,1880,50,674,3420,240,7
+14,PLY-PERFORMANCE,3902,12596,3.228088,12596,playback,"Lag, slowness, battery and loading",319,1839,6,287,2454,1121,34
+15,USA-SHUFFLE,3444,10559,3.065912,10559,usability,Forced shuffle / can't choose song order,416,2215,5,408,2403,611,17
+16,USA-LIBRARY,3183,9695,3.045869,9695,usability,"Playlist, queue and library management",168,1888,8,464,2103,590,18
+17,PLY-CONNECTION,2672,8957,3.352171,8957,playback,"Connection, Bluetooth, car and devices",231,1430,2,109,1536,996,29
+18,DWN-GENERAL,2558,8735,3.414777,8735,downloads,Other download problems,128,1522,37,296,910,1199,116
+19,ACC-GENERAL,1957,7346,3.753705,7346,access,Other access problems,139,1200,16,88,353,1405,95
+20,DWN-OFFLINE,1859,6568,3.533082,6568,downloads,Offline mode not working,90,961,4,64,769,981,41
+21,CAT-RECOMMENDATIONS,2346,6264,2.670077,6264,catalog,"Recommendations, repeats and smart features",174,1328,9,921,1270,127,19
+22,CAT-SEARCH,1897,6033,3.180285,6033,catalog,Search doesn't find content,104,1084,13,281,973,611,19
+23,CAT-AVAILABILITY,1666,4720,2.833133,4720,catalog,"Songs, artists or podcasts unavailable",127,1063,25,456,983,176,26
+24,BIL-CHARGES,1161,4541,3.911283,4541,billing,"Charges, refunds, payments and trials",211,621,9,223,134,291,504
+25,DWN-FAILS,1266,4475,3.534755,4475,downloads,Downloads fail or won't start,63,600,13,85,421,706,41
+26,OTH-BOYCOTT,2078,4306,2.072185,4306,other,Boycott / political protest with a complaint or departure,588,1345,145,1801,1,99,32
+27,ACC-ACCOUNT,1009,4041,4.004955,4041,access,"Account lost, hacked or family-plan access",106,419,15,37,120,593,244
+28,PLY-AUDIO,1451,3877,2.671950,3877,playback,Audio quality and volume,119,694,30,611,625,175,10
+29,BIL-PRICE,1150,2985,2.595652,2985,billing,Price level and price increases,142,571,11,832,102,21,184
+30,DWN-LOST,680,2555,3.757353,2555,downloads,Downloads disappear or must be re-downloaded,71,351,1,7,293,234,145
+31,SUP-GENERAL,762,2286,3.000000,2286,support,Customer support contact and response,81,493,14,287,222,163,76
+32,ACC-NOCONNECTION,466,1804,3.871245,1804,access,"""No internet connection"" error blocks access",15,343,0,3,63,391,9
+33,DWN-STORAGE,273,894,3.274725,894,downloads,SD card and storage location problems,23,154,1,25,166,60,21

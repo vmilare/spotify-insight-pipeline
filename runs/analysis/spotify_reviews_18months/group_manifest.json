@@ -1,0 +1,17 @@
+{
+  "allow_multi_issue": false,
+  "baseline_records(complaint+cancellation)": 290720,
+  "completed_records": 660609,
+  "generated_at": "2026-10-12T16:09:09+00:00",
+  "input": "spotify_reviews_18months.csv",
+  "input_sha256": "1fc85de68a304dd8978b537cfa58793d5f41cbaf417fa32cb53899f83a2fcef6",
+  "issue_taxonomy": "issues-v3",
+  "issues_with_members": 33,
+  "label_config": "jev-1.13.0+jev-q-tiny-v1-pack10+schema-v1+quote-v1+sent-from-intent-v1",
+  "rule": "topic selects issue list; first issue whose keyword occurs in the text wins; else topic general issue",
+  "status_counts": {
+    "completed": 660609,
+    "quarantined": 13
+  },
+  "workspace": "main"
+}

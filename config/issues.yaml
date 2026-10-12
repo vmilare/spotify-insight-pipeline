@@ -1,5 +1,8 @@
 # Issue taxonomy — version issues-v2 (draft for user approval, 2026-10-11)
 # v2: crash keywords added; new PLY-WONTPLAY after inspecting PLY-GENERAL on the 500-review dev checkpoint.
+# v3 (2026-10-12, after the full run): most frequent phrases inside the catch-all issues showed missed spellings
+#     and phrasings ("adds" for ads, "have to pay"/"basic features" for the paywall, "can't listen", "can't download",
+#     "sd card", "no internet connection" at login). Added those phrases; new DWN-FAILS, DWN-STORAGE, ACC-NOCONNECTION.
 # Stage 4 (group) assigns every completed complaint/cancellation record to exactly ONE issue:
 #   1. the record's Jev topic selects the issue list below;
 #   2. the first issue (in listed order) whose keywords appear in the review text wins;
@@ -7,13 +10,13 @@
 # Code owns membership (deterministic, rerunnable without a model). The group model role (Claude Haiku 5.5)
 # only names/describes issues and audits a bounded sample of members for fit; it never changes membership.
 # Keywords are matched case-insensitively as substrings of the original review text.
-version: issues-v2
+version: issues-v3
 
 topics:
   usability:
     - id: USA-ADS
       name: Ad frequency, length and loudness
-      keywords: [" ad ", " ads", "advert", "commercial", "advertis"]
+      keywords: [" ad ", " ads", "advert", "commercial", "advertis", "adds", " add,", " add.", "too many add", "an add "]
     - id: USA-SHUFFLE
       name: Forced shuffle / can't choose song order
       keywords: ["shuffle", "choose song", "pick song", "pick the song", "choose the song", "select song", "in order"]
@@ -29,7 +32,8 @@ topics:
   billing:
     - id: BIL-PAYWALL
       name: Features locked behind Premium (skips, song choice, playback)
-      keywords: ["skip", "premium", "free version", "free user", "without paying", "unless you pay", "have to pay", "must pay", "subscription to"]
+      keywords: ["skip", "premium", "free version", "free user", "without paying", "unless you pay", "have to pay", "must pay", "subscription to",
+                 "to pay", "pay for", "pay to", "basic feature", "for money", "for free", "to buy", "paid version", "paywall", "pay wall"]
     - id: BIL-PRICE
       name: Price level and price increases
       keywords: ["price", "expensive", "cost", "increase", "cheaper", "afford"]
@@ -48,7 +52,9 @@ topics:
       name: Songs won't play / app not working / bugs
       keywords: ["can't play", "cant play", "cannot play", "won't play", "wont play", "doesn't play", "doesnt play",
                  "not play", "unable to play", "let me play", "not working", "doesn't work", "doesnt work",
-                 "isn't working", "stopped working", "glitch", "bug", "error", "wrong song", "another song"]
+                 "isn't working", "stopped working", "glitch", "bug", "error", "wrong song", "another song",
+                 "can't listen", "cant listen", "can't even play", "unable to listen", "won't let me", "doesn't let me",
+                 "random song", "other song", "plays other", "not the song"]
     - id: PLY-STOPS
       name: Music stops, pauses or cuts out
       keywords: ["stop", "pause", "cut out", "cuts out", "interrupt", "randomly skip"]
@@ -67,7 +73,11 @@ topics:
   access:
     - id: ACC-LOGIN
       name: Login, logout and password problems
-      keywords: ["log in", "login", "logged out", "log out", "sign in", "password", "signin"]
+      keywords: ["log in", "login", "logged out", "log out", "sign in", "password", "signin", "logging", "log back",
+                 "sign up", "signup", "phone number", "can't access", "access my"]
+    - id: ACC-NOCONNECTION
+      name: '"No internet connection" error blocks access'
+      keywords: ["internet", "no connection", "network", "offline"]
     - id: ACC-ACCOUNT
       name: Account lost, hacked or family-plan access
       keywords: ["hack", "account", "family", "email", "verification", "code"]
@@ -78,6 +88,13 @@ topics:
     - id: DWN-LOST
       name: Downloads disappear or must be re-downloaded
       keywords: ["disappear", "deleted", "gone", "removed", "re-download", "redownload", "lost"]
+    - id: DWN-FAILS
+      name: Downloads fail or won't start
+      keywords: ["can't download", "cant download", "cannot download", "not download", "unable to download", "won't download",
+                 "wont download", "download fail", "failed to download", "downloading"]
+    - id: DWN-STORAGE
+      name: SD card and storage location problems
+      keywords: ["sd card", "sdcard", "storage", "memory"]
     - id: DWN-OFFLINE
       name: Offline mode not working
       keywords: ["offline"]

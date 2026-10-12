@@ -343,3 +343,33 @@ unless marked *estimate*. Per-run spend is tracked automatically in `runs/spend_
 - Vercel: site deployed at https://spotify-insight-pipeline.vercel.app ; static page OK but `/api/*` returned 404
   (project preset "Other" serves static files only). Backend moved to the zero-config layout `web/app.py`;
   user is redeploying with the FastAPI preset.
+
+## 2026-10-12 — Issue taxonomy v3 on the full data (code only, $0)
+- Full-data grouping with issues-v2: 290,720 complaint + cancellation records; catch-alls large (PLY-GENERAL 17,297,
+  USA-GENERAL 16,111, BIL-GENERAL 12,158, DWN-GENERAL 3,893, ACC-GENERAL 3,083).
+- Inspected the most frequent two-word phrases inside each catch-all (4,000-review samples) → missed spellings and
+  phrasings: "adds" (ads), "to pay / pay for / basic features / for money / for free" (paywall), "can't listen /
+  can't even play / random songs" (won't play), "can't download / sd card" (downloads), "no internet connection /
+  logging in / log back / phone number" (access).
+- issues-v3: added those phrases; new DWN-FAILS, DWN-STORAGE, ACC-NOCONNECTION (33 issues). Purpose: describe what the
+  complaints say; the top of the ranking did not change order.
+- v2 → v3 priority (actionable top): BIL-PAYWALL 109,104 → 118,521 · USA-ADS 74,924 → 87,029 · PLY-WONTPLAY 46,313 →
+  58,604 · PLY-GENERAL 56,067 → 46,627 · USA-GENERAL 42,159 → 32,498 · BIL-GENERAL 34,333 → 25,732.
+  v2 rankings kept for comparison in `data/` (local) and summarized here.
+
+## 2026-10-12 — Full-data analysis: verify, group review, rank, memo, database load
+- **Verify** (Haiku 5.5, declared random sample 500, 20 requests, $0.0147): Jev vs verifier topic 413/500, intent
+  462/500, severity exact 378/500 (±1 480), sentiment MAE 0.27. Planted-error test: 96/100 caught. needs_review
+  predicts disagreement: flagged 73/192 (38%) vs unflagged 45/308 (15%).
+- **Group review** (Haiku 5.5, 8 requests, $0.0051): 33 issues, 396 sampled quotes, 65 misfits → 84% fit.
+- **Rank** (code): actionable top 5 BIL-PAYWALL 118,521 · USA-ADS 87,029 · PLY-WONTPLAY 58,604 · PLY-GENERAL 46,627 ·
+  USA-REDESIGN 34,446. **Without needs_review records the order changes:** USA-ADS 50,429 > BIL-PAYWALL 43,217 >
+  PLY-WONTPLAY 32,883 → the paywall's lead depends on flagged labels. Area severity sums: playback (incl. downloads)
+  193,130 · usability 174,227 · billing/support 154,065 · access 45,817.
+- **Memo** (Sonnet 5.5, high effort, 1 request, $0.0671, 32 s): checker **passed on attempt 1**, 12 claims.
+  Recommended area **playback** (PLY-WONTPLAY + PLY-GENERAL: fixable defects, highest area severity); paywall treated
+  as a parallel packaging review (business-model question, sensitive to needs_review); ads on watch; ACC-LOGIN as a
+  small targeted fix. Different from the 500-sample memo (billing/support) — the full data changes the area picture.
+- **Database** (Neon): 660,622 review rows, 33 issues, 98 ranking rows, 12 claims, 264 evidence quotes; 160 MB.
+- Vercel: backend now deployed (FastAPI preset); returns "DATABASE_URL not configured" → env var to be added in Vercel.
+- Project spend: **$9.8165** of $11.
