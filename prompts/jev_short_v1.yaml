@@ -1,0 +1,33 @@
+# Jev enrichment questions — "short" variant, version jev-q-short-v1
+# Same labels and rules as config/labels.yaml, compressed into short phrases because every
+# token here is billed on every request (484,189 times in the full run).
+topic:
+  instructions: "Topic of this Spotify app review: its most severe specific problem (first if tied); for praise, the first praised feature; else other."
+  criteria:
+    access: "login, signup, password, account access"
+    usability: "navigation, controls, layout, queue/playlists, ad interruptions"
+    playback: "won't play, crashes, lag, connection, audio quality, battery"
+    downloads: "downloading, offline listening, saved/disappearing downloads"
+    catalog: "missing songs/artists, search, recommendations, lyrics"
+    billing: "price, charges, subscriptions, paywalls, premium-only features (a premium mention alone is not billing)"
+    support: "contacting customer support and its response"
+    other: "general praise/criticism, unrelated, or no specific topic"
+intent:
+  instructions: "Reviewer intent. Precedence: cancellation > complaint > request > praise > unclear."
+  criteria:
+    cancellation: "leaving, uninstalling, cancelling, or threatening to"
+    complaint: "negative experience, including mixed praise/criticism"
+    request: "asks for a change without reporting a failure"
+    praise: "positive experience only"
+    unclear: "boycott slogan, unrelated or meaningless text"
+severity:
+  instructions: "Severity of the reported impact, not of the emotion."
+  criteria:
+    "1": "no problem: praise, unclear, or pure feature request"
+    "2": "dislike, generic criticism, minor annoyance"
+    "3": "function degraded or restricted, some use remains"
+    "4": "core task blocked, e.g. can't log in or play"
+    "5": "explicit financial, privacy or data harm"
+sentiment:
+  instructions: "Overall sentiment."
+  criteria: ["very negative", "negative", "neutral or mixed", "positive", "very positive"]

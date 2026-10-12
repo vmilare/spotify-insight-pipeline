@@ -1,0 +1,135 @@
+"""Jev (TypeSafe System One) client and the enrichment question set.
+
+Plain HTTP (no SDK) so every attempt, retry and failure is visible in our own call log:
+the SDK retries 429/529 automatically, which would hide attempts we must report.
+"""
+import json
+import os
+import random
+import time
+import urllib.error
+import urllib.request
+import uuid
+
+import yaml
+
+from .paths import CONFIG_DIR, REPO
+
+ENDPOINT = "https://api.typesafe.ai/v1/systemone"
+MODEL = "jev-1.13.0"  # pinned exact version (jev-latest currently aliases this)
+PRICE_PER_M_INPUT = 0.042  # USD per million input tokens; output tokens are free (docs.typesafe.ai/models)
+RETRYABLE = {429, 500, 502, 503, 504, 529}
+
+
+def load_labels():
+    return yaml.safe_load((CONFIG_DIR / "labels.yaml").read_text(encoding="utf-8"))
+
+
+def build_questions(labels, variant="full"):
+    """Enrichment questions.
+    'full'  = contract definitions from config/labels.yaml (~900 billed tokens per request);
+    'short' = prompts/jev_short_v1.yaml, compressed phrases of the same rules (fewer tokens)."""
+    if variant == "short":
+        spec = yaml.safe_load((REPO / "prompts" / "jev_short_v1.yaml").read_text(encoding="utf-8"))
+        return {
+            "topic": {"type": "choice", **spec["topic"]},
+            "intent": {"type": "choice", **spec["intent"]},
+            "severity": {"type": "choice", **spec["severity"]},
+            "sentiment": {"type": "score", **spec["sentiment"]},
+        }
+
+    def describe(opt):
+        return opt["definition"]
+
+    topic_instr = ("Which product area is this Spotify app review about? Pick the problem with the highest "
+                   "severity (first mentioned on a tie); for praise, the first praised feature. "
+                   "A paid-plan mention alone is not billing.")
+    intent_instr = "Reviewer intent. Precedence: cancellation > complaint > request > praise > unclear."
+    sev_instr = "Severity of the reported impact (not the emotion or star rating)."
+    return {
+        "topic": {"type": "choice", "instructions": topic_instr,
+                  "criteria": {k: describe(v) for k, v in labels["topic"]["options"].items()}},
+        "intent": {"type": "choice", "instructions": intent_instr,
+                   "criteria": {k: describe(v) for k, v in labels["intent"]["options"].items()}},
+        "severity": {"type": "choice", "instructions": sev_instr,
+                     "criteria": {str(k): v for k, v in labels["severity"]["levels"].items()}},
+        "sentiment": {"type": "score", "instructions": "Overall sentiment of the review.",
+                      "criteria": ["very negative", "negative", "neutral or mixed", "positive", "very positive"]},
+    }
+
+
+def question_set_version(variant, pack=1):
+    return f"jev-q-{variant}-v1" + (f"-pack{pack}" if pack > 1 else "")
+
+
+def pack_request(texts, questions):
+    """EXPERIMENTAL multi-review request (not a documented Jev feature).
+    State holds reviews r1..rN; each base question is repeated per review with an instruction
+    naming that review. Question keys are not sent to the model, so the instruction must name it."""
+    state = {f"r{i}": t for i, t in enumerate(texts, 1)}
+    packed = {}
+    for i in range(1, len(texts) + 1):
+        for name, q in questions.items():
+            packed[f"r{i}__{name}"] = {**q, "instructions": f"Answer for review r{i} only: " + q["instructions"]}
+    return state, packed
+
+
+def unpack(payload, n):
+    """Split a packed response back into per-review answer dicts (same shape as an unpacked response)."""
+    answers = payload["answers"]
+    return [{"answers": {name: answers[f"r{i}__{name}"] for name in ("topic", "intent", "severity", "sentiment")}}
+            for i in range(1, n + 1)]
+
+
+def call(state, questions, *, max_attempts=3, timeout=60, log=None, meta=None):
+    """POST one state. Retries only 429/5xx/network errors with exponential backoff + jitter.
+    Every attempt (success or failure) is appended to `log` (a list) if given.
+    Returns (response_json or None, attempts)."""
+    key = os.environ.get("TYPESAFE_API_KEY")
+    if not key:
+        raise RuntimeError("TYPESAFE_API_KEY is not set (add it to .env)")
+    body = json.dumps({"state": state, "model": MODEL, "questions": questions}).encode("utf-8")
+    for attempt in range(1, max_attempts + 1):
+        local_id = "jev-" + uuid.uuid4().hex[:16]
+        started = time.time()
+        status, payload, error = None, None, None
+        try:
+            req = urllib.request.Request(ENDPOINT, data=body, method="POST", headers={
+                "Authorization": f"Bearer {key}", "Content-Type": "application/json"})
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                status = resp.status
+                payload = json.loads(resp.read().decode("utf-8"))
+        except urllib.error.HTTPError as e:
+            status = e.code
+            error = e.read().decode("utf-8", "replace")[:500]
+        except (urllib.error.URLError, TimeoutError, OSError) as e:
+            error = f"{type(e).__name__}: {e}"
+        elapsed = round(time.time() - started, 3)
+        usage = (payload or {}).get("usage", {})
+        if log is not None:
+            log.append({"request_id": local_id, "attempt": attempt, "http_status": status,
+                        "outcome": "succeeded" if payload else "failed", "error": error,
+                        "model": (payload or {}).get("model", MODEL),
+                        "input_tokens": usage.get("input_tokens"), "output_tokens": usage.get("output_tokens"),
+                        "started_at": started, "seconds": elapsed, **(meta or {})})
+        if payload:
+            return payload, attempt
+        if status is not None and status not in RETRYABLE:
+            break  # 4xx validation/auth errors are not retried
+        if attempt < max_attempts:
+            time.sleep(min(30, 2 ** attempt) * (0.5 + random.random()))
+    return None, attempt
+
+
+def parse(payload):
+    """Map Jev answers to our schema fields (code owns the mapping, not the model)."""
+    a = payload["answers"]
+    score = a["sentiment"]["score"]
+    return {
+        "topic": a["topic"]["choice"],
+        "intent": a["intent"]["choice"],
+        "severity": int(a["severity"]["choice"]),
+        "sentiment": round(score / 2 - 1, 2),  # Score 0..4 -> -1..1
+        "confidence": {k: a[k].get("confidence") for k in ("topic", "intent", "severity", "sentiment")},
+        "probabilities": {k: a[k].get("probabilities") for k in ("topic", "intent", "severity")},
+    }
