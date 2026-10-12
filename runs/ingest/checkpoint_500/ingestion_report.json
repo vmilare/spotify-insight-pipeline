@@ -1,0 +1,205 @@
+{
+  "all_checks_pass": true,
+  "checker_profile": {
+    "counts": {
+      "duplicate_review_ids": 0,
+      "empty_review_text": 0,
+      "missing_app_version": 108,
+      "records": 500
+    },
+    "file_sha256": "a94e31663ee7b7eaa77e23b7a8425b530cc0c866ed5e714953172a0afef6a12f",
+    "first_review": "2022-05-19 14:22:29",
+    "last_review": "2023-11-15 15:44:48",
+    "parsed_rows_sha256": "27cfa70c490531866d922b5020d8329437869b06ab0ea1026893108eb4d814ab",
+    "reviews_by_month": {
+      "2022-05": 14,
+      "2022-06": 19,
+      "2022-07": 21,
+      "2022-08": 31,
+      "2022-09": 22,
+      "2022-10": 18,
+      "2022-11": 18,
+      "2022-12": 21,
+      "2023-01": 17,
+      "2023-02": 23,
+      "2023-03": 20,
+      "2023-04": 21,
+      "2023-05": 22,
+      "2023-06": 19,
+      "2023-07": 56,
+      "2023-08": 26,
+      "2023-09": 25,
+      "2023-10": 79,
+      "2023-11": 28
+    },
+    "reviews_by_rating": {
+      "1": 187,
+      "2": 33,
+      "3": 19,
+      "4": 45,
+      "5": 216
+    }
+  },
+  "counts": {
+    "distinct_nonempty_texts": 479,
+    "duplicate_review_ids": 0,
+    "empty_review_text": 0,
+    "invalid_ratings": {},
+    "missing_app_version": 108,
+    "nonempty_review_text": 500,
+    "records": 500,
+    "reviews_reusing_an_exact_text": 21,
+    "texts_appearing_more_than_once": 11,
+    "unparseable_timestamps": 0
+  },
+  "first_review": "2022-05-19 14:22:29",
+  "generated_at": "2026-10-12T03:40:12+00:00",
+  "input": {
+    "bytes": 76170,
+    "path": "checkpoint_500.csv",
+    "sha256": "a94e31663ee7b7eaa77e23b7a8425b530cc0c866ed5e714953172a0afef6a12f"
+  },
+  "last_review": "2023-11-15 15:44:48",
+  "manifest_checks": [
+    {
+      "actual": 76170,
+      "check": "file_bytes",
+      "expected": 76170,
+      "pass": true
+    },
+    {
+      "actual": "a94e31663ee7b7eaa77e23b7a8425b530cc0c866ed5e714953172a0afef6a12f",
+      "check": "file_sha256",
+      "expected": "a94e31663ee7b7eaa77e23b7a8425b530cc0c866ed5e714953172a0afef6a12f",
+      "pass": true
+    },
+    {
+      "actual": 500,
+      "check": "pipeline_count_equals_checker_count",
+      "expected": 500,
+      "pass": true
+    }
+  ],
+  "most_repeated_texts": [
+    {
+      "first_review_id": "4aee0d75-6901-426e-b0f7-11d042ccc73e",
+      "reviews": 7,
+      "text": "Good"
+    },
+    {
+      "first_review_id": "dc73ecd9-3293-4ede-90d5-dd6cd1e8d087",
+      "reviews": 4,
+      "text": "Great"
+    },
+    {
+      "first_review_id": "06a45bd5-3ed9-43af-b7f2-8b9487e2ffff",
+      "reviews": 3,
+      "text": "Worst app"
+    },
+    {
+      "first_review_id": "710e1aee-ed80-4753-9c4e-c63bee84fd56",
+      "reviews": 3,
+      "text": "Excellent"
+    },
+    {
+      "first_review_id": "ee7da374-2a0d-4f3a-836e-07f40f2d3d0b",
+      "reviews": 3,
+      "text": "Nice"
+    },
+    {
+      "first_review_id": "051540ac-7d80-406a-aad4-87fbf9bb7ce7",
+      "reviews": 2,
+      "text": "Awesome"
+    },
+    {
+      "first_review_id": "24e63383-4646-4f63-ae37-2014857c236b",
+      "reviews": 2,
+      "text": "Very good"
+    },
+    {
+      "first_review_id": "39e472ad-2038-4978-a559-d052e3844e59",
+      "reviews": 2,
+      "text": "Hate this application"
+    },
+    {
+      "first_review_id": "4c0242ca-099a-4c89-b11b-219ef28f1e16",
+      "reviews": 2,
+      "text": "Love it"
+    },
+    {
+      "first_review_id": "aea961b7-0d0c-4e46-bbf7-1fb4d7bdd437",
+      "reviews": 2,
+      "text": "Superb"
+    },
+    {
+      "first_review_id": "f2ffb274-3e65-4454-8181-ca7ac99d698e",
+      "reviews": 2,
+      "text": "Op"
+    },
+    {
+      "first_review_id": "00363dc8-2117-4565-9af9-efadf8fa90cf",
+      "reviews": 1,
+      "text": "Worst"
+    },
+    {
+      "first_review_id": "0070e713-4cb7-4d78-954f-1764d5593c91",
+      "reviews": 1,
+      "text": "I've loved Spotify but it's baffling to me how every update they make seems to m"
+    },
+    {
+      "first_review_id": "00a77161-cb3f-4fae-a7b6-eca2cfc124ec",
+      "reviews": 1,
+      "text": "Excellent quality and great choice"
+    },
+    {
+      "first_review_id": "01124066-b5dd-4c79-8618-d1bea99d197a",
+      "reviews": 1,
+      "text": "Sometimes has connection issues with google home and tends to get \"tunnel vision"
+    }
+  ],
+  "notes": [
+    "Raw field strings are stored unchanged; source_sha256 uses the course checker's row_sha.",
+    "Empty means review_text.strip() == '' (same rule as the checker); such rows are quarantined with reason empty_review_text and are never sent to a model.",
+    "Missing app_version does not block classification.",
+    "Distinct texts are exact byte-identical review_text values; similar texts are not merged."
+  ],
+  "quarantined_empty_texts": [],
+  "reviews_by_month": {
+    "2022-05": 14,
+    "2022-06": 19,
+    "2022-07": 21,
+    "2022-08": 31,
+    "2022-09": 22,
+    "2022-10": 18,
+    "2022-11": 18,
+    "2022-12": 21,
+    "2023-01": 17,
+    "2023-02": 23,
+    "2023-03": 20,
+    "2023-04": 21,
+    "2023-05": 22,
+    "2023-06": 19,
+    "2023-07": 56,
+    "2023-08": 26,
+    "2023-09": 25,
+    "2023-10": 79,
+    "2023-11": 28
+  },
+  "reviews_by_rating": {
+    "1": 187,
+    "2": 33,
+    "3": 19,
+    "4": 45,
+    "5": 216
+  },
+  "runtime_seconds": 0.01,
+  "status_after_ingest": {
+    "pending": 500
+  },
+  "text_length_chars": {
+    "max": 499,
+    "median": 36.0,
+    "min": 1,
+    "p90": 196.9
+  }
+}

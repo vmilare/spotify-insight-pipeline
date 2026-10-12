@@ -17,14 +17,32 @@ def main():
     p.add_argument("--input", type=Path, default=None,
                    help=f"Input CSV path (default: $DATA_DIR/{FULL_CSV_NAME})")
     p.add_argument("--out", type=Path, default=None, help="Output folder (default: runs/ingest/<input name>)")
+    p.add_argument("--workspace", default="main", help="Saved-state workspace (default main)")
+
+    p = commands.add_parser("enrich", help="Stage 2: label pending reviews with Jev (PAID API calls, budget-capped)")
+    p.add_argument("--input", type=Path, default=None, help=f"Input CSV (default: $DATA_DIR/{FULL_CSV_NAME})")
+    p.add_argument("--workers", type=int, default=None, help="Override max_workers from config/settings.yaml")
+    p.add_argument("--stop-after-requests", type=int, default=None,
+                   help="Stop admitting new requests after N (used to demonstrate interruption + resume)")
+    p.add_argument("--workspace", default="main",
+                   help="Saved-state workspace (default main). A new name = empty cache = cold run")
 
     args = parser.parse_args()
     if args.command == "ingest":
         from . import ingest
-        report = ingest.run(args.input or dataset_file(FULL_CSV_NAME), args.out)
+        report = ingest.run(args.input or dataset_file(FULL_CSV_NAME), args.out, args.workspace)
         print(json.dumps({"counts": report["counts"], "all_checks_pass": report["all_checks_pass"],
                           "failed_checks": [c["check"] for c in report["manifest_checks"] if not c["pass"]],
                           "runtime_seconds": report["runtime_seconds"]}, indent=2, ensure_ascii=False))
+    elif args.command == "enrich":
+        from . import enrich
+        summary = enrich.run(args.input or dataset_file(FULL_CSV_NAME), workers=args.workers,
+                             stop_after_requests=args.stop_after_requests, workspace=args.workspace)
+        keys = ("run_id", "phase", "stop_reason", "requests", "failed_requests", "invalid_outputs",
+                "texts_labeled", "reviews_completed", "cache_hit_reviews", "status_counts", "input_tokens",
+                "cost_usd", "tokens_per_text", "projection_full_pass_usd", "wall_clock_seconds",
+                "throughput_texts_per_second")
+        print(json.dumps({k: summary[k] for k in keys}, indent=2))
 
 
 if __name__ == "__main__":

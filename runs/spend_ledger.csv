@@ -1,0 +1,5 @@
+run_id,input,label_config,started_at,ended_at,requests,failed_requests,input_tokens,cost_usd,texts_labeled,reviews_completed,cache_hit_reviews,stop_reason
+dev-experiments-2026-10-11,dev_50_labeled.csv,various (see LOG.md),2026-10-11,2026-10-11,234,0,319000,0.0134,0,0,0,experiments (cost from LOG.md; token count approximate)
+main-cost_100-20261011T203957,cost_100.csv,jev-1.13.0+jev-q-tiny-v1-pack10+schema-v1+quote-v1+sent-from-intent-v1,2026-10-12T03:39:57+00:00,2026-10-12T03:39:58+00:00,10,0,46807,0.001966,100,100,0,complete
+main-checkpoint_500-20261011T204012,checkpoint_500.csv,jev-1.13.0+jev-q-tiny-v1-pack10+schema-v1+quote-v1+sent-from-intent-v1,2026-10-12T03:40:12+00:00,2026-10-12T03:40:17+00:00,38,0,177261,0.007445,379,388,112,complete
+main-cost_100-20261011T204018,cost_100.csv,jev-1.13.0+jev-q-tiny-v1-pack10+schema-v1+quote-v1+sent-from-intent-v1,2026-10-12T03:40:18+00:00,2026-10-12T03:40:18+00:00,0,0,0,0.0,0,0,0,complete

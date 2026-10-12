@@ -24,8 +24,11 @@ Legend: ✅ done · 🔄 in progress · ⬜ todo · 👤 needs the user
 - ✅ 1a Dev-50 selection — `labeling/select_dev.py` → `labeling/dev_50_to_label.csv` (analysis_10000 rows 501–10,000; golden + checkpoint_500 excluded and asserted)
 - ✅ 1a Labeling page — `labeling/label.html?set=dev_50` (also `?set=golden_50` for later)
 - ✅ 1b User labeled dev 50 → `evals/dev_50_labeled.csv` (50/50 valid; no `downloads` examples yet → add a few dev downloads cases before tuning)
-- ⬜👤 1c User adds `TYPESAFE_API_KEY` to `.env`
-- ⬜ 1c Jev question set + client, dev before/after test, 100-review cold/warm pilot, calculator v1
+- ✅ 1c User added `TYPESAFE_API_KEY` to `.env`
+- ✅ 1c Jev client + dev experiments (see LOG.md) → frozen setup `jev-q-tiny-v1-pack10`
+- ✅ 1c Stage 2 enrich built; tested on cost_100 (cold + warm) and checkpoint_500 → `runs/`, `runs/spend_ledger.csv`
+- ⬜ 1c Formal 100-review cold/warm pilot incl. verify/group/rank/memo + calculator v1 (needs remaining stages)
+- ⬜👤 Decide budget cap ($10 strict vs $11) · re-check severity-5 dev labels
 
 ### Step 2 — Oct 12
 - ⬜👤 Golden 50 labels → `evals/golden_50_labeled.csv`

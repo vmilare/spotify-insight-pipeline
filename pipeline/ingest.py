@@ -49,14 +49,14 @@ def check(name, expected, actual):
     return {"check": name, "expected": expected, "actual": actual, "pass": expected == actual}
 
 
-def run(input_path, out_dir=None):
+def run(input_path, out_dir=None, workspace="main"):
     started = time.monotonic()
     input_path = Path(input_path)
     file_sha = sha(input_path)
     out_dir = Path(out_dir or RUNS_DIR / "ingest" / input_path.stem)
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    conn = store.connect(file_sha)
+    conn = store.connect(file_sha, workspace)
     with conn:
         conn.execute("DELETE FROM reviews")
         conn.execute("DELETE FROM texts")
@@ -193,7 +193,7 @@ def run(input_path, out_dir=None):
     write_json(out_dir / "data_manifest.json", {
         "input": report["input"],
         "manifest_match": expected["file"] if expected else None,
-        "state_db": str(store.db_path(file_sha).name),
+        "state_db": str(store.db_path(file_sha, workspace).relative_to(store.STATE_DIR.parent.parent)),
         "ingested_at": stamp,
         "records": records,
         "pending_reviews": status_counts.get("pending", 0),

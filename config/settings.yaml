@@ -1,0 +1,16 @@
+# Pipeline settings. Changing anything under `enrich` that affects labels changes label_config,
+# which means saved results are no longer reused (new paid work).
+enrich:
+  question_set: tiny            # prompts/jev_tiny_v1.yaml (chosen after dev experiments, LOG.md)
+  reviews_per_request: 10       # <= 50 required by the contract
+  max_workers: 1                # start at 1; raise only after measuring
+  http_attempts: 3              # bounded backoff + jitter for 429/5xx/network errors
+  invalid_output_retries: 1     # contract: retry invalid output once, then quarantine
+  max_consecutive_failed_requests: 5   # circuit breaker: stop the run, keep progress
+  confidence_threshold: 0.6     # below this on topic/intent/severity -> needs_review (tune on dev)
+  quote_whole_text_max_chars: 200
+
+budget:
+  project_cap_usd: 10.00        # all runs together (runs/spend_ledger.csv + current run)
+  run_cap_usd: 10.00            # this run alone
+  reservation_tokens_per_review: 650   # worst-case estimate reserved before each request is sent

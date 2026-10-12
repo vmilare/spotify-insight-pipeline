@@ -2,11 +2,11 @@
 
 Chronological record of what we did, why, what it cost, and what we learned. Newest entries at
 the bottom. Decisions also appear in `Plan.md` → Decisions log. Spend is real billed usage
-unless marked *estimate*.
+unless marked *estimate*. Per-run spend is tracked automatically in `runs/spend_ledger.csv`.
 
 | Running API spend | Jev | Anthropic | Total |
 |---|---|---|---|
-| as of last entry | $0.0134 | $0.00 | **$0.0134** |
+| as of last entry | $0.0228 | $0.00 | **$0.0228** |
 
 ---
 
@@ -126,3 +126,31 @@ unless marked *estimate*.
      results (cache) are what make the final ranking reproducible.
 - Projected total with tiny/10: Jev full pass ~$9.5 + retries ~$0.2 + 100/500/10k dev runs ~$0.2 +
   Haiku verify ~$0.3 + Sonnet memo ~$0.5 ≈ **$10.5–11** (estimate). Decision pending with the user.
+
+## 2026-10-11 — Stage 2 built (`pipeline/enrich.py`) and tested on 100 and 500 reviews ($0.0094)
+- Setup frozen for these runs: `label_config = jev-1.13.0+jev-q-tiny-v1-pack10+schema-v1+quote-v1+sent-from-intent-v1`
+  (`config/settings.yaml`).
+- What the stage does: pending distinct texts in a fixed pseudo-random order (a partial run is a fair
+  sample) → 10 per Jev request → validate every answer → code builds quote (whole text if ≤200 chars,
+  else best sentence for the topic), entities (keyword list) and needs_review (confidence < 0.6 or likely
+  non-English) → **one atomic DB commit per request** (results + statuses + call record) → result cache
+  keyed by exact text + label_config. Invalid output → retried once → quarantined with reason.
+- Cost controls: spend ledger reserves a worst-case estimate before each request and refuses to send
+  when spent + reserved + next > cap (run cap and project cap, `config/settings.yaml`, currently $10/$10);
+  circuit breaker after 5 consecutive failed requests; Ctrl+C stops admitting work and saves progress.
+- Workspaces: `--workspace main` (dev checkpoints + full run share one cache, so these results are reused
+  later); a new workspace name = empty cache, for the required cold pilot.
+- The ledger was seeded with the earlier experiments ($0.0134, from this log; token count approximate).
+
+  | Run | Requests | Failed | Distinct texts labeled | Cache-hit reviews | Cost | Wall clock | Full-pass projection |
+  |---|---|---|---|---|---|---|---|
+  | cost_100 (cold) | 10 | 0 | 100 | 0 | $0.0020 | 1.5 s | $9.52 |
+  | checkpoint_500 | 38 | 0 | 379 | 112 | $0.0074 | 5.5 s | $9.51 |
+  | cost_100 again (warm) | **0** | 0 | 0 | — | **$0.0000** | 0.0 s | — |
+
+- 100-review check: all 100 records valid (labels, ranges, quote is an exact substring, IDs match input).
+  Labels: topic other 50 / catalog 13 / usability 12 / billing 10 / playback 10 / downloads 2 / access 2 /
+  support 1; intent praise 41 / complaint 40 / cancellation 9 / unclear 6 / request 4; severity 1:47 2:25 3:21 4:7.
+  needs_review 30/100 (low-confidence severity 13, topic 11, intent 5; likely non-English 4).
+- Throughput ~68 texts/s with 1 worker → full pass ≈ 2 hours at 1 worker (*estimate*).
+- Not yet: verification, grouping, ranking, memo (needed for the formal 100-review cost pilot).
