@@ -1,0 +1,16 @@
+{
+  "allow_multi_issue": false,
+  "baseline_records(complaint+cancellation)": 48,
+  "completed_records": 100,
+  "generated_at": "2026-10-12T04:58:42+00:00",
+  "input": "cost_100.csv",
+  "input_sha256": "c884ac3b9be5066995d5063f96ad9af6e5e082975788c1684c4f6b6ea661dd0e",
+  "issue_taxonomy": "issues-v2",
+  "issues_with_members": 22,
+  "label_config": "jev-1.13.0+jev-q-tiny-v1-pack10+schema-v1+quote-v1+sent-from-intent-v1",
+  "rule": "topic selects issue list; first issue whose keyword occurs in the text wins; else topic general issue",
+  "status_counts": {
+    "completed": 100
+  },
+  "workspace": "pilot-20261011T215750"
+}

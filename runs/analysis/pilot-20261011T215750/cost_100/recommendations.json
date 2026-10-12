@@ -1,0 +1,49 @@
+{
+  "check_status": "passed",
+  "headline": "Fund billing/support next quarter, led by the Premium paywall friction (BIL-PAYWALL), the top specific issue in the baseline ranking",
+  "recommendations": [
+    {
+      "claim_ids": [
+        "C1",
+        "C4"
+      ],
+      "rationale": "BIL-PAYWALL is the top specific issue with a priority score of 26 [C4] and 8 complaints [C1].",
+      "review_ids": [
+        "a78d831a-69f4-428a-9235-cfdd9775c509",
+        "d146397f-4a94-4980-be00-ae9212eca3a7"
+      ],
+      "title": "Fix the free-tier paywall experience"
+    },
+    {
+      "claim_ids": [
+        "C7",
+        "C8"
+      ],
+      "rationale": "PLY-WONTPLAY scores 9 [C8] on 3 complaints [C7], enough to justify a telemetry check before committing build effort.",
+      "review_ids": [
+        "e16a4550-43e7-4ae1-b538-a65cc652c31b",
+        "9c9757da-6b99-4c95-a0e7-0661ee858027"
+      ],
+      "title": "Scope a playback bug triage"
+    },
+    {
+      "claim_ids": [
+        "C6",
+        "C10"
+      ],
+      "rationale": "USA-REDESIGN scores 11 [C6] and USA-ADS 7 [C10], both well below the paywall issue.",
+      "review_ids": [
+        "45c561b9-cc47-4d80-95d3-f0d20bc84af3",
+        "e5e6c55f-3069-4b7c-9807-f8b5d5bf2726"
+      ],
+      "title": "Monitor redesign and ad complaints"
+    },
+    {
+      "claim_ids": [],
+      "rationale": "28.0% of records are flagged needs_review and counts are small, so a larger human-reviewed sample is needed to confirm the ranking.",
+      "review_ids": [],
+      "title": "Improve evidence quality before the next cycle"
+    }
+  ],
+  "recommended_area": "billing_support"
+}

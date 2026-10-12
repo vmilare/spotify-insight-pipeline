@@ -1,0 +1,20 @@
+{
+  "config": "claude-haiku-5-5+group-review-v1+effort-low+thinking-off",
+  "cost_usd": 0.0,
+  "failed_attempts": 0,
+  "issues_reviewed": 22,
+  "issues_total": 22,
+  "misfits": 4,
+  "note": "Membership unchanged; fit rates are a quality signal for the keyword rules.",
+  "requests": 0,
+  "run_id": "pilot-20261011T215750-cost_100-groupreview-20261011T215842826",
+  "sampled_quotes": 48,
+  "stage_cache_hits": 8,
+  "usage": {
+    "cache_read_tokens": 0,
+    "cache_write_tokens": 0,
+    "input_tokens": 0,
+    "output_tokens": 0
+  },
+  "wall_clock_seconds": 0.0
+}

@@ -1,0 +1,68 @@
+{
+  "agreement": {
+    "intent": 18,
+    "sentiment_mae": 0.225,
+    "severity_exact": 16,
+    "severity_mae": 0.2,
+    "severity_within_1": 20,
+    "topic": 16
+  },
+  "cost_usd": 0.0,
+  "failed_attempts": 0,
+  "first_label_config": "jev-1.13.0+jev-q-tiny-v1-pack10+schema-v1+quote-v1+sent-from-intent-v1",
+  "input": "cost_100.csv",
+  "intent_confusion(first->verifier)": [
+    [
+      "complaint->unclear",
+      1
+    ],
+    [
+      "request->complaint",
+      1
+    ]
+  ],
+  "missing_verifier_labels": 0,
+  "needs_review_vs_disagreement": {
+    "flagged": 4,
+    "flagged_with_topic_or_intent_disagreement": 1,
+    "unflagged": 16,
+    "unflagged_with_topic_or_intent_disagreement": 4
+  },
+  "planted_error_test": {
+    "caught_by_comparison": 4,
+    "planted": 4,
+    "rule": "every 5th verified record's topic replaced by TOPICS[(i+3) % 8] in a test copy",
+    "synthetic": true
+  },
+  "requests": 0,
+  "run_id": "pilot-20261011T215750-cost_100-verify-20261011T215842813",
+  "sample": {
+    "declared_size": 20,
+    "drawn": 20,
+    "method": "records with a model call, sorted by SHA-256('verify-sample-v1:review_id'), first N"
+  },
+  "stage_cache_hits": 1,
+  "topic_confusion(first->verifier)": [
+    [
+      "playback->usability",
+      2
+    ],
+    [
+      "support->other",
+      1
+    ],
+    [
+      "billing->usability",
+      1
+    ]
+  ],
+  "usage": {
+    "cache_read_tokens": 0,
+    "cache_write_tokens": 0,
+    "input_tokens": 0,
+    "output_tokens": 0
+  },
+  "verified": 20,
+  "verifier_config": "claude-haiku-5-5+verify-v1+effort-low+thinking-off",
+  "wall_clock_seconds": 0.0
+}

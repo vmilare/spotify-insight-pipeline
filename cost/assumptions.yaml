@@ -1,0 +1,38 @@
+# Editable assumptions for the full-run projection (cost/calculator.py). Measured pilot results are never
+# changed by these values; they only drive the projection. Rates live in cost/rates.csv.
+volume:
+  source_rows: 660622
+  nonempty_reviews: 660609
+  empty_text_quarantines: 13
+  distinct_nonempty_texts: 484189        # with exact-text reuse (cache_source_id)
+
+stages:
+  verify_sample_size: 500                # declared random sample re-labeled by the verifier
+  memo_calls_base: 1
+  memo_calls_conservative: 2             # one corrective retry if the checker rejects the memo
+  group_review_requests: 8               # one per topic (fixed, independent of volume)
+
+scenarios:
+  base:
+    retry_rate: 0.02                     # extra enrichment requests from rate limits / temporary errors
+    verify_multiplier: 1.0
+    group_review_multiplier: 1.0
+  conservative:
+    retry_rate: 0.10
+    verify_multiplier: 1.5
+    group_review_multiplier: 2.0
+
+controls:
+  budget_usd: 11.00                      # project spending limit (also enforced in config/settings.yaml)
+  spent_before_full_run_usd: null        # null = read runs/spend_ledger.csv
+  max_workers: 4                         # max concurrent Jev requests for the full run (start 1, then 2, then 4)
+  parallel_efficiency: 0.8               # assumed speed-up efficiency per extra worker (modeled, not measured)
+  fallback_fraction: 0.0                 # no stronger-model fallback in this design (user decision)
+  output_token_caps:                     # per-request max_tokens; Jev output tokens are free and not capped by us
+    verify: 3000
+    group_review: 3000
+    memo: 16000
+
+local_compute:
+  note: "Pipeline runs on a laptop; electricity/hardware cost not measured. Reported as unknown, not zero."
+  usd: null

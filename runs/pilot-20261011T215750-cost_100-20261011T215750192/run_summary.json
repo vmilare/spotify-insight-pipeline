@@ -1,0 +1,43 @@
+{
+  "budget": {
+    "project_cap_usd": 11.0,
+    "project_spend_before_run_usd": 0.100228,
+    "run_cap_usd": 10.5
+  },
+  "cache_hit_reviews": 0,
+  "completed_after": 100,
+  "completed_before": 0,
+  "cost_usd": 0.001966,
+  "ended_at": "2026-10-12T04:57:51+00:00",
+  "failed_requests": 0,
+  "input": "cost_100.csv",
+  "input_sha256": "c884ac3b9be5066995d5063f96ad9af6e5e082975788c1684c4f6b6ea661dd0e",
+  "input_tokens": 46807,
+  "invalid_outputs": 0,
+  "label_config": "jev-1.13.0+jev-q-tiny-v1-pack10+schema-v1+quote-v1+sent-from-intent-v1",
+  "phase": "initial",
+  "price": {
+    "model": "jev-1.13.0",
+    "output_tokens": "free",
+    "source": "https://docs.typesafe.ai/models (checked 2026-10-11)",
+    "usd_per_million_input_tokens": 0.042
+  },
+  "projection_full_pass_usd": 9.52,
+  "projection_note": "tokens per labeled text in this run x 484,189 distinct texts; this input's texts (100) may differ in length from the full corpus",
+  "quarantined_texts": 0,
+  "requests": 10,
+  "reviews_completed": 100,
+  "reviews_per_request": 10,
+  "run_id": "pilot-20261011T215750-cost_100-20261011T215750192",
+  "started_at": "2026-10-12T04:57:50+00:00",
+  "status_counts": {
+    "completed": 100
+  },
+  "stop_reason": "complete",
+  "texts_labeled": 100,
+  "throughput_texts_per_second": 64.57,
+  "tokens_per_text": 468.1,
+  "wall_clock_seconds": 1.55,
+  "workers": 1,
+  "workspace": "pilot-20261011T215750"
+}

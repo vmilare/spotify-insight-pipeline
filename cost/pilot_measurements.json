@@ -1,0 +1,207 @@
+{
+  "workspace": "pilot-20261011T215750",
+  "started_at": "2026-10-12T04:57:50+00:00",
+  "input": {
+    "file": "cost_100.csv",
+    "sha256": "c884ac3b9be5066995d5063f96ad9af6e5e082975788c1684c4f6b6ea661dd0e",
+    "matches_manifest": true,
+    "rows": 100,
+    "unique_texts": 100
+  },
+  "runs": {
+    "cold": {
+      "stage_seconds": {
+        "ingest": 0.004,
+        "enrich": 1.557,
+        "verify": 3.28,
+        "group": 0.017,
+        "group_review": 18.637,
+        "rank": 0.004,
+        "recommend": 29.114
+      },
+      "end_to_end_seconds": 52.614,
+      "status_counts": {
+        "completed": 100
+      },
+      "model_calls": 10,
+      "enrich_requests": 10,
+      "stage_cache_hits": {
+        "verify": 0,
+        "group_review": 0,
+        "recommend": 0
+      }
+    },
+    "warm": {
+      "stage_seconds": {
+        "ingest": 0.004,
+        "enrich": 0.008,
+        "verify": 0.006,
+        "group": 0.007,
+        "group_review": 0.003,
+        "rank": 0.001,
+        "recommend": 0.004
+      },
+      "end_to_end_seconds": 0.034,
+      "status_counts": {
+        "completed": 100
+      },
+      "model_calls": 0,
+      "enrich_requests": 0,
+      "stage_cache_hits": {
+        "verify": 1,
+        "group_review": 8,
+        "recommend": 1
+      }
+    }
+  },
+  "verify_sample": 20,
+  "results": {
+    "cold": {
+      "enrich": {
+        "run_id": "pilot-20261011T215750-cost_100-20261011T215750192",
+        "phase": "initial",
+        "stop_reason": "complete",
+        "requests": 10,
+        "failed_requests": 0,
+        "texts_labeled": 100,
+        "reviews_completed": 100,
+        "cache_hit_reviews": 0,
+        "input_tokens": 46807,
+        "cost_usd": 0.001966,
+        "wall_clock_seconds": 1.55
+      },
+      "verify": {
+        "verified": 20,
+        "agreement": {
+          "topic": 16,
+          "intent": 18,
+          "severity_exact": 16,
+          "severity_within_1": 20,
+          "severity_mae": 0.2,
+          "sentiment_mae": 0.225
+        },
+        "requests": 1,
+        "cost_usd": 0.000621
+      },
+      "memo": {
+        "status": "passed",
+        "attempts": 1,
+        "requests": 1,
+        "cost_usd": 0.060136,
+        "recommended_area": "billing_support"
+      }
+    },
+    "warm": {
+      "enrich": {
+        "run_id": "pilot-20261011T215750-cost_100-20261011T215842808",
+        "phase": "resume",
+        "stop_reason": "complete",
+        "requests": 0,
+        "failed_requests": 0,
+        "texts_labeled": 0,
+        "reviews_completed": 0,
+        "cache_hit_reviews": 0,
+        "input_tokens": 0,
+        "cost_usd": 0.0,
+        "wall_clock_seconds": 0.0
+      },
+      "verify": {
+        "verified": 20,
+        "agreement": {
+          "topic": 16,
+          "intent": 18,
+          "severity_exact": 16,
+          "severity_within_1": 20,
+          "severity_mae": 0.2,
+          "sentiment_mae": 0.225
+        },
+        "requests": 0,
+        "cost_usd": 0.0
+      },
+      "memo": {
+        "status": "passed",
+        "attempts": 1,
+        "requests": 0,
+        "cost_usd": 0.0,
+        "recommended_area": "billing_support"
+      }
+    }
+  },
+  "stages": {
+    "ingest": {
+      "provider": "local code",
+      "model": "-",
+      "settings": "-",
+      "prompt_schema": "-",
+      "batch": "CSV stream",
+      "cold_attempts": 0,
+      "cold_failed": 0,
+      "warm_cache_hits": "-"
+    },
+    "enrich": {
+      "provider": "TypeSafe",
+      "model": "jev-1.13.0",
+      "settings": "questions: topic, intent, severity (Choice)",
+      "prompt_schema": "jev-1.13.0+jev-q-tiny-v1-pack10+schema-v1+quote-v1+sent-from-intent-v1",
+      "batch": "10 reviews/request",
+      "cold_attempts": 10,
+      "cold_failed": 0,
+      "warm_cache_hits": "0 new requests",
+      "warm_requests": 0,
+      "tokens_per_text": 468.1,
+      "texts_per_second": 64.52
+    },
+    "verify": {
+      "provider": "Anthropic",
+      "model": "claude-haiku-5-5",
+      "settings": "effort low, thinking off",
+      "prompt_schema": "verify-v1 / JSON schema",
+      "batch": "25 reviews/request",
+      "cold_attempts": 1,
+      "cold_failed": 0,
+      "warm_cache_hits": 1,
+      "verified": 20,
+      "declared_sample": 20
+    },
+    "group": {
+      "provider": "local code",
+      "model": "-",
+      "settings": "issues-v2 keyword rules",
+      "prompt_schema": "-",
+      "batch": "-",
+      "cold_attempts": 0,
+      "cold_failed": 0,
+      "warm_cache_hits": "-"
+    },
+    "group_review": {
+      "provider": "Anthropic",
+      "model": "claude-haiku-5-5",
+      "settings": "effort low, thinking off",
+      "prompt_schema": "group-review-v1 / JSON schema",
+      "batch": "1 request/topic, \u226412 quotes/issue",
+      "cold_attempts": 8,
+      "cold_failed": 0,
+      "warm_cache_hits": 8
+    },
+    "rank": {
+      "provider": "local code",
+      "model": "-",
+      "settings": "-",
+      "prompt_schema": "-",
+      "batch": "-",
+      "cold_attempts": 0,
+      "cold_failed": 0,
+      "warm_cache_hits": "-"
+    },
+    "recommend": {
+      "provider": "Anthropic",
+      "model": "claude-sonnet-5-5",
+      "settings": "effort high, adaptive thinking, fallbacks default",
+      "prompt_schema": "memo-v1 / JSON schema",
+      "batch": "1 evidence pack",
+      "cold_attempts": 1,
+      "cold_failed": 0,
+      "warm_cache_hits": 1
+    }
+  }
+}
