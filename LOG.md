@@ -331,3 +331,15 @@ unless marked *estimate*. Per-run spend is tracked automatically in `runs/spend_
   with the dataviz validator (light + dark pass; light contrast WARN relieved by value labels + table views).
 - Tested locally on the 500-review data: all endpoints 200, bad input → 404/422; light/dark screenshots checked;
   375 px phone width: no horizontal overflow.
+
+## 2026-10-12 — Full run complete
+- Run 3 (`...20261012T083441342`, resume) finished: 22,868 requests, **0 failed, 0 invalid**, 228,677 texts →
+  255,713 reviews, $4.5226, 32.4 min, 117.7 texts/s (2 workers).
+- **Final status: 660,609 completed · 0 pending · 13 quarantined (`empty_review_text`) of 660,622.**
+- Three enrichment runs on the full file: initial 24,000 requests ($4.7465) · interrupted resume 702 ($0.1388) ·
+  final resume 22,868 ($4.5226) → **47,570 Jev requests, 0 failures, $9.4078**; plus 129,565 reviews completed from
+  earlier same-config results (cache) at no cost. Tokens per text 470.9 (projection was 468.4: +0.5%).
+- Project spend after the full run: **$9.73 of the $11 cap**.
+- Vercel: site deployed at https://spotify-insight-pipeline.vercel.app ; static page OK but `/api/*` returned 404
+  (project preset "Other" serves static files only). Backend moved to the zero-config layout `web/app.py`;
+  user is redeploying with the FastAPI preset.
