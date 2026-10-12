@@ -1,57 +1,55 @@
 {
   "check_status": "passed",
-  "headline": "Fund playback reliability first: songs that will not play or play the wrong tracks, plus the wider playback bugs",
+  "headline": "Fund usability first: ad load and the redesign are the best-supported, most reliably labelled specific problems, with the paywall and playback as caveated alternatives",
   "recommendations": [
     {
       "claim_ids": [
         "C1",
         "C2",
-        "C3"
+        "C4"
       ],
-      "rationale": "PLY-WONTPLAY combines high volume with a high mean severity and is a fixable defect.",
+      "rationale": "USA-ADS is the second-highest actionable issue by priority score and had strong label agreement in the blind audit.",
       "review_ids": [
-        "6c7d8912-de88-4636-95b8-7618937e1258",
-        "e44f51bb-e199-4c8a-bece-ede36c1e800a"
+        "02ab45da-773e-42fd-93b5-6bc77ed11944",
+        "25c1050d-94e0-4cfc-a08a-2392f03a307f"
       ],
-      "title": "Fix songs not playing or playing wrong tracks"
+      "title": "Reduce ad intrusiveness"
     },
     {
       "claim_ids": [
-        "C4",
-        "C5",
-        "C6"
+        "C3",
+        "C5"
       ],
-      "rationale": "PLY-GENERAL is the second-largest playback issue and includes reports of lost user data.",
+      "rationale": "USA-REDESIGN complaints centre on layout changes and missing basics such as repeat, rewind and like.",
       "review_ids": [
-        "e1b71aaf-893e-4d2a-a12f-ea548cb1b99b",
-        "fd4a071c-7658-4862-92d6-5f8e01818e3d"
+        "c84d504f-4edc-4090-a5de-9ab8f05ae083"
       ],
-      "title": "Investigate playlist and liked-song loss plus shuffle/autoplay bugs"
+      "title": "Restore basic controls removed by the redesign"
     },
     {
       "claim_ids": [
-        "C7",
-        "C8"
+        "C6",
+        "C7"
       ],
-      "rationale": "BIL-PAYWALL has the highest priority score but reflects a monetization policy question and relies heavily on needs_review labels.",
+      "rationale": "BIL-PAYWALL has the top actionable priority score, but the verifier often relabelled it as usability, so it should be coordinated with the ads work.",
       "review_ids": [
         "1be24878-5115-490a-bb7f-dad95d0630ab"
       ],
-      "title": "Run a separate paywall messaging review"
+      "title": "Review paywall and ad friction jointly"
     },
     {
       "claim_ids": [
+        "C8",
         "C9",
-        "C10",
-        "C11",
-        "C12"
+        "C10"
       ],
-      "rationale": "USA-ADS is high-volume with lower severity, and ACC-LOGIN is severe but small.",
+      "rationale": "Playback severity is high but its topic labels had weak verifier agreement, so ownership should be confirmed first.",
       "review_ids": [
-        "efad1c88-44f9-4448-b330-599e0aac4003"
+        "e44f51bb-e199-4c8a-bece-ede36c1e800a",
+        "6c7d8912-de88-4636-95b8-7618937e1258"
       ],
-      "title": "Monitor ads and scope a small login fix"
+      "title": "Re-label playback complaints before funding them"
     }
   ],
-  "recommended_area": "playback"
+  "recommended_area": "usability"
 }

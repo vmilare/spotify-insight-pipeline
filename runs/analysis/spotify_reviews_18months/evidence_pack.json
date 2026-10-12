@@ -680,6 +680,146 @@
     }
   ],
   "verification": {
+    "breakdown_note": "complaint/cancellation records of the random verify sample, grouped by Jev's issue/area; per-issue samples are small (see 'sampled')",
+    "by_area_in_sample": {
+      "access": {
+        "sampled_complaints": 18,
+        "verifier_other_areas": {
+          "other": 1,
+          "playback": 1,
+          "usability": 1
+        },
+        "verifier_same_area": 15
+      },
+      "billing_support": {
+        "sampled_complaints": 57,
+        "verifier_other_areas": {
+          "catalog": 1,
+          "other": 2,
+          "usability": 9
+        },
+        "verifier_same_area": 45
+      },
+      "catalog": {
+        "sampled_complaints": 16,
+        "verifier_other_areas": {
+          "playback": 1,
+          "usability": 4
+        },
+        "verifier_same_area": 11
+      },
+      "other": {
+        "sampled_complaints": 53,
+        "verifier_other_areas": {
+          "access": 1,
+          "catalog": 2,
+          "playback": 1
+        },
+        "verifier_same_area": 49
+      },
+      "playback": {
+        "sampled_complaints": 53,
+        "verifier_other_areas": {
+          "billing_support": 1,
+          "catalog": 2,
+          "other": 4,
+          "usability": 12
+        },
+        "verifier_same_area": 34
+      },
+      "usability": {
+        "sampled_complaints": 74,
+        "verifier_other_areas": {
+          "billing_support": 2,
+          "catalog": 1,
+          "other": 4,
+          "playback": 2
+        },
+        "verifier_same_area": 65
+      }
+    },
+    "by_issue_in_sample": {
+      "ACC-LOGIN": {
+        "sampled": 13,
+        "topic_agree": 12,
+        "verifier_other_topics": {
+          "usability": 1
+        }
+      },
+      "BIL-GENERAL": {
+        "sampled": 11,
+        "topic_agree": 9,
+        "verifier_other_topics": {
+          "other": 2
+        }
+      },
+      "BIL-PAYWALL": {
+        "sampled": 44,
+        "topic_agree": 35,
+        "verifier_other_topics": {
+          "usability": 9
+        }
+      },
+      "OTH-GENERAL": {
+        "sampled": 53,
+        "topic_agree": 49,
+        "verifier_other_topics": {
+          "access": 1,
+          "catalog": 2,
+          "downloads": 1
+        }
+      },
+      "PLY-CRASH": {
+        "sampled": 6,
+        "topic_agree": 6,
+        "verifier_other_topics": {}
+      },
+      "PLY-GENERAL": {
+        "sampled": 12,
+        "topic_agree": 2,
+        "verifier_other_topics": {
+          "billing": 1,
+          "catalog": 1,
+          "downloads": 2,
+          "other": 3,
+          "usability": 3
+        }
+      },
+      "PLY-WONTPLAY": {
+        "sampled": 20,
+        "topic_agree": 11,
+        "verifier_other_topics": {
+          "catalog": 1,
+          "other": 1,
+          "usability": 7
+        }
+      },
+      "USA-ADS": {
+        "sampled": 37,
+        "topic_agree": 35,
+        "verifier_other_topics": {
+          "billing": 1,
+          "other": 1
+        }
+      },
+      "USA-GENERAL": {
+        "sampled": 14,
+        "topic_agree": 11,
+        "verifier_other_topics": {
+          "other": 1,
+          "playback": 1,
+          "support": 1
+        }
+      },
+      "USA-REDESIGN": {
+        "sampled": 15,
+        "topic_agree": 12,
+        "verifier_other_topics": {
+          "catalog": 1,
+          "other": 2
+        }
+      }
+    },
     "intent_agreement": 462,
     "note": "independent model re-label (blind); agreement counts out of sample_size",
     "sample_size": 500,

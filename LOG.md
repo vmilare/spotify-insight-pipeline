@@ -391,3 +391,18 @@ unless marked *estimate*. Per-run spend is tracked automatically in `runs/spend_
   Coverage: 660,622 received, 0 missing/duplicate/invalid, 660,609 valid completed, 13 quarantined, 176,420 valid cache
   reuses, working coverage point candidate 1.0. Reported tokens in 228,071,780 /
   out 91,121,600 (Jev output tokens are reported by the API but free).
+
+## 2026-10-12 — Memo regenerated with per-issue verification evidence (memo-v2, $0.0772)
+- While preparing the README trace, the verify sample showed topic agreement differs sharply by issue: USA-ADS 35/37,
+  BIL-PAYWALL 35/44 (9 → usability), **PLY-WONTPLAY 11/20 (7 → usability: free-tier "can't play the song I want")**,
+  **PLY-GENERAL 2/12**. By area (complaints in sample): usability 65/74 same area, billing/support 45/57, playback 34/53.
+- memo-v1 (playback) had only overall verifier agreement in its evidence pack. Added `verification_breakdown()` to the pack
+  and rule 6 to the prompt (`prompts/memo_v2.md`): weigh per-issue/area label reliability. Regenerated once:
+  checker passed on attempt 1, 12 claims. **Recommended area: usability** (USA-ADS + USA-REDESIGN; paywall handled jointly
+  with ads; playback needs human re-labeling before committing a quarter).
+- Kept for transparency: `memo_v1.md`, `claims_v1.csv`, `recommendations_v1.json` in runs/analysis/spotify_reviews_18months/.
+- Finding: the recommendation moved billing (500 sample) → playback (full data, memo-v1) → usability (full data + label
+  reliability, memo-v2). The top areas are close; the answer depends on how much weight uncertain labels get. Stopped
+  regenerating; the choice of memo to present is the user's.
+- DB reloaded, grading/ re-exported (48,451 calls incl. both memo calls), self-check pass (no issues). Live API serves memo-v2.
+- Project spend: $9.8937.

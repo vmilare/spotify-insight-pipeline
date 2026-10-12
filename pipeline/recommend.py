@@ -18,7 +18,7 @@ from tools.check_submission import sha, write_json
 from . import claude, enrich, group, rates, store, verify
 from .paths import REPO
 
-PROMPT_VERSION = "memo-v1"
+PROMPT_VERSION = "memo-v2"  # v2 adds rule 6 (weigh per-issue/area verification agreement)
 METRICS = ("complaint_count", "severity_sum", "mean_severity", "priority_score")
 AREAS = {"access": ["access"], "usability": ["usability"], "playback": ["playback", "downloads"],
          "billing_support": ["billing", "support"], "catalog": ["catalog"], "other": ["other"]}
@@ -53,6 +53,37 @@ def read_csv(path):
 
 def pct(a, b):
     return round(100 * a / b, 1) if b else 0.0
+
+
+def verification_breakdown(folder, records, membership):
+    """Verifier vs Jev topic agreement inside the random verify sample, per top issue and per product area.
+    Small per-issue samples: counts are reported so the reader can judge them."""
+    issue_of = {rid: iid for iid, ids in membership.items() for rid in ids}
+    area_of = {t: a for a, ts in AREAS.items() for t in ts}
+    per_issue, per_area = defaultdict(lambda: {"sampled": 0, "topic_agree": 0, "verifier_other_topics": defaultdict(int)}), \
+        defaultdict(lambda: {"sampled_complaints": 0, "verifier_same_area": 0, "verifier_other_areas": defaultdict(int)})
+    for line in (folder / "verify" / "verifier_predictions.jsonl").open(encoding="utf-8"):
+        row = json.loads(line)
+        rid, v = row["review_id"], row["verifier"]
+        if not v or rid not in issue_of:
+            continue
+        rec = records[rid]
+        pi = per_issue[issue_of[rid]]
+        pi["sampled"] += 1
+        pi["topic_agree"] += v["topic"] == rec["topic"]
+        if v["topic"] != rec["topic"]:
+            pi["verifier_other_topics"][v["topic"]] += 1
+        pa = per_area[area_of[rec["topic"]]]
+        pa["sampled_complaints"] += 1
+        if area_of[v["topic"]] == area_of[rec["topic"]]:
+            pa["verifier_same_area"] += 1
+        else:
+            pa["verifier_other_areas"][area_of[v["topic"]]] += 1
+    top = sorted(per_issue.items(), key=lambda x: -x[1]["sampled"])[:10]
+    return {"by_issue_in_sample": {k: {**d, "verifier_other_topics": dict(d["verifier_other_topics"])} for k, d in top},
+            "by_area_in_sample": {k: {**d, "verifier_other_areas": dict(d["verifier_other_areas"])} for k, d in per_area.items()},
+            "breakdown_note": "complaint/cancellation records of the random verify sample, grouped by Jev's issue/area; "
+                              "per-issue samples are small (see 'sampled')"}
 
 
 def build_pack(input_path, workspace="main", top_n=8, quotes_per_issue=3):
@@ -111,6 +142,7 @@ def build_pack(input_path, workspace="main", top_n=8, quotes_per_issue=3):
         verification = {"sample_size": v["verified"], "topic_agreement": v["agreement"]["topic"],
                         "intent_agreement": v["agreement"]["intent"], "severity_exact_agreement": v["agreement"]["severity_exact"],
                         "note": "independent model re-label (blind); agreement counts out of sample_size"}
+        verification.update(verification_breakdown(folder, records, membership))
     pack = {
         "question": "Where should the next quarter of product effort go: access, usability, playback, or billing/support?",
         "scope": {"input": Path(input_path).name, "source_rows": total_rows, "completed_classifications": completed,
@@ -177,7 +209,7 @@ def run(input_path, workspace="main", phase="memo"):
     input_path = Path(input_path)
     folder = group.analysis_dir(input_path, workspace)
     pack, ranking = build_pack(input_path, workspace)
-    system = (REPO / "prompts" / "memo_v1.md").read_text(encoding="utf-8")
+    system = (REPO / "prompts" / f"{PROMPT_VERSION.replace('-', '_')}.md").read_text(encoding="utf-8")
     run_id = f"{workspace}-{input_path.stem}-memo-{datetime.now().strftime('%Y%m%dT%H%M%S%f')[:-3]}"
     mconf = f"{claude.SONNET}+{PROMPT_VERSION}+effort-high+fallbacks-default"
     log, spent, stats = [], {"usd": 0.0}, {"cache_hits": 0}
