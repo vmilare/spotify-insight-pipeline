@@ -2,3 +2,6 @@ python-dotenv==1.1.1
 PyYAML==6.0.2
 anthropic==1.13.0     # verifier (Claude Haiku 5.5) and memo (Claude Sonnet 5.5)
 pydantic==2.14.1
+psycopg[binary]==3.2.13   # load-db: dashboard database (Neon Postgres)
+fastapi==0.118.0          # local preview of the dashboard backend (web/api)
+uvicorn==0.37.0

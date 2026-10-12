@@ -310,3 +310,24 @@ unless marked *estimate*. Per-run spend is tracked automatically in `runs/spend_
   **$4.746**, 29.2 min, 137 texts/s (2 workers), 470.9 tokens/text → full-pass projection $9.58.
 - Status after part 1: 397,059 completed · 263,550 pending · 13 quarantined (empty text). Project spend $5.07.
 - Part 2 (resume) is reserved for the recorded interrupt/resume demonstration.
+
+## 2026-10-12 — Recorded interrupt/resume demonstration (user screen recording)
+- Run 2 (`...20261012T083331875`, phase resume): resumed from 397,059 completed; after ~60 s a SIGINT (same as
+  Ctrl+C) was sent → stopped admitting work, finished in-flight requests, exit 0, `stop_reason: interrupted`;
+  702 requests, 0 failed, $0.1388. Completed 397,059 → 404,896, nothing lost.
+- Run 3 (`...20261012T083441342`, phase resume): `checkpoint_before.json` = 404,896 IDs; after 350 requests,
+  3,520 review IDs sent, **0 of them already completed** → no paid relabeling. Left running to completion.
+
+## 2026-10-12 — Dashboard: database, backend, page (Vercel + Neon chosen by the user)
+- User created Neon Postgres via Vercel; `DATABASE_URL` in local `.env` (gitignored). Connection verified.
+- `pipeline/load_db.py` (`python -m pipeline load-db`): replaces tables `reviews` (one row per source review: status,
+  date, rating, likes, topic, area, intent, severity, sentiment, needs_review, issue_id, cache_copy), `issues`,
+  `ranking` (baseline / actionable / without_needs_review), `claims`, `evidence` (top 8 quotes per issue), `meta`.
+- `web/api/index.py` (FastAPI, Vercel Python function, read-only): /api/health, /summary, /areas, /trend (live SQL over
+  reviews), /ranking, /issues/{id}, /recommendations (claims re-checked against ranking in SQL).
+- `web/public/index.html`: stat tiles, AI recommendation with claim chips (✓ = equals saved ranking), product-area
+  bars, severity mix, issue ranking (actionable / baseline / without needs-review, table view, click → evidence
+  quotes), monthly complaint-share trend with crosshair + table view, quality notes, full memo. Palette validated
+  with the dataviz validator (light + dark pass; light contrast WARN relieved by value labels + table views).
+- Tested locally on the 500-review data: all endpoints 200, bad input → 404/422; light/dark screenshots checked;
+  375 px phone width: no horizontal overflow.

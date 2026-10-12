@@ -48,6 +48,10 @@ def main():
     p.add_argument("--input", type=Path, default=None, help=f"Input CSV (default: $DATA_DIR/{FULL_CSV_NAME})")
     p.add_argument("--workspace", default="main")
 
+    p = commands.add_parser("load-db", help="Load processed results into the dashboard Postgres DB (needs DATABASE_URL)")
+    p.add_argument("--input", type=Path, default=None, help=f"Input CSV (default: $DATA_DIR/{FULL_CSV_NAME})")
+    p.add_argument("--workspace", default="main")
+
     p = commands.add_parser("rerank", help="Stage 5: recompute ranking from saved files only (no model calls)")
     p.add_argument("--input", type=Path, default=None, help="Input CSV whose analysis folder to rank")
     p.add_argument("--folder", type=Path, default=None, help="Or an analysis folder path directly")
@@ -102,6 +106,9 @@ def main():
     elif args.command == "recommend":
         from . import recommend
         print(json.dumps(recommend.run(args.input or dataset_file(FULL_CSV_NAME), args.workspace), indent=2))
+    elif args.command == "load-db":
+        from . import load_db
+        print(json.dumps(load_db.run(args.input or dataset_file(FULL_CSV_NAME), args.workspace), indent=2))
     elif args.command == "rerank":
         from . import group, rank
         folder = args.folder or group.analysis_dir(args.input or dataset_file(FULL_CSV_NAME), args.workspace)

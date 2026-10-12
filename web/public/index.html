@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spotify Review Insight</title>
+<meta name="description" content="Where should Spotify's next quarter of product effort go? Evidence from 660,622 Google Play reviews, classified by a multi-agent pipeline.">
+<style>
+:root {
+  color-scheme: light;
+  --page: #f9f9f7; --surface: #fcfcfb; --surface-2: #f3f2ee;
+  --ink: #0b0b0b; --ink-2: #52514e; --muted: #6f6d68; --axis: #898781;
+  --grid: #e1e0d9; --baseline: #c3c2b7; --ring: rgba(11,11,11,0.10);
+  --access: #2a78d6; --usability: #eb6834; --playback: #1baf7a; --billing_support: #eda100; --catalog: #e87ba4; --other: #a9a79f;
+  --sev1: #86b6ef; --sev2: #5598e7; --sev3: #2a78d6; --sev4: #1c5cab; --sev5: #104281;
+  --good: #006300; --critical: #d03b3b; --accent: #2a78d6; --wash: rgba(42,120,214,0.08);
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --page: #0d0d0d; --surface: #1a1a19; --surface-2: #232321;
+    --ink: #f0efec; --ink-2: #c3c2b7; --muted: #a3a197; --axis: #898781;
+    --grid: #2c2c2a; --baseline: #383835; --ring: rgba(255,255,255,0.10);
+    --access: #3987e5; --usability: #d95926; --playback: #199e70; --billing_support: #c98500; --catalog: #d55181; --other: #6b6a64;
+    --sev1: #184f95; --sev2: #256abf; --sev3: #3987e5; --sev4: #6da7ec; --sev5: #b7d3f6;
+    --good: #0ca30c; --critical: #e66767; --accent: #3987e5; --wash: rgba(57,135,229,0.12);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page: #0d0d0d; --surface: #1a1a19; --surface-2: #232321;
+  --ink: #f0efec; --ink-2: #c3c2b7; --muted: #a3a197; --axis: #898781;
+  --grid: #2c2c2a; --baseline: #383835; --ring: rgba(255,255,255,0.10);
+  --access: #3987e5; --usability: #d95926; --playback: #199e70; --billing_support: #c98500; --catalog: #d55181; --other: #6b6a64;
+  --sev1: #184f95; --sev2: #256abf; --sev3: #3987e5; --sev4: #6da7ec; --sev5: #b7d3f6;
+  --good: #0ca30c; --critical: #e66767; --accent: #3987e5; --wash: rgba(57,135,229,0.12);
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--page); color: var(--ink); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+a { color: var(--accent); }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 16px 48px; }
+header.top { display: flex; gap: 16px; align-items: flex-start; justify-content: space-between; padding: 28px 0 8px; flex-wrap: wrap; }
+h1 { font-size: 24px; margin: 0 0 4px; letter-spacing: -0.01em; }
+h2 { font-size: 17px; margin: 0 0 4px; }
+h3 { font-size: 15px; margin: 0 0 6px; }
+.sub { color: var(--ink-2); margin: 0; max-width: 760px; }
+.small { font-size: 13px; color: var(--muted); }
+.btn { font: inherit; font-size: 13px; color: var(--ink); background: var(--surface); border: 1px solid var(--ring); border-radius: 8px; padding: 6px 12px; cursor: pointer; }
+.btn:hover { background: var(--surface-2); }
+.btn[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+.btn:focus-visible, .bar-hit:focus-visible, tr:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.card { background: var(--surface); border: 1px solid var(--ring); border-radius: 12px; padding: 18px; margin-top: 16px; }
+.card-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); gap: 12px; margin-top: 16px; }
+.tile { background: var(--surface); border: 1px solid var(--ring); border-radius: 12px; padding: 14px 16px; }
+.tile .label { font-size: 13px; color: var(--ink-2); }
+.tile .value { font-size: 26px; font-weight: 600; margin-top: 2px; }
+.tile .note { font-size: 12px; color: var(--muted); }
+.hero { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
+.hero .area-name { font-size: 40px; font-weight: 650; line-height: 1.1; letter-spacing: -0.02em; }
+.badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--ring); color: var(--ink-2); background: var(--surface-2); }
+.badge .dot { width: 8px; height: 8px; border-radius: 50%; }
+.recs { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin-top: 8px; }
+.rec { border: 1px solid var(--ring); border-radius: 10px; padding: 12px 14px; background: var(--surface); }
+.rec p { margin: 4px 0 8px; color: var(--ink-2); font-size: 14px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-size: 12px; border: 1px solid var(--ring); border-radius: 6px; padding: 2px 7px; background: var(--surface-2); color: var(--ink); cursor: pointer; }
+.chip.ok::before { content: "✓ "; color: var(--good); font-weight: 700; }
+.chip.bad::before { content: "✗ "; color: var(--critical); font-weight: 700; }
+.grid2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+@media (max-width: 860px) { .grid2 { grid-template-columns: minmax(0, 1fr); } .hero .area-name { font-size: 32px; } }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 13px; color: var(--ink-2); margin: 4px 0 8px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+.legend i.line { width: 14px; height: 2px; border-radius: 1px; }
+.filters { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+svg { display: block; width: 100%; height: auto; overflow: visible; }
+svg text { fill: var(--ink-2); font-size: 12px; font-family: inherit; }
+svg .tick { fill: var(--axis); font-size: 11px; font-variant-numeric: tabular-nums; }
+svg .val { fill: var(--ink); font-size: 12px; font-variant-numeric: tabular-nums; }
+.bar-hit { cursor: pointer; }
+.bar-hit:hover rect.mark, .bar-hit:focus rect.mark { filter: brightness(1.12); }
+.tooltip { position: fixed; pointer-events: none; z-index: 20; background: var(--surface); color: var(--ink); border: 1px solid var(--ring); box-shadow: 0 6px 24px rgba(0,0,0,0.12); border-radius: 8px; padding: 8px 10px; font-size: 13px; max-width: 280px; display: none; }
+.tooltip .v { font-weight: 650; font-variant-numeric: tabular-nums; }
+.tooltip .k { color: var(--ink-2); }
+.tooltip .row { display: flex; align-items: center; gap: 8px; }
+.tooltip .row i { width: 12px; height: 2px; display: inline-block; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--grid); vertical-align: top; }
+th { color: var(--ink-2); font-weight: 600; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+tbody tr { cursor: pointer; }
+tbody tr:hover { background: var(--wash); }
+.table-wrap { overflow-x: auto; }
+.drawer { border-top: 1px solid var(--grid); margin-top: 14px; padding-top: 14px; }
+.quote { border-left: 3px solid var(--grid); padding: 4px 0 4px 12px; margin: 10px 0; }
+.quote .meta { font-size: 12px; color: var(--muted); }
+.memo { max-width: 820px; }
+.memo h2 { font-size: 16px; margin-top: 18px; }
+.memo table { margin: 8px 0; }
+details > summary { cursor: pointer; color: var(--accent); font-size: 14px; }
+.notes li { margin: 4px 0; color: var(--ink-2); }
+.err { color: var(--critical); }
+.loading { opacity: .55; }
+footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Spotify Review Insight</h1>
+      <p class="sub">Where should next quarter's product effort go: access, usability, playback, or billing/support? Evidence from Google Play reviews (May 2022 – Nov 2023), classified by a multi-agent pipeline and served from the database.</p>
+    </div>
+    <button class="btn" id="themeBtn" type="button" aria-label="Toggle light or dark theme">Theme</button>
+  </header>
+
+  <div class="tiles" id="tiles" aria-live="polite"></div>
+
+  <section class="card" id="recCard">
+    <div class="card-head"><h2>AI-generated recommendation</h2><span id="memoBadge"></span></div>
+    <div id="recBody" class="small">Loading…</div>
+  </section>
+
+  <div class="grid2">
+    <section class="card">
+      <div class="card-head"><div><h2>Product areas</h2><div class="small">Priority = sum of severity over complaint and cancellation reviews</div></div></div>
+      <div class="legend" id="areaLegend"></div>
+      <div id="areaChart"></div>
+    </section>
+    <section class="card">
+      <div class="card-head"><div><h2>Severity mix by area</h2><div class="small">Share of complaint reviews at each severity level</div></div></div>
+      <div class="legend" id="sevLegend"></div>
+      <div id="sevChart"></div>
+    </section>
+  </div>
+
+  <section class="card" id="rankCard">
+    <div class="card-head">
+      <div><h2>Issue ranking</h2><div class="small" id="rankFormula"></div></div>
+      <div class="filters" role="group" aria-label="Ranking view">
+        <button class="btn" data-kind="actionable" aria-pressed="true" type="button">Actionable</button>
+        <button class="btn" data-kind="baseline" aria-pressed="false" type="button">Baseline (required)</button>
+        <button class="btn" data-kind="without_needs_review" aria-pressed="false" type="button">Without needs-review</button>
+        <button class="btn" id="tableBtn" aria-pressed="false" type="button">Table view</button>
+      </div>
+    </div>
+    <div class="legend" id="rankLegend"></div>
+    <div id="rankChart"></div>
+    <div id="rankTable" class="table-wrap" hidden></div>
+    <div id="issueDrawer" class="drawer" hidden></div>
+  </section>
+
+  <section class="card">
+    <div class="card-head"><div><h2>Complaint share over time</h2><div class="small">Complaint and cancellation reviews in each area as a share of all classified reviews that month. First and last months are partial.</div></div>
+      <button class="btn" id="trendTableBtn" aria-pressed="false" type="button">Table view</button></div>
+    <div class="legend" id="trendLegend"></div>
+    <div id="trendChart"></div>
+    <div id="trendTable" class="table-wrap" hidden></div>
+  </section>
+
+  <section class="card">
+    <h2>Quality and method</h2>
+    <ul class="notes" id="notes"></ul>
+    <details><summary>Read the full decision memo</summary><div class="memo" id="memo"></div></details>
+  </section>
+
+  <footer id="footer">Data: Google Play reviews (Kaggle "3.4 Million Spotify Google Store Reviews", CC0). Self-selected, historical reviews: cancellation language is stated intent, not observed churn. Source code and evidence: <a href="https://github.com/vmilare/spotify-insight-pipeline">github.com/vmilare/spotify-insight-pipeline</a>.</footer>
+</div>
+<div class="tooltip" id="tip" role="status"></div>
+
+<script>
+"use strict";
+const AREAS = ["access", "usability", "playback", "billing_support", "catalog", "other"];
+const AREA_LABEL = { access: "Access", usability: "Usability", playback: "Playback", billing_support: "Billing / support", catalog: "Catalog", other: "Other (non-specific)" };
+const TREND_AREAS = ["access", "usability", "playback", "billing_support"];
+const NS = "http://www.w3.org/2000/svg";
+const $ = (id) => document.getElementById(id);
+const fmt = (n) => Number(n).toLocaleString("en-US");
+const pct = (a, b) => b ? (100 * a / b).toFixed(1) + "%" : "–";
+const state = { kind: "actionable", rankings: {}, summary: null, areas: null, trend: null, recs: null, table: false, trendTable: false };
+
+function el(tag, attrs = {}, text) {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v);
+  if (text !== undefined) n.textContent = text;
+  return n;
+}
+function svgEl(tag, attrs = {}, text) {
+  const n = document.createElementNS(NS, tag);
+  for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v);
+  if (text !== undefined) n.textContent = text;
+  return n;
+}
+function cssVar(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+async function api(path) {
+  const r = await fetch("/api/" + path);
+  if (!r.ok) throw new Error(path + " → HTTP " + r.status);
+  return r.json();
+}
+
+/* ---------- theme ---------- */
+(function initTheme() {
+  let saved = null;
+  try { saved = localStorage.getItem("theme"); } catch (e) {}
+  if (saved) document.documentElement.setAttribute("data-theme", saved);
+  $("themeBtn").addEventListener("click", () => {
+    const cur = document.documentElement.getAttribute("data-theme") || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    const next = cur === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", next);
+    try { localStorage.setItem("theme", next); } catch (e) {}
+    renderAll();
+  });
+})();
+
+/* ---------- tooltip ---------- */
+const tip = $("tip");
+function showTip(evt, rows) {
+  tip.replaceChildren();
+  for (const r of rows) {
+    const row = el("div", { class: "row" });
+    if (r.color) { const i = el("i"); i.style.background = r.color; row.append(i); }
+    row.append(el("span", { class: "v" }, r.value));
+    if (r.label) row.append(el("span", { class: "k" }, r.label));
+    tip.append(row);
+  }
+  tip.style.display = "block";
+  const x = evt.clientX ?? (evt.target.getBoundingClientRect().right), y = evt.clientY ?? evt.target.getBoundingClientRect().top;
+  const w = tip.offsetWidth, h = tip.offsetHeight;
+  tip.style.left = Math.min(window.innerWidth - w - 8, x + 14) + "px";
+  tip.style.top = Math.max(8, y - h - 10) + "px";
+}
+function hideTip() { tip.style.display = "none"; }
+
+function legend(target, items, kind = "box") {
+  const box = $(target); box.replaceChildren();
+  for (const it of items) {
+    const s = el("span"); const i = el("i", { class: kind === "line" ? "line" : "" });
+    i.style.background = it.color; s.append(i, document.createTextNode(it.label)); box.append(s);
+  }
+}
+
+/* ---------- horizontal bars (rounded data-end, square at baseline) ---------- */
+function barPath(x0, y, w, h, r = 4) {
+  r = Math.min(r, w, h / 2);
+  return `M${x0},${y} H${x0 + w - r} Q${x0 + w},${y} ${x0 + w},${y + r} V${y + h - r} Q${x0 + w},${y + h} ${x0 + w - r},${y + h} H${x0} Z`;
+}
+function hbar(target, rows, opts) {
+  const box = $(target); box.replaceChildren();
+  const W = Math.max(300, box.clientWidth || 600);
+  const labelW = Math.min(opts.labelW || 210, W * 0.42), valW = 74, band = 30, barH = 18;
+  const H = rows.length * band + 26;
+  const max = Math.max(...rows.map((r) => r.value), 1);
+  const plotW = W - labelW - valW;
+  const svg = svgEl("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": opts.aria });
+  const ticks = niceTicks(max, 4);
+  for (const t of ticks) {
+    const x = labelW + plotW * t / ticks[ticks.length - 1];
+    svg.append(svgEl("line", { x1: x, x2: x, y1: 0, y2: rows.length * band, stroke: cssVar("--grid"), "stroke-width": 1 }));
+    svg.append(svgEl("text", { x, y: rows.length * band + 16, "text-anchor": "middle", class: "tick" }, compact(t)));
+  }
+  const scaleMax = ticks[ticks.length - 1];
+  rows.forEach((r, i) => {
+    const y = i * band + (band - barH) / 2, w = Math.max(2, plotW * r.value / scaleMax);
+    const g = svgEl("g", { class: "bar-hit", tabindex: 0, role: "button", "aria-label": `${r.label}: ${fmt(r.value)}` });
+    g.append(svgEl("rect", { x: 0, y: i * band, width: W, height: band, fill: "transparent" }));
+    const t = svgEl("text", { x: labelW - 8, y: i * band + band / 2 + 4, "text-anchor": "end" }, truncate(r.label, Math.floor((labelW - 8) / 6.6)));
+    g.append(t);
+    g.append(svgEl("path", { d: barPath(labelW, y, w, barH), fill: r.color, class: "mark" }));
+    g.append(svgEl("text", { x: labelW + w + 6, y: i * band + band / 2 + 4, class: "val" }, r.valueLabel ?? fmt(r.value)));
+    const tipRows = r.tip || [{ value: fmt(r.value), label: r.label, color: r.color }];
+    g.addEventListener("pointermove", (e) => showTip(e, tipRows));
+    g.addEventListener("pointerleave", hideTip);
+    g.addEventListener("focus", (e) => showTip({ clientX: e.target.getBoundingClientRect().left + labelW, clientY: e.target.getBoundingClientRect().top }, tipRows));
+    g.addEventListener("blur", hideTip);
+    if (opts.onClick) { g.addEventListener("click", () => opts.onClick(r)); g.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); opts.onClick(r); } }); }
+    svg.append(g);
+  });
+  svg.append(svgEl("line", { x1: labelW, x2: labelW, y1: 0, y2: rows.length * band, stroke: cssVar("--baseline"), "stroke-width": 1 }));
+  box.append(svg);
+}
+function niceTicks(max, n) {
+  const raw = max / n, mag = Math.pow(10, Math.floor(Math.log10(raw))), step = [1, 2, 2.5, 5, 10].map((m) => m * mag).find((s) => s >= raw);
+  const out = []; for (let v = 0; v <= max + step * 0.999; v += step) out.push(+v.toFixed(10)); return out;
+}
+function compact(n) { return n >= 1e6 ? (n / 1e6).toFixed(n % 1e6 ? 1 : 0) + "M" : n >= 1000 ? (n / 1000).toFixed(n % 1000 ? 1 : 0) + "K" : String(n); }
+function truncate(s, n) { return s.length > n ? s.slice(0, Math.max(1, n - 1)) + "…" : s; }
+function areaColor(a) { return cssVar("--" + a); }
+
+/* ---------- tiles ---------- */
+function renderTiles() {
+  const s = state.summary; if (!s) return;
+  const c = s.counts, g = s.golden, v = s.verification;
+  const tiles = [
+    ["Reviews analyzed", fmt(c.source_rows), `${c.first_date} → ${c.last_date}`],
+    ["Classified", fmt(c.completed), `${pct(c.completed, c.source_rows - c.quarantined)} of nonempty · ${fmt(c.pending)} pending`],
+    ["Quarantined", fmt(c.quarantined), "empty review text"],
+    ["Complaints + cancellations", fmt(c.complaint_records), `${fmt(c.cancellation_records)} state intent to leave`],
+    ["Flagged needs-review", pct(c.needs_review, c.completed), `${fmt(c.needs_review)} low-confidence or non-English labels`],
+    ["Golden-set agreement", g ? g.topic_agreement : "–", g ? `topic · intent ${g.intent_agreement} · severity ${g.severity_exact}` : "not available"],
+    ["Independent verifier", v ? `${v.agreement.topic}/${v.verified}` : "–", v ? `topic agreement on a blind sample` : ""],
+    ["API spend", s.run && s.run.spend_usd != null ? "$" + Number(s.run.spend_usd).toFixed(2) : "–", "all stages, from the spend ledger"],
+  ];
+  const box = $("tiles"); box.replaceChildren();
+  for (const [label, value, note] of tiles) {
+    const t = el("div", { class: "tile" });
+    t.append(el("div", { class: "label" }, label), el("div", { class: "value" }, value), el("div", { class: "note" }, note));
+    box.append(t);
+  }
+}
+
+/* ---------- recommendation ---------- */
+function renderRecs() {
+  const d = state.recs; const body = $("recBody"); body.replaceChildren(); body.classList.remove("small");
+  if (!d || !d.recommendations) { body.textContent = "No recommendation loaded."; return; }
+  const r = d.recommendations, check = d.memo_check || {};
+  const badge = $("memoBadge"); badge.replaceChildren();
+  const b = el("span", { class: "badge" }); const dot = el("span", { class: "dot" });
+  dot.style.background = check.status === "passed" ? cssVar("--good") : cssVar("--critical");
+  b.append(dot, document.createTextNode(check.status === "passed" ? "Claims checked against ranking: passed" : "Claim check: " + (check.status || "unknown")));
+  badge.append(b);
+  const hero = el("div", { class: "hero" });
+  hero.append(el("div", { class: "small" }, "Recommended focus area"));
+  const name = el("div", { class: "area-name" }, AREA_LABEL[r.recommended_area] || r.recommended_area);
+  hero.append(name, el("p", { class: "sub" }, r.headline));
+  body.append(hero);
+  const claims = Object.fromEntries((d.claims || []).map((c) => [c.claim_id, c]));
+  const grid = el("div", { class: "recs" });
+  for (const rec of r.recommendations || []) {
+    const card = el("div", { class: "rec" });
+    card.append(el("h3", {}, rec.title), el("p", {}, rec.rationale));
+    const chips = el("div", { class: "chips" });
+    for (const cid of rec.claim_ids || []) {
+      const c = claims[cid]; if (!c) continue;
+      const chip = el("button", { class: "chip " + (c.matches_ranking ? "ok" : "bad"), type: "button", title: "Open the issue behind this number" },
+        `${cid} · ${c.issue_id} ${c.metric.replace("_", " ")} ${c.value}`);
+      chip.addEventListener("click", () => openIssue(c.issue_id, true));
+      chips.append(chip);
+    }
+    for (const rid of rec.review_ids || []) chips.append(el("span", { class: "chip", title: "Source review ID" }, "review " + rid.slice(0, 8)));
+    card.append(chips); grid.append(card);
+  }
+  body.append(grid);
+  body.append(el("p", { class: "small" }, "Generated by the memo role (Claude Sonnet 5.5) from saved aggregates and a bounded evidence pack; ✓ means the cited number equals the saved ranking value."));
+  renderMemo(d.memo_markdown);
+}
+
+function renderMemo(md) {
+  const box = $("memo"); box.replaceChildren();
+  if (!md) { box.textContent = "Memo not loaded."; return; }
+  let list = null, table = null;
+  for (const raw of md.split("\n")) {
+    const line = raw.trimEnd();
+    if (/^\|/.test(line)) {
+      if (/^\|[-| ]+\|$/.test(line)) continue;
+      if (!table) { table = el("table"); box.append(table); }
+      const tr = el("tr"); line.slice(1, -1).split("|").forEach((c) => tr.append(inline(el("td"), c.trim()))); table.append(tr); continue;
+    } else table = null;
+    if (/^[-*] /.test(line) || /^\d+\. /.test(line)) {
+      if (!list) { list = el(/^\d/.test(line) ? "ol" : "ul"); box.append(list); }
+      list.append(inline(el("li"), line.replace(/^([-*]|\d+\.) /, ""))); continue;
+    } else list = null;
+    if (/^#+ /.test(line)) box.append(inline(el(line.startsWith("# ") ? "h2" : "h3"), line.replace(/^#+ /, "")));
+    else if (line.trim()) box.append(inline(el("p"), line));
+  }
+}
+function inline(node, text) {   // **bold**, *italic*, `code` — built with text nodes only (no innerHTML)
+  const parts = text.split(/(\*\*[^*]+\*\*|`[^`]+`|\*[^*]+\*)/g);
+  for (const p of parts) {
+    if (/^\*\*.+\*\*$/.test(p)) node.append(el("strong", {}, p.slice(2, -2)));
+    else if (/^`.+`$/.test(p)) node.append(el("code", {}, p.slice(1, -1)));
+    else if (/^\*.+\*$/.test(p)) node.append(el("em", {}, p.slice(1, -1)));
+    else if (p) node.append(document.createTextNode(p));
+  }
+  return node;
+}
+
+/* ---------- areas ---------- */
+function renderAreas() {
+  const d = state.areas; if (!d) return;
+  const rows = [...d.areas].sort((a, b) => b.severity_sum - a.severity_sum);
+  legend("areaLegend", rows.map((a) => ({ label: AREA_LABEL[a.area], color: areaColor(a.area) })));
+  hbar("areaChart", rows.map((a) => ({
+    label: AREA_LABEL[a.area], value: a.severity_sum, color: areaColor(a.area), valueLabel: compact(a.severity_sum),
+    tip: [{ value: fmt(a.severity_sum), label: "priority (severity sum)", color: areaColor(a.area) },
+          { value: fmt(a.complaint_count), label: "complaint + cancellation reviews" },
+          { value: a.mean_severity.toFixed(2), label: "mean severity" },
+          { value: fmt(a.cancellation_count), label: "state intent to leave" }],
+  })), { aria: "Priority by product area", labelW: 150 });
+  // Severity mix: 100% stacked, ordinal one-hue ramp, 2px surface gaps.
+  const sevColors = [1, 2, 3, 4, 5].map((s) => cssVar("--sev" + s));
+  legend("sevLegend", [1, 2, 3, 4, 5].map((s, i) => ({ label: "Severity " + s, color: sevColors[i] })));
+  const box = $("sevChart"); box.replaceChildren();
+  const W = Math.max(300, box.clientWidth || 600), labelW = 150, band = 30, barH = 18, gap = 2, plotW = W - labelW - 8;
+  const svg = svgEl("svg", { viewBox: `0 0 ${W} ${rows.length * band + 4}`, role: "img", "aria-label": "Severity mix by area" });
+  rows.forEach((a, i) => {
+    const tot = a.s1 + a.s2 + a.s3 + a.s4 + a.s5; let x = labelW;
+    svg.append(svgEl("text", { x: labelW - 8, y: i * band + band / 2 + 4, "text-anchor": "end" }, AREA_LABEL[a.area]));
+    [a.s1, a.s2, a.s3, a.s4, a.s5].forEach((n, k) => {
+      if (!n) return;
+      const w = Math.max(1, plotW * n / tot - gap);
+      const g = svgEl("g", { class: "bar-hit", tabindex: 0, "aria-label": `${AREA_LABEL[a.area]} severity ${k + 1}: ${fmt(n)}` });
+      g.append(svgEl("rect", { x, y: i * band + (band - barH) / 2, width: w, height: barH, fill: sevColors[k], class: "mark", rx: k === 4 || x + w >= labelW + plotW - 3 ? 3 : 0 }));
+      const rows2 = [{ value: pct(n, tot), label: `severity ${k + 1} · ${fmt(n)} reviews`, color: sevColors[k] }];
+      g.addEventListener("pointermove", (e) => showTip(e, rows2)); g.addEventListener("pointerleave", hideTip);
+      g.addEventListener("focus", (e) => showTip({ clientX: e.target.getBoundingClientRect().right, clientY: e.target.getBoundingClientRect().top }, rows2)); g.addEventListener("blur", hideTip);
+      svg.append(g); x += w + gap;
+    });
+  });
+  box.append(svg);
+}
+
+/* ---------- ranking ---------- */
+async function loadRanking(kind) {
+  if (!state.rankings[kind]) state.rankings[kind] = await api("ranking?kind=" + kind);
+  return state.rankings[kind];
+}
+function renderRanking() {
+  const d = state.rankings[state.kind]; if (!d) return;
+  $("rankFormula").textContent = d.formula + (state.kind === "actionable" ? " · excludes OTH-GENERAL (no specific defect)" :
+    state.kind === "without_needs_review" ? " · sensitivity check: flagged reviews removed" : " · required baseline");
+  const present = AREAS.filter((a) => d.rows.some((r) => r.area === a));
+  legend("rankLegend", present.map((a) => ({ label: AREA_LABEL[a], color: areaColor(a) })));
+  const top = d.rows.slice(0, 15);
+  hbar("rankChart", top.map((r) => ({
+    label: `${r.rank}. ${r.name}`, value: r.priority_score, color: areaColor(r.area), issue_id: r.issue_id, valueLabel: compact(r.priority_score),
+    tip: [{ value: fmt(r.priority_score), label: `priority · ${r.issue_id}`, color: areaColor(r.area) },
+          { value: fmt(r.complaint_count), label: "reviews" }, { value: r.mean_severity, label: "mean severity" }],
+  })), { aria: "Issue ranking by priority score", labelW: 300, onClick: (r) => openIssue(r.issue_id, false) });
+  const t = $("rankTable"); t.replaceChildren();
+  const table = el("table"); const head = el("tr");
+  ["Rank", "Issue", "Name", "Area", "Reviews", "Severity sum", "Mean severity", "Priority", "Membership fit"].forEach((h, i) => head.append(el("th", { class: i >= 4 ? "num" : "" }, h)));
+  { const th = el("thead"); th.append(head); table.append(th); }
+  const tb = el("tbody");
+  for (const r of d.rows) {
+    const tr = el("tr", { tabindex: 0 });
+    [r.rank, r.issue_id, r.name, AREA_LABEL[r.area], fmt(r.complaint_count), fmt(r.severity_sum), r.mean_severity, fmt(r.priority_score),
+     r.fit_rate == null ? "–" : Math.round(100 * r.fit_rate) + "%"].forEach((v, i) => tr.append(el("td", { class: i >= 4 ? "num" : "" }, String(v))));
+    tr.addEventListener("click", () => openIssue(r.issue_id, false));
+    tr.addEventListener("keydown", (e) => { if (e.key === "Enter") openIssue(r.issue_id, false); });
+    tb.append(tr);
+  }
+  table.append(tb); t.append(table);
+  $("rankChart").hidden = state.table; t.hidden = !state.table;
+}
+document.querySelectorAll("[data-kind]").forEach((b) => b.addEventListener("click", async () => {
+  state.kind = b.dataset.kind;
+  document.querySelectorAll("[data-kind]").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+  $("rankCard").classList.add("loading");
+  try { await loadRanking(state.kind); renderRanking(); } finally { $("rankCard").classList.remove("loading"); }
+}));
+$("tableBtn").addEventListener("click", () => { state.table = !state.table; $("tableBtn").setAttribute("aria-pressed", String(state.table)); renderRanking(); });
+
+async function openIssue(id, scroll) {
+  const box = $("issueDrawer"); box.hidden = false; box.replaceChildren(el("div", { class: "small" }, "Loading " + id + "…"));
+  if (scroll) $("rankCard").scrollIntoView({ behavior: "smooth", block: "start" });
+  let d;
+  try { d = await api("issues/" + encodeURIComponent(id)); } catch (e) { box.replaceChildren(el("p", { class: "err" }, e.message)); return; }
+  const i = d.issue, s = d.stats; box.replaceChildren();
+  const head = el("div", { class: "card-head" });
+  const left = el("div"); left.append(el("h3", {}, `${i.issue_id} · ${i.name}`), el("div", { class: "small" }, i.model_description || ""));
+  const close = el("button", { class: "btn", type: "button" }, "Close"); close.addEventListener("click", () => { box.hidden = true; });
+  head.append(left, close); box.append(head);
+  const ranks = Object.fromEntries(d.ranks.map((r) => [r.kind, r]));
+  box.append(el("p", { class: "small" }, `${fmt(s.members)} reviews · ${fmt(s.cancellations)} state intent to leave · ${fmt(s.needs_review)} flagged needs-review` +
+    (ranks.baseline ? ` · baseline rank ${ranks.baseline.rank} (priority ${fmt(ranks.baseline.priority_score)})` : "") +
+    (i.fit_rate != null ? ` · membership fit in audit sample ${Math.round(100 * i.fit_rate)}%` : "")));
+  const mix = el("div", { class: "chips" });
+  for (const m of d.severity_mix) mix.append(el("span", { class: "chip" }, `severity ${m.severity}: ${fmt(m.n)}`));
+  box.append(mix);
+  box.append(el("h3", { style: "margin-top:12px" }, "Representative reviews (highest severity, then most helpful votes)"));
+  for (const q of d.evidence) {
+    const div = el("div", { class: "quote" });
+    div.append(el("div", {}, "“" + q.quote + "”"),
+      el("div", { class: "meta" }, `review ${q.review_id} · ${q.review_date} · severity ${q.severity} · ${q.intent} · ${fmt(q.likes)} helpful votes`));
+    box.append(div);
+  }
+}
+
+/* ---------- trend (lines + crosshair) ---------- */
+function renderTrend() {
+  const d = state.trend; if (!d) return;
+  const months = d.totals.map((t) => t.month), tot = Object.fromEntries(d.totals.map((t) => [t.month, t.reviews]));
+  const series = TREND_AREAS.map((a) => ({ area: a, pts: months.map((m) => {
+    const r = d.rows.find((x) => x.month === m && x.area === a); return { m, v: r ? 100 * r.complaints / tot[m] : 0, n: r ? r.complaints : 0 };
+  }) }));
+  legend("trendLegend", TREND_AREAS.map((a) => ({ label: AREA_LABEL[a], color: areaColor(a) })), "line");
+  const box = $("trendChart"); box.replaceChildren();
+  const W = Math.max(320, box.clientWidth || 700), H = 260, L = 44, R = 110, T = 10, B = 28, pw = W - L - R, ph = H - T - B;
+  const max = Math.max(...series.flatMap((s) => s.pts.map((p) => p.v)), 1), ticks = niceTicks(max, 4), top = ticks[ticks.length - 1];
+  const X = (i) => L + (months.length === 1 ? pw / 2 : pw * i / (months.length - 1)), Y = (v) => T + ph - ph * v / top;
+  const svg = svgEl("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Monthly complaint share by product area" });
+  for (const t of ticks) {
+    svg.append(svgEl("line", { x1: L, x2: L + pw, y1: Y(t), y2: Y(t), stroke: cssVar(t === 0 ? "--baseline" : "--grid"), "stroke-width": 1 }));
+    svg.append(svgEl("text", { x: L - 6, y: Y(t) + 4, "text-anchor": "end", class: "tick" }, t + "%"));
+  }
+  months.forEach((m, i) => { if (i % 3 === 0 || i === months.length - 1) svg.append(svgEl("text", { x: X(i), y: H - 8, "text-anchor": "middle", class: "tick" }, m)); });
+  const ends = [];
+  for (const s of series) {
+    const c = areaColor(s.area);
+    svg.append(svgEl("path", { d: s.pts.map((p, i) => (i ? "L" : "M") + X(i) + "," + Y(p.v)).join(" "), fill: "none", stroke: c, "stroke-width": 2, "stroke-linejoin": "round", "stroke-linecap": "round" }));
+    const last = s.pts[s.pts.length - 1];
+    svg.append(svgEl("circle", { cx: X(months.length - 1), cy: Y(last.v), r: 4, fill: c, stroke: cssVar("--surface"), "stroke-width": 2 }));
+    ends.push({ y: Y(last.v), label: AREA_LABEL[s.area] + " " + last.v.toFixed(1) + "%" });
+  }
+  ends.sort((a, b) => a.y - b.y);   // leader-free end labels only when they don't collide
+  const collide = ends.some((e, i) => i && e.y - ends[i - 1].y < 14);
+  if (!collide) for (const e of ends) svg.append(svgEl("text", { x: L + pw + 8, y: e.y + 4, class: "val" }, e.label));
+  const cross = svgEl("line", { y1: T, y2: T + ph, stroke: cssVar("--axis"), "stroke-width": 1, visibility: "hidden" });
+  svg.append(cross);
+  const hit = svgEl("rect", { x: L, y: T, width: pw, height: ph, fill: "transparent", tabindex: 0, "aria-label": "Trend chart; hover for monthly values" });
+  const at = (evt) => {
+    const rect = svg.getBoundingClientRect(), x = (evt.clientX - rect.left) * W / rect.width;
+    const i = Math.max(0, Math.min(months.length - 1, Math.round((x - L) / pw * (months.length - 1))));
+    cross.setAttribute("x1", X(i)); cross.setAttribute("x2", X(i)); cross.setAttribute("visibility", "visible");
+    showTip(evt, [{ value: months[i], label: `${fmt(tot[months[i]])} classified reviews` },
+      ...series.map((s) => ({ value: s.pts[i].v.toFixed(1) + "%", label: `${AREA_LABEL[s.area]} (${fmt(s.pts[i].n)})`, color: areaColor(s.area) }))]);
+  };
+  hit.addEventListener("pointermove", at);
+  hit.addEventListener("pointerleave", () => { cross.setAttribute("visibility", "hidden"); hideTip(); });
+  svg.append(hit); box.append(svg);
+  const t = $("trendTable"); t.replaceChildren();
+  const table = el("table"), hr = el("tr");
+  ["Month", "Classified reviews", ...TREND_AREAS.map((a) => AREA_LABEL[a] + " share")].forEach((h, i) => hr.append(el("th", { class: i ? "num" : "" }, h)));
+  { const th = el("thead"); th.append(hr); table.append(th); }
+  const tb = el("tbody");
+  months.forEach((m, i) => { const tr = el("tr"); tr.append(el("td", {}, m), el("td", { class: "num" }, fmt(tot[m])));
+    series.forEach((s) => tr.append(el("td", { class: "num" }, s.pts[i].v.toFixed(1) + "% (" + fmt(s.pts[i].n) + ")"))); tb.append(tr); });
+  table.append(tb); t.append(table);
+  box.hidden = state.trendTable; t.hidden = !state.trendTable;
+}
+$("trendTableBtn").addEventListener("click", () => { state.trendTable = !state.trendTable; $("trendTableBtn").setAttribute("aria-pressed", String(state.trendTable)); renderTrend(); });
+
+/* ---------- notes ---------- */
+function renderNotes() {
+  const s = state.summary; if (!s) return;
+  const ul = $("notes"); ul.replaceChildren();
+  const v = s.verification, g = s.golden, gr = s.group_review, c = s.counts;
+  const items = [
+    `Classification: Jev (TypeSafe jev-1.13.0) labels topic, intent and severity for every nonempty review; label config ${s.run.label_config}.`,
+    `${fmt(c.cache_copies)} reviews reuse the saved labels of an identical review text (exact-text cache); every original review ID is kept and counted.`,
+    v ? `Independent verification: Claude Haiku 5.5 re-labeled a blind random sample of ${v.verified} reviews — topic ${v.agreement.topic}, intent ${v.agreement.intent}, exact severity ${v.agreement.severity_exact} agree. Planted-error test caught ${v.planted_error_test.caught_by_comparison}/${v.planted_error_test.planted}.` : "Verification not loaded.",
+    g ? `Golden set (${g.golden_cases} hand-labeled reviews held out from all tuning): topic ${g.topic_agreement}, intent ${g.intent_agreement}, severity exact ${g.severity_exact} (±1: ${g.severity_within_1}).` : "",
+    gr ? `Issue membership uses keyword rules within each topic; a Claude Haiku 5.5 audit of ${gr.sampled_quotes} sampled quotes found ${gr.misfits} misfits.` : "",
+    "Priority = complaint count × mean severity (= severity sum). Severity 5 requires explicit financial, privacy or data harm; anger or cancellation intent alone do not raise it.",
+    "Limitations: self-selected public reviews; no revenue, plan tier or churn data; non-English reviews classified without translation and flagged; labels are model predictions with the agreement levels above.",
+    `Data generated ${s.run.generated_at} from ${s.run.input}. Every number on this page is read from the database by the backend API.`,
+  ];
+  for (const t of items) if (t) ul.append(el("li", {}, t));
+}
+
+function renderAll() { renderTiles(); renderRecs(); renderAreas(); renderRanking(); renderTrend(); renderNotes(); }
+let resizeT; window.addEventListener("resize", () => { clearTimeout(resizeT); resizeT = setTimeout(renderAll, 150); });
+
+(async function main() {
+  try {
+    const [summary, areas, trend, recs] = await Promise.all([api("summary"), api("areas"), api("trend"), api("recommendations")]);
+    Object.assign(state, { summary, areas, trend, recs });
+    await loadRanking(state.kind);
+    renderAll();
+  } catch (e) {
+    $("recBody").replaceChildren(el("p", { class: "err" }, "Could not load data from the API: " + e.message));
+  }
+})();
+</script>
+</body>
+</html>

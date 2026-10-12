@@ -1,0 +1,22 @@
+{
+  "run_id": "main-spotify_reviews_18months-20261012T083331875",
+  "phase": "resume",
+  "stop_reason": "interrupted",
+  "requests": 702,
+  "failed_requests": 0,
+  "invalid_outputs": 0,
+  "texts_labeled": 7020,
+  "reviews_completed": 7837,
+  "cache_hit_reviews": 0,
+  "status_counts": {
+    "completed": 404896,
+    "pending": 255713,
+    "quarantined": 13
+  },
+  "input_tokens": 3303930,
+  "cost_usd": 0.138765,
+  "tokens_per_text": 470.6,
+  "projection_full_pass_usd": 9.57,
+  "wall_clock_seconds": 61.41,
+  "throughput_texts_per_second": 114.31
+}

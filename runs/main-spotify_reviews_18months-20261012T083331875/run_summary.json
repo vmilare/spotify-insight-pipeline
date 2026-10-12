@@ -1,0 +1,45 @@
+{
+  "budget": {
+    "project_cap_usd": 11.0,
+    "project_spend_before_run_usd": 5.068253,
+    "run_cap_usd": 10.5
+  },
+  "cache_hit_reviews": 0,
+  "completed_after": 404896,
+  "completed_before": 397059,
+  "cost_usd": 0.138765,
+  "ended_at": "2026-10-12T15:34:35+00:00",
+  "failed_requests": 0,
+  "input": "spotify_reviews_18months.csv",
+  "input_sha256": "1fc85de68a304dd8978b537cfa58793d5f41cbaf417fa32cb53899f83a2fcef6",
+  "input_tokens": 3303930,
+  "invalid_outputs": 0,
+  "label_config": "jev-1.13.0+jev-q-tiny-v1-pack10+schema-v1+quote-v1+sent-from-intent-v1",
+  "phase": "resume",
+  "price": {
+    "model": "jev-1.13.0",
+    "output_tokens": "free",
+    "source": "https://docs.typesafe.ai/models (checked 2026-10-11)",
+    "usd_per_million_input_tokens": 0.042
+  },
+  "projection_full_pass_usd": 9.57,
+  "projection_note": "tokens per labeled text in this run x 484,189 distinct texts; this input's texts (484189) may differ in length from the full corpus",
+  "quarantined_texts": 0,
+  "requests": 702,
+  "reviews_completed": 7837,
+  "reviews_per_request": 10,
+  "run_id": "main-spotify_reviews_18months-20261012T083331875",
+  "started_at": "2026-10-12T15:33:31+00:00",
+  "status_counts": {
+    "completed": 404896,
+    "pending": 255713,
+    "quarantined": 13
+  },
+  "stop_reason": "interrupted",
+  "texts_labeled": 7020,
+  "throughput_texts_per_second": 114.31,
+  "tokens_per_text": 470.6,
+  "wall_clock_seconds": 61.41,
+  "workers": 2,
+  "workspace": "main"
+}
