@@ -1,0 +1,33 @@
+review_id,fields_disagree,jev_topic,verifier_topic,jev_intent,verifier_intent,jev_severity,verifier_severity,needs_review,text
+6ea569fb-4d91-4fea-bbcc-c61cda5791be,topic,catalog,other,praise,praise,1,1,False,I love to listen songs and i don't have particular song type. Its depends on my mood. Spotify makes this very easy. Its understand my mood and play ▶️ by according. I loved it so far.
+33526c6f-7a49-4b3d-bd20-d1bc191c494c,topic,support,other,complaint,complaint,2,2,True,"RUDE APP , THIS APP SUPPORT GUYS 🤮🤮🤮🤮🤮🤮🤮🤮🤮🤮. تطبيق سيء ، بدعم المثليين 🤮🤮🤮"
+cf6166ae-d71a-4839-9add-088645ad3b78,severity,usability,usability,complaint,complaint,3,2,True,DON'T DOWNLOAD THIS:Such a worst app ... that always plays adds instead of songs ...if want to enjoy music free without adds don't download this app ..
+b03d6dc9-449a-4647-b112-559186656759,severity,downloads,downloads,complaint,complaint,5,3,True,"Generally nice - but integrations buggy, offline mode USELESS, and moving storage failed and deleted everything. Ignores metered setting for WiFi which is a big pain! Fix this stuff and it'd be amazing as the ideas are great. Would be nice to be able to tune the suggestions algorithm as it either st"
+237e6174-4921-44df-828c-28f7b9d6196e,severity,billing,billing,complaint,complaint,3,2,False,It is a wonderful song app but In latest update everything depend upon premium
+e0127547-4edd-44a0-8d5e-e8398bc07086,severity,catalog,catalog,complaint,complaint,3,2,True,sometime the lyrics don't show
+3e8bdc92-4934-457e-85cc-8b9d14bf51c0,intent,usability,usability,request,complaint,2,2,False,"Decent,just let me have a solid 4-5 songs without an ad bro, it's always every 1 or 2 song then instant ads, that's all thanks"
+ed8efdfe-43e3-4baa-bbed-317807663531,topic,catalog,usability,complaint,complaint,3,3,False,Is good but it always recommends songs on my playlist even when I turn that setting off and remove all recommendations.
+88439ec2-7c49-4c57-bedb-c5e098692aff,intent,billing,billing,cancellation,complaint,3,3,False,I would request to remove all the new features .what's the point if we dont get to go back to the same song or skip songs..or choose .its not fair ..to restrict all the features jst so people would purchase premium ..its like forcing ..to do it ..and day by day it's getting more annoying..I g I'll s
+a7b7539a-c8d3-4f4e-9edd-d46cd1b1fd12,topic,playback,billing,cancellation,cancellation,4,4,True,"The very second I signed up for premium it stopped letting me play anything.. lol . Fastest cancelation of a service I've done, ever. Bye bye Spotify. Hello old friend, Bittorrent"
+c13dcedc-50da-48a8-a90d-cfb037a66478,topic,billing,usability,complaint,complaint,3,3,True,wow what a nice of them they removed the mix old shuffle now it shuffle s the worst possible songs in so they can sell their premium pack and the removed our right to forward or rewind the song removed our right to hear the previous songs wow 🫡 wanna give 100/100 what a good platform for enjoying mu
+7a7e7a59-4d62-46de-b524-7e83e0831caa,topic,catalog,other,praise,praise,1,1,False,Love this app there's so much music to listen to and I use my playlists all the time! 👍
+e3238297-f942-4c8e-96f7-b951b461e707,topic,playback,other,praise,praise,1,1,True,"This music app is the only one I'll ever use,it's great and always the best experience listening to music on the net.I love it😎💯❤❤❤❤"
+ec8d58bf-f9e2-42c6-870b-b87c78fe569f,intent,other,other,unclear,praise,1,1,True,Must music
+5bc203df-dac3-41ae-8b8d-ee0e8b9d9f50,topic,catalog,other,praise,praise,1,1,True,Awesome app and music
+77146d59-68bc-4555-9242-ffabb360086b,intent,other,other,praise,unclear,1,1,False,Better like that
+ed15bb17-865a-492b-ba1b-268f4cab78f6,intent|severity,usability,usability,praise,complaint,1,2,True,Very good app enna advertisement verudu premium best
+e07b106c-f454-46aa-a592-0b92d644bac0,topic|severity,billing,other,complaint,complaint,3,2,True,"Even if you have ""premium"", this app kinda garbage. Also ""30 minutes of uninterrupted listening"" ?????? Try 5. Try again."
+e85a31f6-786e-4673-94b8-010fea8ce464,topic,catalog,other,praise,praise,1,1,False,I love the mixes
+0cc5a3be-e40c-4e9f-918d-53d284e2e5b3,severity,usability,usability,praise,praise,2,1,False,When there is no adds its Awesome
+a598cfe0-473b-4665-9eb2-4eebb3c1d877,topic|severity,playback,other,cancellation,cancellation,3,2,False,New update had made this app worst for streaming music. Shifting to better apps
+7e610236-5f6a-404f-a503-ed466c6700eb,intent,catalog,catalog,request,praise,1,1,False,Good quality of songs and more number of accounts with premium plans
+5650dbb7-7525-46e7-87b7-a75197c48ec7,topic,catalog,other,praise,praise,1,1,True,I don't have any podcast! But I enjoy it! Very much!
+e5e6c55f-3069-4b7c-9807-f8b5d5bf2726,severity,usability,usability,complaint,complaint,3,2,False,Too many ads.... it's literally useless if u hv not taken premium
+62b53e0a-0397-4200-826f-122d18fdde32,severity,other,other,cancellation,cancellation,4,2,True,I haven't experted about this from Spotify...🙄 I'm uninstalling successful....meet me when have got the old Spotify update !!!
+9f3626e0-1bcb-4788-a412-f812102502d1,topic,other,catalog,complaint,complaint,2,2,True,"You guys are blatantly corrupt, removing Collab streams from only BTS and their members and keeping other artists stream on the same chart, I just cannot believe you guys are this threatened by bts"
+ff14ea84-fdec-4363-9b1b-a23dcab287c5,intent|severity,other,other,praise,complaint,1,2,False,Good at all
+3df77a78-ad9a-4456-8be8-8178ffd43d67,severity,catalog,catalog,complaint,complaint,4,3,True,Always say no internet connection Most of my favourite Bollywood songs are not present
+27aeb125-266a-47c9-85f5-bd8a56b4d6c3,topic,downloads,playback,praise,praise,1,1,False,Have been a customer for years and have always been satisfied. I have worked remotely without cell or internet and I like that I can still play all my collections.
+4f0ead84-a25f-4f3b-a9ad-451dba35c49b,intent,other,other,praise,unclear,1,1,False,West app of the world 💦💦
+9c9757da-6b99-4c95-a0e7-0661ee858027,topic|severity,playback,usability,complaint,complaint,3,2,False,There is some bugs like music adjustment doesn't work Perporly plz do something about this bug
+d218ffde-42f9-48f8-a793-832507454b35,topic,playback,catalog,complaint,complaint,3,3,True,"Some of the song lyrics couldn't load, even if I updated it and refresh the app. Additionally, some songs are not showing huhu. Also, the song keeps on shuffling .. I can't find the shuffle button to stop it. Once you click the button, it just keep on playing the other song."

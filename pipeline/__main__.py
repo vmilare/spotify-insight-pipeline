@@ -27,6 +27,11 @@ def main():
     p.add_argument("--workspace", default="main",
                    help="Saved-state workspace (default main). A new name = empty cache = cold run")
 
+    p = commands.add_parser("verify", help="Stage 3: independent blind re-label of a random sample (Claude Haiku 5.5, PAID)")
+    p.add_argument("--input", type=Path, default=None, help=f"Input CSV (default: $DATA_DIR/{FULL_CSV_NAME})")
+    p.add_argument("--workspace", default="main")
+    p.add_argument("--sample", type=int, default=None, help="Override verify.sample_size")
+
     p = commands.add_parser("group", help="Stage 4: assign complaint/cancellation records to issues (no model calls)")
     p.add_argument("--input", type=Path, default=None, help=f"Input CSV (default: $DATA_DIR/{FULL_CSV_NAME})")
     p.add_argument("--workspace", default="main")
@@ -51,6 +56,12 @@ def main():
                 "cost_usd", "tokens_per_text", "projection_full_pass_usd", "wall_clock_seconds",
                 "throughput_texts_per_second")
         print(json.dumps({k: summary[k] for k in keys}, indent=2))
+    elif args.command == "verify":
+        from . import verify
+        r = verify.run(args.input or dataset_file(FULL_CSV_NAME), args.workspace, args.sample)
+        print(json.dumps({k: r[k] for k in ("verified", "missing_verifier_labels", "agreement",
+                                            "planted_error_test", "needs_review_vs_disagreement", "requests",
+                                            "failed_attempts", "usage", "cost_usd", "wall_clock_seconds")}, indent=2))
     elif args.command == "group":
         from . import group
         print(json.dumps(group.run(args.input or dataset_file(FULL_CSV_NAME), args.workspace), indent=2))

@@ -6,7 +6,7 @@ unless marked *estimate*. Per-run spend is tracked automatically in `runs/spend_
 
 | Running API spend | Jev | Anthropic | Total |
 |---|---|---|---|
-| as of last entry | $0.0228 | $0.00 | **$0.0228** |
+| as of last entry | $0.0228 | $0.0029 | **$0.0257** |
 
 ---
 
@@ -194,3 +194,19 @@ unless marked *estimate*. Per-run spend is tracked automatically in `runs/spend_
   USA-ADS 59 · PLY-WONTPLAY 42 · USA-REDESIGN 40. Top issue unchanged without needs_review records.
   OTH-GENERAL = "worst app"-type complaints with no specific defect (correct per contract, not actionable).
   *Small sample — indicative only.*
+
+## 2026-10-11 — Credit added; Stage 3 verify built and tested ($0.0029)
+- Anthropic test call OK (`claude-haiku-5-5`, 16 in / 4 out tokens, $0.0000036 — not in the ledger, rounding).
+- `cost/rates.csv`: editable, dated rates for Jev, Haiku 5.5, Sonnet 5.5 (input / output / cache write / cache read);
+  `pipeline/rates.py` computes cost = billed units × unit price per mutually exclusive item.
+- `pipeline/claude.py`: SDK retries off (`max_retries=0`), own bounded retry, every attempt logged with request id,
+  usage, cost; budget guard checks project cap before each request; refusal / max_tokens / invalid JSON handled.
+- `pipeline/verify.py` + `prompts/verify_v1.md`: Haiku 5.5 (effort low, thinking off, structured JSON) re-labels a
+  declared random sample (model-called records, seeded SHA-256 order) from text only, 25 per request, under opaque
+  keys; prompt tells it to treat review text as data (injection defense). Code compares.
+- Test on checkpoint_500, sample 100 (4 requests, 15 s, $0.0029):
+  agreement Jev vs Haiku — topic 84/100, intent 92/100, severity exact 87/100 (±1: 98), sentiment MAE 0.25.
+  Planted-error test (synthetic copy, 20 topics falsified): 18/20 caught by the comparison.
+  needs_review predicts disagreement: flagged 11/28 (39%) vs unflagged 13/72 (18%).
+- Note: Jev agrees more with Haiku (84% topic) than with the human dev labels (~68%) — the two models may share
+  readings that differ from the human's; the golden-set evaluation is the reference for accuracy.

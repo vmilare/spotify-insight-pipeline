@@ -1,0 +1,115 @@
+{
+  "agreement": {
+    "intent": 92,
+    "sentiment_mae": 0.251,
+    "severity_exact": 87,
+    "severity_mae": 0.15,
+    "severity_within_1": 98,
+    "topic": 84
+  },
+  "cost_usd": 0.002908,
+  "failed_attempts": 0,
+  "first_label_config": "jev-1.13.0+jev-q-tiny-v1-pack10+schema-v1+quote-v1+sent-from-intent-v1",
+  "input": "checkpoint_500.csv",
+  "intent_confusion(first->verifier)": [
+    [
+      "praise->unclear",
+      2
+    ],
+    [
+      "praise->complaint",
+      2
+    ],
+    [
+      "request->complaint",
+      1
+    ],
+    [
+      "cancellation->complaint",
+      1
+    ],
+    [
+      "unclear->praise",
+      1
+    ],
+    [
+      "request->praise",
+      1
+    ]
+  ],
+  "missing_verifier_labels": 0,
+  "needs_review_vs_disagreement": {
+    "flagged": 28,
+    "flagged_with_topic_or_intent_disagreement": 11,
+    "unflagged": 72,
+    "unflagged_with_topic_or_intent_disagreement": 13
+  },
+  "planted_error_test": {
+    "caught_by_comparison": 18,
+    "planted": 20,
+    "rule": "every 5th verified record's topic replaced by TOPICS[(i+3) % 8] in a test copy",
+    "synthetic": true
+  },
+  "requests": 4,
+  "run_id": "main-checkpoint_500-verify-20261011T214013",
+  "sample": {
+    "declared_size": 100,
+    "drawn": 100,
+    "method": "records with a model call, sorted by SHA-256('verify-sample-v1:review_id'), first N"
+  },
+  "topic_confusion(first->verifier)": [
+    [
+      "catalog->other",
+      5
+    ],
+    [
+      "playback->other",
+      2
+    ],
+    [
+      "support->other",
+      1
+    ],
+    [
+      "catalog->usability",
+      1
+    ],
+    [
+      "playback->billing",
+      1
+    ],
+    [
+      "billing->usability",
+      1
+    ],
+    [
+      "billing->other",
+      1
+    ],
+    [
+      "other->catalog",
+      1
+    ],
+    [
+      "downloads->playback",
+      1
+    ],
+    [
+      "playback->usability",
+      1
+    ],
+    [
+      "playback->catalog",
+      1
+    ]
+  ],
+  "usage": {
+    "cache_read_tokens": 0,
+    "cache_write_tokens": 0,
+    "input_tokens": 10581,
+    "output_tokens": 3699
+  },
+  "verified": 100,
+  "verifier_config": "claude-haiku-5-5+verify-v1+effort-low+thinking-off",
+  "wall_clock_seconds": 15.2
+}
