@@ -1,0 +1,71 @@
+{
+  "baseline_records": 240,
+  "issues_ranked": 27,
+  "top5": [
+    [
+      "OTH-GENERAL",
+      122
+    ],
+    [
+      "BIL-PAYWALL",
+      113
+    ],
+    [
+      "USA-ADS",
+      59
+    ],
+    [
+      "PLY-WONTPLAY",
+      42
+    ],
+    [
+      "USA-REDESIGN",
+      40
+    ]
+  ],
+  "top5_actionable": [
+    [
+      "BIL-PAYWALL",
+      113
+    ],
+    [
+      "USA-ADS",
+      59
+    ],
+    [
+      "PLY-WONTPLAY",
+      42
+    ],
+    [
+      "USA-REDESIGN",
+      40
+    ],
+    [
+      "USA-GENERAL",
+      37
+    ]
+  ],
+  "top5_without_needs_review": [
+    [
+      "OTH-GENERAL",
+      95
+    ],
+    [
+      "BIL-PAYWALL",
+      70
+    ],
+    [
+      "USA-ADS",
+      37
+    ],
+    [
+      "USA-REDESIGN",
+      27
+    ],
+    [
+      "PLY-WONTPLAY",
+      25
+    ]
+  ],
+  "top_issue_same_without_needs_review": true
+}

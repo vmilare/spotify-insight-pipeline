@@ -1,0 +1,113 @@
+# Issue taxonomy — version issues-v2 (draft for user approval, 2026-10-11)
+# v2: crash keywords added; new PLY-WONTPLAY after inspecting PLY-GENERAL on the 500-review dev checkpoint.
+# Stage 4 (group) assigns every completed complaint/cancellation record to exactly ONE issue:
+#   1. the record's Jev topic selects the issue list below;
+#   2. the first issue (in listed order) whose keywords appear in the review text wins;
+#   3. otherwise the topic's last "general" issue (no keywords) catches it.
+# Code owns membership (deterministic, rerunnable without a model). The group model role (Claude Haiku 5.5)
+# only names/describes issues and audits a bounded sample of members for fit; it never changes membership.
+# Keywords are matched case-insensitively as substrings of the original review text.
+version: issues-v2
+
+topics:
+  usability:
+    - id: USA-ADS
+      name: Ad frequency, length and loudness
+      keywords: [" ad ", " ads", "advert", "commercial", "advertis"]
+    - id: USA-SHUFFLE
+      name: Forced shuffle / can't choose song order
+      keywords: ["shuffle", "choose song", "pick song", "pick the song", "choose the song", "select song", "in order"]
+    - id: USA-REDESIGN
+      name: New update / redesign / navigation and layout
+      keywords: ["update", "new design", "layout", "interface", "home screen", "homepage", "navigation", "button", "tiktok", "feed", "ui "]
+    - id: USA-LIBRARY
+      name: Playlist, queue and library management
+      keywords: ["playlist", "queue", "library", "liked songs", "sort", "folder"]
+    - id: USA-GENERAL
+      name: Other usability complaints
+      keywords: []
+  billing:
+    - id: BIL-PAYWALL
+      name: Features locked behind Premium (skips, song choice, playback)
+      keywords: ["skip", "premium", "free version", "free user", "without paying", "unless you pay", "have to pay", "must pay", "subscription to"]
+    - id: BIL-PRICE
+      name: Price level and price increases
+      keywords: ["price", "expensive", "cost", "increase", "cheaper", "afford"]
+    - id: BIL-CHARGES
+      name: Charges, refunds, payments and trials
+      keywords: ["charg", "refund", "payment", "card", "billing", "trial", "money back", "deducted"]
+    - id: BIL-GENERAL
+      name: Other billing complaints
+      keywords: []
+  playback:
+    - id: PLY-CRASH
+      name: App crashes / won't open
+      keywords: ["crash", "won't open", "wont open", "not opening", "doesn't open", "closes", "keeps closing", "force close",
+                 "black screen", "shut", "shout", "kicks me out"]
+    - id: PLY-WONTPLAY
+      name: Songs won't play / app not working / bugs
+      keywords: ["can't play", "cant play", "cannot play", "won't play", "wont play", "doesn't play", "doesnt play",
+                 "not play", "unable to play", "let me play", "not working", "doesn't work", "doesnt work",
+                 "isn't working", "stopped working", "glitch", "bug", "error", "wrong song", "another song"]
+    - id: PLY-STOPS
+      name: Music stops, pauses or cuts out
+      keywords: ["stop", "pause", "cut out", "cuts out", "interrupt", "randomly skip"]
+    - id: PLY-CONNECTION
+      name: Connection, Bluetooth, car and devices
+      keywords: ["connect", "network", "internet", "bluetooth", "android auto", "car", "chromecast", "speaker", "watch"]
+    - id: PLY-PERFORMANCE
+      name: Lag, slowness, battery and loading
+      keywords: ["lag", "slow", "battery", "freez", "loading", "load", "buffer", "hang"]
+    - id: PLY-AUDIO
+      name: Audio quality and volume
+      keywords: ["audio", "sound", "volume", "quality", "loud"]
+    - id: PLY-GENERAL
+      name: Other playback problems (bugs, not working)
+      keywords: []
+  access:
+    - id: ACC-LOGIN
+      name: Login, logout and password problems
+      keywords: ["log in", "login", "logged out", "log out", "sign in", "password", "signin"]
+    - id: ACC-ACCOUNT
+      name: Account lost, hacked or family-plan access
+      keywords: ["hack", "account", "family", "email", "verification", "code"]
+    - id: ACC-GENERAL
+      name: Other access problems
+      keywords: []
+  downloads:
+    - id: DWN-LOST
+      name: Downloads disappear or must be re-downloaded
+      keywords: ["disappear", "deleted", "gone", "removed", "re-download", "redownload", "lost"]
+    - id: DWN-OFFLINE
+      name: Offline mode not working
+      keywords: ["offline"]
+    - id: DWN-GENERAL
+      name: Other download problems
+      keywords: []
+  catalog:
+    - id: CAT-LYRICS
+      name: Lyrics missing or broken
+      keywords: ["lyric"]
+    - id: CAT-RECOMMENDATIONS
+      name: Recommendations, repeats and smart features
+      keywords: ["recommend", "algorithm", "same song", "repeat", "dj", "radio", "discover", "suggest"]
+    - id: CAT-SEARCH
+      name: Search doesn't find content
+      keywords: ["search", "find"]
+    - id: CAT-AVAILABILITY
+      name: Songs, artists or podcasts unavailable
+      keywords: ["not available", "unavailable", "removed", "missing", "region", "podcast", "audiobook"]
+    - id: CAT-GENERAL
+      name: Other catalog complaints
+      keywords: []
+  support:
+    - id: SUP-GENERAL
+      name: Customer support contact and response
+      keywords: []
+  other:
+    - id: OTH-BOYCOTT
+      name: Boycott / political protest with a complaint or departure
+      keywords: ["boycott", "sweden", "swedish", "quran", "qur'an", "koran"]
+    - id: OTH-GENERAL
+      name: General dissatisfaction, no specific product issue
+      keywords: []

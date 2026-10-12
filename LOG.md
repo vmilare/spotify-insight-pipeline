@@ -170,3 +170,27 @@ unless marked *estimate*. Per-run spend is tracked automatically in `runs/spend_
   thresholds or sentiment calibration; Jev has not been run on these reviews.
 - User reviewed the severity-5 note and kept the dev labels unchanged (decision recorded; affects how dev
   severity agreement should be read).
+
+## 2026-10-11 — Model IDs checked; Anthropic account needs credit
+- Checked the current Claude API reference (claude-api skill, cached 2026-10-06): **Claude Haiku 5.5**
+  (`claude-haiku-5-5`, $0.10 / $0.50 per M tokens) is the current, cheapest Haiku — 10× cheaper than Haiku 4.5
+  ($1 / $5). Verifier switched to Haiku 5.5 (user's original instruction: "the cheapest Claude model").
+  Memo: **Claude Sonnet 5.5** (`claude-sonnet-5-5`, $2 / $10), `output_config.effort = "high"`, with server-side
+  `fallbacks: "default"` (beta `server-side-fallback-2026-07-01`) so a safety decline is retried on another model.
+- Installed `anthropic==1.13.0`, `pydantic==2.14.1`. First test call → HTTP 400 "credit balance is too low";
+  key is valid, account has no credit. **No charge.** User to add credit (Settings → Billing).
+
+## 2026-10-11 — Stages 4–5 built: group + rank (code only, $0)
+- `config/issues.yaml` (issues-v2): 32 issues across 8 topics. Each completed complaint/cancellation joins exactly
+  one issue: its Jev topic selects the list; first issue whose keyword appears in the text wins; else the topic's
+  general issue. Code owns membership. (Haiku "group" role will name/audit issues from bounded samples — pending credit.)
+- `pipeline/rank.py`: contract baseline (`ranking.csv`: severity_sum, mean half-up 6 dp, tie by issue_id) plus
+  `ranking_without_needs_review.csv` (sensitivity), `ranking_actionable.csv` (additional business ranking without
+  OTH-GENERAL), `aggregates.csv`, `topic_rollup.csv`.
+- `python -m pipeline rerank` twice → **byte-identical `ranking.csv`**, no model calls.
+- v1 → v2 change after inspecting the 500 checkpoint: PLY-GENERAL hid crash reports ("black screen",
+  "shoutdowning") and won't-play failures → added crash keywords and PLY-WONTPLAY.
+- 500-review checkpoint (240 complaint/cancellation records), top baseline issues: OTH-GENERAL 122 · BIL-PAYWALL 113 ·
+  USA-ADS 59 · PLY-WONTPLAY 42 · USA-REDESIGN 40. Top issue unchanged without needs_review records.
+  OTH-GENERAL = "worst app"-type complaints with no specific defect (correct per contract, not actionable).
+  *Small sample — indicative only.*

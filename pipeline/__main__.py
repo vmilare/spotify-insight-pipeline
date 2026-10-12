@@ -27,6 +27,14 @@ def main():
     p.add_argument("--workspace", default="main",
                    help="Saved-state workspace (default main). A new name = empty cache = cold run")
 
+    p = commands.add_parser("group", help="Stage 4: assign complaint/cancellation records to issues (no model calls)")
+    p.add_argument("--input", type=Path, default=None, help=f"Input CSV (default: $DATA_DIR/{FULL_CSV_NAME})")
+    p.add_argument("--workspace", default="main")
+
+    p = commands.add_parser("rerank", help="Stage 5: recompute ranking from saved files only (no model calls)")
+    p.add_argument("--input", type=Path, default=None, help="Input CSV whose analysis folder to rank")
+    p.add_argument("--folder", type=Path, default=None, help="Or an analysis folder path directly")
+
     args = parser.parse_args()
     if args.command == "ingest":
         from . import ingest
@@ -43,6 +51,13 @@ def main():
                 "cost_usd", "tokens_per_text", "projection_full_pass_usd", "wall_clock_seconds",
                 "throughput_texts_per_second")
         print(json.dumps({k: summary[k] for k in keys}, indent=2))
+    elif args.command == "group":
+        from . import group
+        print(json.dumps(group.run(args.input or dataset_file(FULL_CSV_NAME), args.workspace), indent=2))
+    elif args.command == "rerank":
+        from . import group, rank
+        folder = args.folder or group.analysis_dir(args.input or dataset_file(FULL_CSV_NAME))
+        print(json.dumps(rank.run(folder), indent=2))
 
 
 if __name__ == "__main__":
