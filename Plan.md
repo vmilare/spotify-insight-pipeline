@@ -45,11 +45,12 @@ Legend: ✅ done · 🔄 in progress · ⬜ todo · 👤 needs the user
 - ✅ System tests A–E pass → `evals/results/system_tests/`
 - ✅ Cost pilot + calculator → `cost/`; 10k checkpoint refresh
 - ✅ Full run: 660,609 classified, 13 quarantined, 0 pending, 0 failed calls; recorded interrupt/resume → `evals/resume_demo.mov`
-- ✅ Issues v3, verify 500, group review, ranking, memo-v2 (memo-v1 kept) → `memo.md`
+- ✅ Issues v3, verify 500, group review, ranking, memo-v3 (v1, v2 kept) → `memo.md`
+- ✅ Requirement audit: `run` command, clean-clone test, run manifest, label examples, schema, quote inspection
 - ✅ Dashboard live: https://spotify-insight-pipeline.vercel.app (Vercel FastAPI + Neon Postgres)
 - ✅ `grading/` export; course self-check pass (no issues)
 - ✅ README with rubric → evidence map; release v1.0 with large files
-- ⬜👤 Final review by the author (memo choice incl. late-2023 billing trend), signed-out link check, submit URL on bCourses
+- ⬜👤 Final review by the author (README, memo-v3), submit URL on bCourses
 
 ---
 

@@ -105,6 +105,8 @@ def run(input_path, workspace="main", before_run=None, after_run=None):
                "note": "saved when the first full-run segment stopped; resumed in the recorded demo (evals/resume_demo.mov)"})
     write_json(GRADING_DIR / "checkpoint_after.json", {"completed_ids": after["completed_ids"], "source": after_dir.name,
                "note": "after resuming (one recorded Ctrl+C interruption and a second resume) and completing the corpus"})
+    from . import manifest
+    manifest.write(input_path, workspace)
     return {"records": n_records, "calls": n_calls, "checkpoint_before": len(before["completed_ids"]),
             "checkpoint_after": len(after["completed_ids"]),
             "files": {p.name: p.stat().st_size for p in sorted(GRADING_DIR.iterdir()) if p.is_file()}}

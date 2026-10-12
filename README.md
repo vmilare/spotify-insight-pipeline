@@ -9,10 +9,11 @@ playback, or billing/support?*
 |---|---|
 | **Live dashboard** | **https://spotify-insight-pipeline.vercel.app** — public, no login. The first load of the trend chart can take ~2 s (computed live over all 660k rows in the database). |
 | Backend API (same site) | `/api/health`, `/api/summary`, `/api/areas`, `/api/trend`, `/api/ranking?kind=baseline\|actionable\|without_needs_review`, `/api/issues/{issue_id}`, `/api/recommendations`; docs at `/api/docs` |
-| Decision memo | [`memo.md`](memo.md) (memo-v2; earlier version kept at [`runs/analysis/spotify_reviews_18months/memo_v1.md`](runs/analysis/spotify_reviews_18months/memo_v1.md)) |
+| Decision memo | [`memo.md`](memo.md) (memo-v3; earlier versions kept: [`memo_v1.md`](runs/analysis/spotify_reviews_18months/memo_v1.md), [`memo_v2.md`](runs/analysis/spotify_reviews_18months/memo_v2.md)) |
 | Grading export | [`grading/`](grading/) — course self-check `check_submission.py`: **status pass, no issues** |
 | Cost calculator | [`cost/`](cost/) — `python cost/calculator.py` (offline replay, default) · report: [`cost/report.md`](cost/report.md) |
-| Project log | [`LOG.md`](LOG.md) — every step, decision, experiment, bug and cost, in order · plan and checklist: [`Plan.md`](Plan.md) |
+| Project log | [`LOG.md`](LOG.md) — every step, decision, experiment, bug and cost, in order · plan and checklist: [`Plan.md`](Plan.md) · run manifest: [`runs/final_run_manifest.json`](runs/final_run_manifest.json) |
+| Labels and schema | [`docs/label_examples.md`](docs/label_examples.md) (worked examples) · [`docs/schema.md`](docs/schema.md) (output schema) |
 | Large files | GitHub release [**v1.0**](https://github.com/vmilare/spotify-insight-pipeline/releases/tag/v1.0) (full enriched records with model confidences) |
 
 ---
@@ -31,23 +32,26 @@ playback, or billing/support?*
 | Flagged `needs_review` | 210,531 records (31.9% of completed) — low Jev confidence or likely non-English |
 | Golden set (50 human labels, held out) | topic **35/50**, intent **45/50**, severity exact **36/50** (±1: 49/50), sentiment MAE 0.31 |
 | Independent verifier (blind, random 500) | topic **413/500**, intent **462/500**, severity exact **378/500**; planted-error test **96/100** caught |
-| Model calls in the grading log | **48,451** logged attempts, **0 failed** ([`grading/calls.jsonl.gz`](grading/calls.jsonl.gz)) |
+| Model calls in the grading log | **48,452** logged attempts, **0 failed** ([`grading/calls.jsonl.gz`](grading/calls.jsonl.gz)) |
 | Enrichment wall clock (full file) | 62.6 min over 3 runs (29.2 + 1.0 interrupted + 32.4), 2 workers, ~118–137 texts/s |
-| API spend, whole project | **$9.89** of an $11 cap (full-file Jev enrichment **$9.41**) — [`runs/spend_ledger.csv`](runs/spend_ledger.csv) |
+| API spend, whole project | **$10.05** of an $11 cap (full-file Jev enrichment **$9.41**) — [`runs/spend_ledger.csv`](runs/spend_ledger.csv) |
 
 **Estimated before the run vs actual:** the calculator projected $9.79 (base) / $10.63 (conservative) for the full run;
 actual full-file enrichment was $9.41, plus $0.17 of development runs whose results were reused (470.9 tokens/text vs
 468.4 projected). Accounted-for rows (660,622) and completed classifications (660,609) are reported separately everywhere.
 
-**Recommendation (memo-v2, [`memo.md`](memo.md)):** fund **usability** — ad load (USA-ADS, priority 87,029 [C2]) and the
-redesign (USA-REDESIGN, 34,446 [C3]) — handled jointly with the Premium paywall (BIL-PAYWALL, the largest actionable
-issue, 118,521 [C6]); treat playback as needing human re-labeling before committing a quarter; scope a small login fix.
+**Recommendation (memo-v3, [`memo.md`](memo.md)):** fund **billing/support**, led by the Premium paywall (BIL-PAYWALL, the
+largest actionable issue: 38,784 complaints [C2], priority 118,521 [C1]) and BIL-GENERAL (25,732 [C3]), coordinated with
+the usability team on ads (USA-ADS, 87,029 [C5]); treat playback as a real but uncertain second priority that needs a
+label audit; scope a small login fix. The decisive evidence is timing: billing/support complaints were 4–6% of monthly
+reviews through Aug 2023, then **13.5% (Sep), 26.3% (Oct), 19.7% (Nov, partial)**, while no other area moved.
 
-**Read this with the sensitivity findings** (all in the saved data): the ordering of the top areas is close and depends on
-label reliability. The recommended area moved from billing (500-review development sample) to playback (full data,
-memo-v1) to usability (full data plus per-issue verification evidence, memo-v2); see [§7](#7-results-ranking-rules-and-sensitivity).
-Billing/support complaints also rose sharply at the end of the window (4–6% of monthly reviews through Aug 2023 →
-13.5% Sep, 26.3% Oct, 19.7% Nov-partial); that trend was not in memo-v2's evidence pack.
+**Read this with the sensitivity findings** (all in the saved data, disclosed in the memo): over the full period the area
+roll-up ranks playback first and billing/support third; excluding needs_review records puts ads ahead of the paywall; the
+playback issues have the weakest verifier agreement. The recommendation changed as evidence was added to the memo's
+evidence pack — billing (500-review development sample) → playback (full data, memo-v1) → usability (+ per-issue
+verification, memo-v2) → billing/support (+ monthly trend, memo-v3). Each version is kept and the reason for each
+regeneration is in [`LOG.md`](LOG.md); the top areas are close and the answer depends on label reliability and timing.
 
 ---
 
@@ -102,7 +106,7 @@ the verifier's labels, issue names/fit audit, and the memo's argument.
 - Enrich: `jev-1.13.0` (TypeSafe `/v1/systemone`), question set `jev-q-tiny-v1` ([`prompts/jev_tiny_v1.yaml`](prompts/jev_tiny_v1.yaml)),
   10 reviews per request, `label_config = jev-1.13.0+jev-q-tiny-v1-pack10+schema-v1+quote-v1+sent-from-intent-v1`.
 - Verify and group review: `claude-haiku-5-5`, effort low, thinking off, JSON-schema structured output.
-- Memo: `claude-sonnet-5-5`, effort high, adaptive thinking, server-side `fallbacks: "default"`; prompt `memo-v2`.
+- Memo: `claude-sonnet-5-5`, effort high, adaptive thinking, server-side `fallbacks: "default"`; prompt `memo-v3` ([`prompts/memo_v3.md`](prompts/memo_v3.md)).
 
 ---
 
@@ -120,7 +124,7 @@ Review **`4b5220da-4c26-4a20-aff8-d5caab56255a`** (row 206,953, 2022-12-13, app 
 | Verification | In the random verify sample: Haiku 5.5, blind → playback / complaint / 3 / −0.5 — agrees |
 | Issue membership | Playback rules are checked in order; "glitch" matches **PLY-WONTPLAY** before "stop" (PLY-STOPS) is reached — it arguably fits both, a visible example of the keyword-order limitation ([`membership.csv`](runs/analysis/spotify_reviews_18months/membership.csv)) |
 | Ranking | PLY-WONTPLAY: baseline rank 4, 16,888 complaints, severity sum 58,604, mean 3.470156 |
-| Memo claim | memo-v2 **[C8]** `PLY-WONTPLAY priority_score 58604` and **[C9]** mean severity 3.470156 — checked against `ranking.csv` (✓ chips on the dashboard) |
+| Memo claim | memo-v3 **[C7]** `PLY-WONTPLAY priority_score 58604` and **[C8]** mean severity 3.470156 (the playback alternative) — checked against `ranking.csv` (✓ chips on the dashboard) |
 
 **A failed / ambiguous case and its handling.** Golden review `46c0b49f…`: *"Listening to music in a normal volume and
 suddenly an add starts and my ears feel like they explode!!"*. Human label: playback / complaint / 2 (labeler note: the
@@ -136,7 +140,8 @@ once and then quarantined with `invalid_model_output: topic not allowed` ([§5](
 ## 4. Labels and the golden-set evaluation
 
 - Shared definitions: [`config/labels.yaml`](config/labels.yaml) (the contract's 8 topics, 5 intents with precedence, severity 1–5,
-  sentiment, entities, evidence quote, needs_review).
+  sentiment, entities, evidence quote, needs_review); worked examples: [`docs/label_examples.md`](docs/label_examples.md); output schema:
+  [`docs/schema.md`](docs/schema.md).
 - **Dev set** (50 reviews from `analysis_10000.csv` rows 501–10,000, labeled by the author): used to choose the Jev
   question set, the sentiment mapping and the needs_review threshold ([`evals/dev_50_labeled.csv`](evals/dev_50_labeled.csv)).
   Experiments: [`evals/results/dev_compare/summary.md`](evals/results/dev_compare/summary.md), [`dev_compare_b/summary.md`](evals/results/dev_compare_b/summary.md).
@@ -152,6 +157,7 @@ once and then quarantined with `invalid_model_output: topic not allowed` ([§5](
 | Severity exact / within ±1 / MAE | 36/50 / 49/50 / 0.30 |
 | Sentiment MAE / within predeclared ±0.5 | 0.31 / 46/50 |
 | Evidence quote is an exact substring | 50/50 (whole text for 46) |
+| Quote supports the label (inspected) | the 4 sentence-level quotes were read: 3 support topic and intent; 1 (`3ddb3f4e`) supports the topic but the cancellation cue ("Deleting this App") lies outside the quoted sentence |
 | Entities not present in the text | 0 |
 | Missing or quarantined predictions | 0 |
 | Ambiguous cases | 0 flagged by the labeler; 11 carry labeler notes (unclear / unsupported language / boycott) |
@@ -242,7 +248,7 @@ Area roll-up (severity sum): playback incl. downloads 193,130 · usability 174,2
 
 **What changes the answer:** dropping flagged records puts ads ahead of the paywall; the playback issues have the
 weakest verifier agreement (free-tier "can't play the song I want" complaints read as usability/billing to the verifier);
-the late-2023 billing surge (below) favors billing at the end of the window.
+the late-2023 billing surge (below) favors billing at the end of the window — memo-v3 weighs it explicitly.
 
 **Trend** (dashboard and `/api/trend`; share = area complaints ÷ all classified reviews that month; May 2022 and Nov 2023
 are partial months): billing/support 3.9% (May 2023, n=28,061) · 5.9% (Jun) · 2.3% (Jul, n=85,079 — a review-volume spike
@@ -266,8 +272,10 @@ Issue taxonomy history: v1 → v2 (500-sample inspection) → v3 (full-data catc
 - Issue membership uses keyword rules within each topic (84% fit in a sampled audit; order matters, see §3); catch-all
   issues remain.
 - The memo is model-written from a bounded evidence pack and checked for numbers, not for judgment; its recommendation is
-  sensitive to the factors in §7. memo-v1 → v2 was regenerated once after new evidence (per-issue verification) was added
-  to the pack; the trend surge was in neither pack.
+  sensitive to the factors in §7. It was regenerated twice, each time after new evidence was added to the pack
+  (per-issue verification → memo-v2; monthly trend → memo-v3); all versions are kept.
+- Missing data: 159,701 reviews (24%) have no app version; they were classified normally (version is not a label input)
+  but version-level analysis would exclude them. Review dates have no time zone; the first and last months are partial.
 - Jev is not perfectly repeatable run to run (1–3 of 50 labels differed in identical dev reruns); saved results make the
   final ranking reproducible.
 
@@ -278,14 +286,14 @@ Issue taxonomy history: v1 → v2 (500-sample inspection) → v3 (full-data catc
 | Rubric item | Evidence |
 |---|---|
 | **Deliverable quality** — accessible code, setup and artifacts | [§10 Setup](#10-setup-and-commands), this README, [`requirements.txt`](requirements.txt), [`.env.example`](.env.example), [`grading/`](grading/), release v1.0 |
-| — clear architecture, shared schema and provenance | [§2](#2-architecture), [`config/labels.yaml`](config/labels.yaml), [`prompts/`](prompts/), `label_config` on every record, run IDs, [`data_manifest.json`](runs/ingest/spotify_reviews_18months/data_manifest.json), [`LOG.md`](LOG.md) |
+| — clear architecture, shared schema and provenance | [§2](#2-architecture), [`config/labels.yaml`](config/labels.yaml), [`docs/schema.md`](docs/schema.md), [`docs/label_examples.md`](docs/label_examples.md), [`prompts/`](prompts/), `label_config` on every record, run IDs, [`runs/final_run_manifest.json`](runs/final_run_manifest.json) (commit, prompt hashes, models, settings, output hashes), [`LOG.md`](LOG.md) |
 | — memo numbers linked to calculations and source evidence | [`memo.md`](memo.md) appendix, [`grading/claims.csv`](grading/claims.csv), [`evidence_pack.json`](runs/analysis/spotify_reviews_18months/evidence_pack.json), [`memo_check.json`](runs/analysis/spotify_reviews_18months/memo_check.json), [§3 trace](#3-one-review-traced-end-to-end), dashboard ✓ chips |
 | — recommendation, alternatives and limitations | [`memo.md`](memo.md), [§7](#7-results-ranking-rules-and-sensitivity), [§8](#8-limitations) |
 | **Testing & evaluation** — 50 human labels, per-field comparison, error analysis | [§4](#4-labels-and-the-golden-set-evaluation), [`evals/results/golden/`](evals/results/golden/) |
 | — independent verification, planted-error and injection tests | [§5](#5-system-tests), [`verify_report.json`](runs/analysis/spotify_reviews_18months/verify/verify_report.json), [`planted_errors.jsonl`](runs/analysis/spotify_reviews_18months/verify/planted_errors.jsonl), [`evals/results/system_tests/`](evals/results/system_tests/) |
 | — real 100-review cold/warm pilot, offline calculator, retry/spend/recovery controls | [§6](#6-cost-and-runtime-calculator), [`cost/`](cost/), system tests A–D |
 | **Working result** — full ingestion, coverage, classification | [§1](#1-results-summary), [`grading/`](grading/) (self-check pass, coverage 1.0), [`ingestion_report.json`](runs/ingest/spotify_reviews_18months/ingestion_report.json) |
-| — runnable staged program, bounded calls, saved handoffs, demonstrated resume | [§10 commands](#10-setup-and-commands), [`grading/calls.jsonl.gz`](grading/calls.jsonl.gz) (≤10 reviews per enrichment request), [`evals/resume_demo.mov`](evals/resume_demo.mov), checkpoints |
+| — runnable staged program, bounded calls, saved handoffs, demonstrated resume | `python -m pipeline run --input <csv>` and per-stage commands ([§10](#10-setup-and-commands)), [`grading/calls.jsonl.gz`](grading/calls.jsonl.gz) (≤10 reviews per enrichment request), [`evals/resume_demo.mov`](evals/resume_demo.mov), checkpoints |
 | — reproducible ranking; deployed dashboard + backend + database with grounded AI recommendations | `python -m pipeline rerank`, **https://spotify-insight-pipeline.vercel.app**, [`web/`](web/), [`pipeline/load_db.py`](pipeline/load_db.py) |
 
 ---
@@ -302,8 +310,9 @@ python3.13 -m venv .venv && .venv/bin/pip install -r requirements.txt
 cp .env.example .env    # set DATA_DIR; add only the keys you need (none for offline checks)
 ```
 
-**Data (not committed):** `spotify_reviews_18months.csv` from the course ZIP (Kaggle "3.4 Million Spotify Google Store
-Reviews" v2 by BwandoWando, CC0; course extract 2022-05-17 → 2023-11-17), 97,400,616 bytes, SHA-256
+**Data (not committed):** `spotify_reviews_18months.csv` from the course ZIP (source: Kaggle
+[“3.4 Million Spotify Google Store Reviews”](https://www.kaggle.com/datasets/bwandowando/3-4-million-spotify-google-store-reviews)
+v2 by BwandoWando, CC0; course extract 2022-05-17 → 2023-11-17), 97,400,616 bytes, SHA-256
 `1fc85de68a304dd8978b537cfa58793d5f41cbaf417fa32cb53899f83a2fcef6`. Put it and the course sample files in the folder named
 by `DATA_DIR`.
 
@@ -319,6 +328,8 @@ python -m pipeline rerank --folder runs/analysis/spotify_reviews_18months   # ra
 
 **Full pipeline on any input CSV (paid; needs `TYPESAFE_API_KEY` and `ANTHROPIC_API_KEY`):**
 ```sh
+python -m pipeline run --input path/to.csv --workers 2         # all stages in order, resumable
+# or stage by stage:
 python -m pipeline ingest  --input path/to.csv
 python -m pipeline enrich  --input path/to.csv --workers 2    # resumable; Ctrl+C saves and stops
 python -m pipeline status  --input path/to.csv
@@ -337,6 +348,11 @@ read-only FastAPI backend and `web/public/index.html` the page. Deployed on Verc
 `DATABASE_URL` environment variable) with Neon Postgres. Local preview: `.venv/bin/python web/dev_server.py` →
 http://localhost:8765.
 
+**Where things are after a run:** labels and statuses in the state DB (`data/state/<workspace>/`), per-run evidence in
+`runs/<run_id>/` (`run_log.jsonl`, `run_summary.json`, `quarantine.jsonl`, checkpoints), analysis outputs in
+`runs/analysis/<input>/`, the full run's quarantine log in `runs/main-spotify_reviews_18months-20261012T083441342/quarantine.jsonl`
+(the 13 empty texts).
+
 **Secrets:** keys live only in a local `.env` (gitignored; `.env.example` is blank). No keys in code, logs or artifacts.
 
 ---
@@ -345,9 +361,10 @@ http://localhost:8765.
 
 ```
 README.md  memo.md  LOG.md  Plan.md  requirements.txt  .env.example  .gitignore
+docs/      label_examples.md · schema.md
 config/    labels.yaml · issues.yaml · settings.yaml · sentiment_from_intent.yaml · source_manifest.json
-prompts/   jev_tiny_v1.yaml (used) · jev_short_v1.yaml · verify_v1.md · group_review_v1.md · memo_v1.md · memo_v2.md (used)
-pipeline/  ingest · enrich · jev · claude · extract · verify · group · group_review · rank · recommend · load_db · export · store · rates
+prompts/   jev_tiny_v1.yaml (used) · jev_short_v1.yaml · verify_v1.md · group_review_v1.md · memo_v1.md · memo_v2.md · memo_v3.md (used)
+pipeline/  __main__ (CLI incl. run) · ingest · enrich · jev · claude · extract · verify · group · group_review · rank · recommend · load_db · export · manifest · store · rates
 web/       app.py (FastAPI) · public/index.html (dashboard) · dev_server.py · vercel.json · requirements.txt
 cost/      calculator.py · rates.csv · assumptions.yaml · usage.csv · pilot_*.jsonl · pilot_measurements.json · report.md
 evals/     dev_50_labeled.csv · golden_50_labeled.csv · eval_golden.py · dev_jev_test.py · system_tests.py · resume_demo.mov · results/

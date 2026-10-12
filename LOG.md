@@ -417,3 +417,23 @@ unless marked *estimate*. Per-run spend is tracked automatically in `runs/spend_
 - Total API spend: $9.89 of the $11 cap.
 - Open for the author: choose the memo to present (memo-v2 usability vs the late-2023 billing surge not in its pack),
   final read-through, submit the repository URL on bCourses.
+
+## 2026-10-12 — memo-v3 (with monthly trend) and requirement-gap closure
+- User chose option 2: added `monthly_complaint_share` (per month: classified reviews, area complaint counts and shares;
+  partial months flagged) to the evidence pack and rule 7 to the prompt (`prompts/memo_v3.md`: weigh timing at the end
+  of the window). Regenerated once: checker passed on attempt 1, 10 claims, $0.0811. **Recommended area: billing/support**
+  (BIL-PAYWALL + BIL-GENERAL, coordinated with ads; playback as uncertain second priority; small login fix). memo_v1/v2
+  kept. Root `memo.md` = memo-v3.
+- Requirement audit against the assignment PDF found 7 gaps, now closed:
+  1. `python -m pipeline run --input <csv>` runs all stages (tested on cost_100 in the pilot workspace: 0 enrich calls,
+     verify from cache, group review partly cached, new memo $0.0761, checker passed).
+  2. Clean-environment test (fresh clone, fresh venv, no keys): offline calculator replay OK; `rerank` now falls back to
+     `grading/records.jsonl.gz` and reproduced `ranking.csv` byte-for-byte (= grading/ranking.csv).
+  3. `runs/final_run_manifest.json` (git commit, source checksum, label_config, models, settings, prompt/config hashes,
+     run IDs, output hashes, spend), written by `export-grading`.
+  4. `docs/label_examples.md`: worked examples of the shared definitions from the author's dev labels (incl. a boundary case).
+  5. `docs/schema.md`: output schema.
+  6. Golden quote inspection: of 4 sentence-level quotes, 3 support topic+intent, 1 (3ddb3f4e) supports the topic only.
+  7. README: Kaggle source URL, missing app versions (159,701), quarantine log path, run command, docs links.
+- DB reloaded (memo-v3), grading/ re-exported (48,452 calls), self-check pass (no issues).
+- Project spend: $10.0522 of $11.

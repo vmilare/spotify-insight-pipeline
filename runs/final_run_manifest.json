@@ -1,0 +1,132 @@
+{
+  "analysis_runs": {
+    "group_review": "main-spotify_reviews_18months-groupreview-20261012T091104678",
+    "memo": "main-spotify_reviews_18months-memo-20261012T094001050",
+    "memo_prompt": "claude-sonnet-5-5+memo-v3+effort-high+fallbacks-default",
+    "verify": "main-spotify_reviews_18months-verify-20261012T090942768"
+  },
+  "code": {
+    "git_commit": "4f1dba9eed51903caf2d16ad7be7310cbcb3f34b",
+    "repository": "https://github.com/vmilare/spotify-insight-pipeline",
+    "uncommitted_changes": true
+  },
+  "enrichment_runs": [
+    {
+      "cache_hit_reviews": 129565,
+      "cost_usd": 4.746476,
+      "failed_requests": 0,
+      "input_tokens": 113011340,
+      "phase": "initial",
+      "requests": 24000,
+      "reviews_completed": 267494,
+      "run_id": "main-spotify_reviews_18months-20261011T220736082",
+      "stop_reason": "stop_after_requests=24000",
+      "texts_labeled": 240000,
+      "wall_clock_seconds": 1752.47,
+      "workers": 2
+    },
+    {
+      "cache_hit_reviews": 0,
+      "cost_usd": 0.138765,
+      "failed_requests": 0,
+      "input_tokens": 3303930,
+      "phase": "resume",
+      "requests": 702,
+      "reviews_completed": 7837,
+      "run_id": "main-spotify_reviews_18months-20261012T083331875",
+      "stop_reason": "interrupted",
+      "texts_labeled": 7020,
+      "wall_clock_seconds": 61.41,
+      "workers": 2
+    },
+    {
+      "cache_hit_reviews": 0,
+      "cost_usd": 4.522557,
+      "failed_requests": 0,
+      "input_tokens": 107679929,
+      "phase": "resume",
+      "requests": 22868,
+      "reviews_completed": 255713,
+      "run_id": "main-spotify_reviews_18months-20261012T083441342",
+      "stop_reason": "complete",
+      "texts_labeled": 228677,
+      "wall_clock_seconds": 1942.16,
+      "workers": 2
+    }
+  ],
+  "generated_at": "2026-10-12T16:44:56+00:00",
+  "label_config": "jev-1.13.0+jev-q-tiny-v1-pack10+schema-v1+quote-v1+sent-from-intent-v1",
+  "models": {
+    "enrich": "jev-1.13.0",
+    "group_review": "claude-haiku-5-5",
+    "memo": "claude-sonnet-5-5",
+    "verify": "claude-haiku-5-5"
+  },
+  "outputs_sha256": {
+    "grading/calls.jsonl.gz": "bc86ba41536aec23b5ca9976a758b3ac988286d9dcc17ae6f580f6bffe6dcc43",
+    "grading/checkpoint_after.json": "0c0dd99b6190731a452e4c9ab92cc462146136238077cdf63c6711c384bdb1ee",
+    "grading/checkpoint_before.json": "96a044e339ab6b28843f01b5fb64d4905e1a8ced344d6da07793549e8f3464f4",
+    "grading/claims.csv": "ccd7025a42d1c7aa70441437fbb990e4235dbc4bbef8f4d849621044dc5cdcfb",
+    "grading/ingestion.json": "5512dd793b0bde3bd51f28b20b440108f3c9bab31233819bea5f32ce19482153",
+    "grading/membership.csv": "ae794a1b56edab8991d9ed4110dd0f5edcfadd33b21203ffdce6a0ddede7c475",
+    "grading/ranking.csv": "f87d684d263a4a1fef57c17a2e05ebd43fdf40eb5bf5dc6ad2e4cc097be80bbf",
+    "grading/records.jsonl.gz": "11e3be937c37c3e77dc0ba257753ac33d52d13e36484a5d0c8e4a49170fcc38d",
+    "grading/run.json": "09bf8e059a1517c9fd5d01d2ab9f43731b5c8f0f9d51da89daa40288a574645e",
+    "memo.md": "23a0ca902d16a185d90458422209f719b5c06f1ef459eaa1fef441fd27a85039",
+    "runs/analysis/spotify_reviews_18months/aggregates.csv": "d9a75fe60e674dbd149b702e4cc0227c059fce3b0139f81fb36a27864897ccfb",
+    "runs/analysis/spotify_reviews_18months/claims.csv": "ccd7025a42d1c7aa70441437fbb990e4235dbc4bbef8f4d849621044dc5cdcfb",
+    "runs/analysis/spotify_reviews_18months/evidence_pack.json": "03e70d8f31ca497580a6b620807ed13794e0f5a3daf8502ed9fbdf15c1ef8043",
+    "runs/analysis/spotify_reviews_18months/issue_review.csv": "5aad6b79c9894d288dbce5b89382edbe5e0ae223badca9144aa39f65764c087d",
+    "runs/analysis/spotify_reviews_18months/issues.csv": "5958c4a9167223b089ae2d01c3469602e920eb75098d6af148004b573f771d24",
+    "runs/analysis/spotify_reviews_18months/membership.csv": "ae794a1b56edab8991d9ed4110dd0f5edcfadd33b21203ffdce6a0ddede7c475",
+    "runs/analysis/spotify_reviews_18months/memo.md": "23a0ca902d16a185d90458422209f719b5c06f1ef459eaa1fef441fd27a85039",
+    "runs/analysis/spotify_reviews_18months/ranking.csv": "f87d684d263a4a1fef57c17a2e05ebd43fdf40eb5bf5dc6ad2e4cc097be80bbf",
+    "runs/analysis/spotify_reviews_18months/ranking_actionable.csv": "ef10635ef714122e02fe611cf206165c01f70fbcf354e4ed85d21c4c765aa3d1",
+    "runs/analysis/spotify_reviews_18months/ranking_without_needs_review.csv": "e936ff220396e6b51e5530251440ee94cdb8beb42124dd7eac93bc9865ec4084",
+    "runs/analysis/spotify_reviews_18months/recommendations.json": "0a489d265cec57374989fdcf9571a7681285abf3a5e070a221c7d2463a44cef5",
+    "runs/analysis/spotify_reviews_18months/verify/verify_report.json": "39ecb1b6a94a9ca0886051f2c995ff9067b88fad14bdeca606b037b45f12202b"
+  },
+  "project_api_spend_usd": 10.0522,
+  "prompts_and_configs_sha256": {
+    "config/issues.yaml": "0ac1694a60e9fde079fb73331a64a38be8fee4bf66ee68a67a1990b6fea86fd6",
+    "config/labels.yaml": "0e4953b6073d3689b7054f6d5ba193cf2d45ba5a72bde0ae700688d2467a6edf",
+    "config/sentiment_from_intent.yaml": "6d06c7d0a464d3152d6f4565f8fde315755abe81dac3a77add7664ea24183e73",
+    "config/settings.yaml": "2e6f08138c8ebed73236573df1199406e5148c638613b7cafef643951b1bca55",
+    "prompts/group_review_v1.md": "4b5007d06dc0aeccad96aace7881b629e18ff00f25cbe6ecc17f0650d86e32e3",
+    "prompts/jev_short_v1.yaml": "7e9f2986651ad67ed970d6b8ff399d9fadb8b486d04f895941d41560e42857b1",
+    "prompts/jev_tiny_v1.yaml": "fe09eb655b4141692309de39c645dcbe0f176ba119660bf89f08350968c8cf93",
+    "prompts/memo_v1.md": "43b83ff7b824ec1317686dd13961628ccaee8f7d58325d8ed3bcc4a505c62415",
+    "prompts/memo_v2.md": "87f073c64377fda4ea788e4edc11ea3c16f92199de86e51a989f2256cd66dee2",
+    "prompts/memo_v3.md": "5f09e4b755ea4f5b39dd0ef3c5b1813072c989c7635e5ae17b03e044badee547",
+    "prompts/verify_v1.md": "0ddaa87f81da3aa1f57954a258253d6fa48c9e998706d7ecdffed030c17e75ed"
+  },
+  "settings": {
+    "budget": {
+      "project_cap_usd": 11.0,
+      "reservation_tokens_per_review": 650,
+      "run_cap_usd": 10.5
+    },
+    "enrich": {
+      "confidence_threshold": 0.6,
+      "http_attempts": 3,
+      "invalid_output_retries": 1,
+      "max_consecutive_failed_requests": 5,
+      "max_workers": 1,
+      "question_set": "tiny",
+      "quote_whole_text_max_chars": 200,
+      "reviews_per_request": 10
+    },
+    "verify": {
+      "effort": "low",
+      "max_tokens": 3000,
+      "model": "claude-haiku-5-5",
+      "reviews_per_request": 25,
+      "sample_size": 500
+    }
+  },
+  "source": {
+    "bytes": 97400616,
+    "file": "spotify_reviews_18months.csv",
+    "sha256": "1fc85de68a304dd8978b537cfa58793d5f41cbaf417fa32cb53899f83a2fcef6"
+  }
+}
