@@ -49,8 +49,8 @@ CREATE TABLE ranking (
     mean_severity text, priority_score integer, PRIMARY KEY (kind, rank)
 );
 CREATE TABLE topic_ranking (
-    rank integer PRIMARY KEY, topic text, area text, issues integer, complaint_count integer, severity_sum integer,
-    mean_severity text, priority_score integer
+    kind text, rank integer, topic text, area text, issues integer, complaint_count integer, severity_sum integer,
+    mean_severity text, priority_score integer, PRIMARY KEY (kind, rank)  -- kind: all | actionable (without "other")
 );
 CREATE TABLE claims (claim_id text PRIMARY KEY, issue_id text, metric text, value text);
 CREATE TABLE evidence (
@@ -100,7 +100,8 @@ def run(input_path, workspace="main", evidence_per_issue=8):
     review = {r["issue_id"]: r for r in read_csv(folder / "issue_review.csv")} if (folder / "issue_review.csv").exists() else {}
     rankings = {kind: read_csv(folder / f) for kind, f in (("baseline", "ranking.csv"), ("actionable", "ranking_actionable.csv"),
                                                            ("without_needs_review", "ranking_without_needs_review.csv"))}
-    topic_ranking = read_csv(folder / "ranking_topics.csv")
+    topic_ranking = {"all": read_csv(folder / "ranking_topics.csv"),
+                     "actionable": read_csv(folder / "ranking_topics_actionable.csv")}
     claims = read_csv(folder / "claims.csv") if (folder / "claims.csv").exists() else []
 
     # Evidence: top quotes per issue (highest severity, then helpful votes), from saved labels only.
@@ -153,9 +154,10 @@ def run(input_path, workspace="main", evidence_per_issue=8):
             cur.executemany("INSERT INTO ranking VALUES (%s,%s,%s,%s,%s,%s,%s)", [
                 (kind, int(r["rank"]), r["issue_id"], int(r["complaint_count"]), int(r["severity_sum"]), r["mean_severity"],
                  int(r["priority_score"])) for kind, rs in rankings.items() for r in rs])
-            cur.executemany("INSERT INTO topic_ranking VALUES (%s,%s,%s,%s,%s,%s,%s,%s)", [
-                (int(t["rank"]), t["topic"], AREA[t["topic"]], int(t["issues"]), int(t["complaint_count"]),
-                 int(t["severity_sum"]), t["mean_severity"], int(t["priority_score"])) for t in topic_ranking])
+            cur.executemany("INSERT INTO topic_ranking VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)", [
+                (kind, int(t["rank"]), t["topic"], AREA[t["topic"]], int(t["issues"]), int(t["complaint_count"]),
+                 int(t["severity_sum"]), t["mean_severity"], int(t["priority_score"]))
+                for kind, ts in topic_ranking.items() for t in ts])
             cur.executemany("INSERT INTO claims VALUES (%s,%s,%s,%s)",
                             [(c["claim_id"], c["issue_id"], c["metric"], c["value"]) for c in claims])
             cur.executemany("INSERT INTO evidence VALUES (%s,%s,%s,%s,%s,%s,%s,%s)", evidence)
@@ -166,5 +168,5 @@ def run(input_path, workspace="main", evidence_per_issue=8):
         size = pg.execute("SELECT pg_size_pretty(pg_database_size(current_database()))").fetchone()[0]
     conn.close()
     return {"reviews_loaded": n, "issues": len(issues), "ranking_rows": sum(len(v) for v in rankings.values()),
-            "topic_ranking_rows": len(topic_ranking),
+            "topic_ranking_rows": sum(len(v) for v in topic_ranking.values()),
             "claims": len(claims), "evidence_quotes": len(evidence), "meta_keys": sorted(meta), "db_size": size}

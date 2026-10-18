@@ -163,8 +163,8 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
     <h3>A · Required baseline ranking (top issues)</h3>
     <div class="small">Every complaint and cancellation review, including OTH-GENERAL. The actionable view removes only OTH-GENERAL; every other issue keeps the same numbers. Select a row to open the issue.</div>
     <div class="table-wrap" id="appendixA"></div>
-    <h3>B · Ranking by topic</h3>
-    <div class="small">Same arithmetic and tie rule, with every issue summed into its topic (the eight topics of the shared label set). The product areas above combine playback with downloads and billing with support.</div>
+    <h3>B · Ranking by topic (specific topics only)</h3>
+    <div class="small">Same arithmetic and tie rule, with every issue summed into its topic (the topics of the shared label set). The product areas above combine playback with downloads and billing with support. <span id="appendixExcluded"></span></div>
     <div class="table-wrap static" id="appendixB"></div>
   </section>
 
@@ -496,6 +496,8 @@ function renderAppendix() {
       cells: [r.rank, r.issue_id, r.name, fmt(r.complaint_count), fmt(r.severity_sum), r.mean_severity, fmt(r.priority_score),
               r.actionable_rank == null ? "— (excluded)" : r.actionable_rank] })),
     (r) => openIssue(r.issue_id, true));
+  $("appendixExcluded").textContent = (d.topics_excluded || []).map((t) =>
+    `Excluded: ${t.topic} (general praise or criticism, boycott posts, no specific product topic; ${t.issues} issues, ${fmt(t.complaint_count)} complaints, priority ${fmt(t.priority_score)}), which would rank ${t.rank} among all topics.`).join(" ");
   simpleTable("appendixB", ["Rank", "Topic", "Issues", "Complaints", "Severity sum", "Mean severity", "Priority score"], 2,
     d.topics.map((t) => ({ area: t.area, swatchAt: 1,
       cells: [t.rank, t.topic, t.issues, fmt(t.complaint_count), fmt(t.severity_sum), t.mean_severity, fmt(t.priority_score)] })));

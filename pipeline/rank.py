@@ -3,7 +3,7 @@
 Contract baseline: for each issue, complaint_count = members, severity_sum = sum of member severity,
 mean_severity = severity_sum / complaint_count (6 decimals, half-up), priority_score = severity_sum.
 Sort by priority_score descending, then issue_id ascending; ranks start at 1.
-Also writes aggregates.csv (extra context), a topic roll-up, a topic-level ranking (ranking_topics.csv) and a sensitivity ranking that
+Also writes aggregates.csv (extra context), a topic roll-up, a topic-level ranking (ranking_topics.csv; ranking_topics_actionable.csv without "other") and a sensitivity ranking that
 excludes needs_review records.
 """
 import csv
@@ -17,6 +17,7 @@ from tools.check_submission import write_json
 
 
 NON_ACTIONABLE = {"OTH-GENERAL"}  # general dissatisfaction without a specific product issue
+NON_ACTIONABLE_TOPICS = {"other"}  # topic-level counterpart: general praise/criticism, boycotts, no specific topic
 
 
 def mean6(total, n):
@@ -112,10 +113,14 @@ def run(folder):
         t = by_topic[row["topic"]]
         t[0] += 1; t[1] += row["complaint_count"]; t[2] += row["severity_sum"]
     topics = sorted(by_topic.items(), key=lambda kv: (-kv[1][2], kv[0]))
-    write_csv(folder / "ranking_topics.csv",
-              [{"rank": n, "topic": k, "issues": v[0], "complaint_count": v[1], "severity_sum": v[2],
-                "mean_severity": mean6(v[2], v[1]), "priority_score": v[2]} for n, (k, v) in enumerate(topics, 1)],
-              ["rank", "topic", "issues", "complaint_count", "severity_sum", "mean_severity", "priority_score"])
+    topic_fields = ["rank", "topic", "issues", "complaint_count", "severity_sum", "mean_severity", "priority_score"]
+    def topic_rows(items):
+        return [{"rank": n, "topic": k, "issues": v[0], "complaint_count": v[1], "severity_sum": v[2],
+                 "mean_severity": mean6(v[2], v[1]), "priority_score": v[2]} for n, (k, v) in enumerate(items, 1)]
+    write_csv(folder / "ranking_topics.csv", topic_rows(topics), topic_fields)
+    # Specific topics only (the memo's Appendix B): drops the "other" topic, which names no specific product area.
+    write_csv(folder / "ranking_topics_actionable.csv",
+              topic_rows([kv for kv in topics if kv[0] not in NON_ACTIONABLE_TOPICS]), topic_fields)
 
     summary = {"issues_ranked": len(base), "baseline_records": len(membership),
                "top5_actionable": [(r["issue_id"], r["priority_score"]) for r in actionable[:5]],

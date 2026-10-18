@@ -475,3 +475,13 @@ unless marked *estimate*. Per-run spend is tracked automatically in `runs/spend_
 - Dashboard: DB table `topic_ranking`; API `/api/appendix` (baseline top 10 joined with actionable rank, topic
   ranking); new card "Memo appendices: ranking tables" (A rows open the issue drawer). DB reloaded (memo-v4 + tables);
   local preview checked in headless Chrome (desktop, dark). grading/ unchanged in content; self-check pass.
+
+## 2026-10-17 — Appendix B without the "other" topic (user request; no model calls)
+- Rank stage also writes `ranking_topics_actionable.csv` (drops the "other" topic: general praise/criticism, boycott
+  posts, no specific product topic — 2 issues, 87,972 complaints, priority 184,827, rank 1 among all topics). Unlike the
+  actionable issue view, which drops only OTH-GENERAL, this also drops OTH-BOYCOTT, the other issue in that topic.
+  `ranking_topics.csv` (all 8) is kept.
+- Memo Appendix B and the dashboard card now rank the 7 specific topics (usability, playback, billing, catalog, access,
+  downloads, support) with a note naming the excluded topic. DB `topic_ranking` gained `kind` (all | actionable);
+  `/api/appendix` returns `topics` (specific) and `topics_excluded`. memo-render (body unchanged), DB reloaded,
+  self-check unaffected (grading/ unchanged).

@@ -49,20 +49,21 @@ Priority score = severity sum = complaint count × mean severity. The actionable
 | 9 | BIL-GENERAL | 9183 | 25732 | 2.802134 | 25732 | 8 |
 | 10 | PLY-CRASH | 5409 | 19891 | 3.677390 | 19891 | 9 |
 
-## Appendix B: ranking by topic (8 contract topics, from `ranking_topics.csv`)
+## Appendix B: ranking by topic, specific topics only (7 of 8 contract topics, from `ranking_topics_actionable.csv`)
 
 The same baseline arithmetic and tie rule as Appendix A, with every issue's complaints summed into its topic. The memo's product areas combine playback with downloads and billing with support.
 
+Excluded: **other** (general praise or criticism, boycott posts, no specific product topic; 2 issues, 87972 complaints, priority score 184827), which would rank 1 in the full topic ranking (`ranking_topics.csv`).
+
 | Rank | Topic | Issues | Complaints | Severity sum | Mean severity | Priority score |
 |---|---|---|---|---|---|---|
-| 1 | other | 2 | 87972 | 184827 | 2.100975 | 184827 |
-| 2 | usability | 5 | 66495 | 174227 | 2.620152 | 174227 |
-| 3 | playback | 7 | 50612 | 169903 | 3.356971 | 169903 |
-| 4 | billing | 4 | 50278 | 151779 | 3.018795 | 151779 |
-| 5 | catalog | 5 | 16321 | 46245 | 2.833466 | 46245 |
-| 6 | access | 4 | 11644 | 45817 | 3.934816 | 45817 |
-| 7 | downloads | 5 | 6636 | 23227 | 3.500151 | 23227 |
-| 8 | support | 1 | 762 | 2286 | 3.000000 | 2286 |
+| 1 | usability | 5 | 66495 | 174227 | 2.620152 | 174227 |
+| 2 | playback | 7 | 50612 | 169903 | 3.356971 | 169903 |
+| 3 | billing | 4 | 50278 | 151779 | 3.018795 | 151779 |
+| 4 | catalog | 5 | 16321 | 46245 | 2.833466 | 46245 |
+| 5 | access | 4 | 11644 | 45817 | 3.934816 | 45817 |
+| 6 | downloads | 5 | 6636 | 23227 | 3.500151 | 23227 |
+| 7 | support | 1 | 762 | 2286 | 3.000000 | 2286 |
 
 ## Appendix C: claims (checked against `ranking.csv`; exported as `claims.csv`)
 

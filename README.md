@@ -236,10 +236,11 @@ exit 0), the saved state again, and the final resume (`phase: resume`; of the 3,
   `python -m pipeline rerank` (byte-identical output on rerun).
 - **Additional views:** `ranking_actionable.csv` drops OTH-GENERAL ("worst app"-type complaints with no specific defect,
   85,894 records); `ranking_without_needs_review.csv` is the sensitivity check; `ranking_topics.csv` applies the same
-  arithmetic and tie rule at the level of the eight contract topics (rank 1 other 184,827 · usability 174,227 · playback
-  169,903 · billing 151,779 · catalog 46,245 · access 45,817 · downloads 23,227 · support 2,286).
+  arithmetic and tie rule at the level of the eight contract topics; `ranking_topics_actionable.csv` drops the "other"
+  topic (it would rank 1 with 184,827), leaving usability 174,227 · playback 169,903 · billing 151,779 · catalog 46,245 ·
+  access 45,817 · downloads 23,227 · support 2,286.
 - **In the memo and dashboard:** [`memo.md`](memo.md) ends with code-built tables — A: baseline top 10 with each issue's
-  actionable rank; B: ranking by topic; C: claims; D: other quantities with their evidence-pack fields. The dashboard's
+  actionable rank; B: ranking by specific topic ("other" excluded, stated in a note); C: claims; D: other quantities with their evidence-pack fields. The dashboard's
   "Memo appendices: ranking tables" card shows A and B from the database (`/api/appendix`).
   `python -m pipeline memo-render` rebuilds memo.md and its appendices from the saved model output (`memo_output.json`)
   without a model call.

@@ -283,8 +283,8 @@ def check(out, pack, ranking):
     return errors, warnings
 
 
-def appendix(out, ranking, actionable, topics):
-    """Code-built tables: the required baseline ranking, the same ranking by topic, the claims, and the sourced
+def appendix(out, ranking, actionable, topics, topics_all):
+    """Code-built tables: the required baseline ranking, the ranking by specific topic, the claims, and the sourced
     non-ranking quantities."""
     act_rank = {r["issue_id"]: r["rank"] for r in actionable}
     lines = ["## Appendix A: required baseline ranking (top 10 of "
@@ -295,9 +295,15 @@ def appendix(out, ranking, actionable, topics):
              "|---|---|---|---|---|---|---|"]
     lines += [f"| {r['rank']} | {r['issue_id']} | {r['complaint_count']} | {r['severity_sum']} | {r['mean_severity']} | "
               f"{r['priority_score']} | {act_rank.get(r['issue_id'], '— (excluded)')} |" for r in ranking[:10]]
-    lines += ["", f"## Appendix B: ranking by topic ({len(topics)} contract topics, from `ranking_topics.csv`)", "",
+    excluded = [t for t in topics_all if t["topic"] not in {x["topic"] for x in topics}]
+    lines += ["", f"## Appendix B: ranking by topic, specific topics only ({len(topics)} of {len(topics_all)} contract "
+              "topics, from `ranking_topics_actionable.csv`)", "",
               "The same baseline arithmetic and tie rule as Appendix A, with every issue's complaints summed into its topic. "
-              "The memo's product areas combine playback with downloads and billing with support.", "",
+              "The memo's product areas combine playback with downloads and billing with support.", ""]
+    lines += [f"Excluded: **{t['topic']}** (general praise or criticism, boycott posts, no specific product topic; "
+              f"{t['issues']} issues, {t['complaint_count']} complaints, priority score {t['priority_score']}), which would "
+              f"rank {t['rank']} in the full topic ranking (`ranking_topics.csv`)." for t in excluded]
+    lines += ["",
               "| Rank | Topic | Issues | Complaints | Severity sum | Mean severity | Priority score |",
               "|---|---|---|---|---|---|---|"]
     lines += [f"| {t['rank']} | {t['topic']} | {t['issues']} | {t['complaint_count']} | {t['severity_sum']} | "
@@ -323,7 +329,7 @@ def render(input_path, workspace="main"):
               f"(effort high) from `evidence_pack.json` · Checker: **{status}** · Input `{Path(input_path).name}` · "
               f"{scope['completed_classifications']} classified reviews, {scope['pending_unclassified']} unclassified.*\n\n")
     tables = appendix(out, read_csv(folder / "ranking.csv"), read_csv(folder / "ranking_actionable.csv"),
-                      read_csv(folder / "ranking_topics.csv"))
+                      read_csv(folder / "ranking_topics_actionable.csv"), read_csv(folder / "ranking_topics.csv"))
     (folder / "memo.md").write_text(header + out["memo_markdown"].strip() + "\n\n" + tables + "\n", encoding="utf-8")
     return {"memo": str(folder / "memo.md"), "run_id": saved["run_id"], "check_status": status}
 
