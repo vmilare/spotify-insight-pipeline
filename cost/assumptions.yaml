@@ -24,7 +24,9 @@ scenarios:
 
 controls:
   budget_usd: 11.00                      # project spending limit (also enforced in config/settings.yaml)
-  spent_before_full_run_usd: null        # null = read runs/spend_ledger.csv
+  spent_before_full_run_usd: 0.3218      # ledger spend before the full run started (2026-10-12 05:07 UTC); fixed so the
+                                         # replay reproduces the pre-run decision. null = read the live ledger total, which
+                                         # now includes the full run itself and would count it twice against the budget
   max_workers: 4                         # max concurrent Jev requests for the full run (start 1, then 2, then 4)
   parallel_efficiency: 0.8               # assumed speed-up efficiency per extra worker (modeled, not measured)
   fallback_fraction: 0.0                 # no stronger-model fallback in this design (user decision)

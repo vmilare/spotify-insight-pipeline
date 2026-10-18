@@ -522,3 +522,9 @@ unless marked *estimate*. Per-run spend is tracked automatically in `runs/spend_
   estimated dev-experiments row is confirmed by the provider counts).
 - Claude 2026-10-12: Sonnet exact; Haiku +16 input / +4 output tokens with no matching log (< $0.00001, left visible).
   2026-10-17/18 memo runs ($0.8448) not yet in the Console export → pending; re-export and rerun the script to close.
+- Calculator fix found while checking: `cost/assumptions.yaml` had `spent_before_full_run_usd: null`, so the default
+  offline replay read the live ledger ($10.90, which includes the full run) and reported every scenario over budget —
+  counting the full run twice. Pinned to $0.3218 (ledger spend before the full run started, 2026-10-12 05:07 UTC); the
+  replay now reproduces the committed `cost/report.md` exactly (only the generated-at line differs).
+- From here on (user instruction): documentation, README and memo wording are written in the Claude Code session
+  (subscription), never through the project's API keys; API calls only for pipeline stages, with explicit approval.
