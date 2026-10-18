@@ -460,5 +460,18 @@ unless marked *estimate*. Per-run spend is tracked automatically in `runs/spend_
   classifications" (they are empty texts among 660,622 source rows). Stopped regenerating.
 - memo-v3 outputs kept (`memo_v3.md`, `claims_v3.csv`, `recommendations_v3.json`, `memo_check_v3.json`,
   `evidence_pack_v3.json`). grading/ re-exported (48,456 calls; records unchanged), self-check pass (no issues).
-  Dashboard DB not yet reloaded (still serves memo-v3).
+  Dashboard DB reloaded in the next entry.
 - Project spend: $10.5913 of $11.
+
+## 2026-10-17 — Topic-level ranking appendix; ranking tables on the dashboard (no model calls)
+- Rank stage writes `ranking_topics.csv`: the baseline arithmetic and tie rule with each issue summed into its contract
+  topic (8 rows; complaints sum to the 290,720 baseline records). `rerank` reproduced every existing ranking file
+  byte-for-byte.
+- Memo appendices now: A baseline top 10 (+ actionable rank), **B ranking by topic (new)**, C claims, D other
+  quantities. Rendering moved to `recommend.render()`; `run()` saves the validated model output as `memo_output.json`
+  and renders from it. For memo-v4 that file was recovered byte-exact from the stage cache (the cached response whose
+  memo_markdown equals the published body), then `python -m pipeline memo-render` rebuilt memo.md: body unchanged,
+  appendices only. Prompt untouched (memo-v4 hash unchanged).
+- Dashboard: DB table `topic_ranking`; API `/api/appendix` (baseline top 10 joined with actionable rank, topic
+  ranking); new card "Memo appendices: ranking tables" (A rows open the issue drawer). DB reloaded (memo-v4 + tables);
+  local preview checked in headless Chrome (desktop, dark). grading/ unchanged in content; self-check pass.

@@ -3,7 +3,7 @@
 Contract baseline: for each issue, complaint_count = members, severity_sum = sum of member severity,
 mean_severity = severity_sum / complaint_count (6 decimals, half-up), priority_score = severity_sum.
 Sort by priority_score descending, then issue_id ascending; ranks start at 1.
-Also writes aggregates.csv (extra context), a topic roll-up, and a sensitivity ranking that
+Also writes aggregates.csv (extra context), a topic roll-up, a topic-level ranking (ranking_topics.csv) and a sensitivity ranking that
 excludes needs_review records.
 """
 import csv
@@ -106,6 +106,16 @@ def run(folder):
     roll = sorted(({"topic": k, "complaint_count": v[0], "severity_sum": v[1], "mean_severity": mean6(v[1], v[0]),
                     "cancellation_count": v[2]} for k, v in topic.items()), key=lambda x: (-x["severity_sum"], x["topic"]))
     write_csv(folder / "topic_rollup.csv", roll, ["topic", "complaint_count", "severity_sum", "mean_severity", "cancellation_count"])
+    # Topic-level view of the baseline ranking: same arithmetic and tie rule, issues summed into their contract topic.
+    by_topic = defaultdict(lambda: [0, 0, 0])
+    for row in agg_rows:
+        t = by_topic[row["topic"]]
+        t[0] += 1; t[1] += row["complaint_count"]; t[2] += row["severity_sum"]
+    topics = sorted(by_topic.items(), key=lambda kv: (-kv[1][2], kv[0]))
+    write_csv(folder / "ranking_topics.csv",
+              [{"rank": n, "topic": k, "issues": v[0], "complaint_count": v[1], "severity_sum": v[2],
+                "mean_severity": mean6(v[2], v[1]), "priority_score": v[2]} for n, (k, v) in enumerate(topics, 1)],
+              ["rank", "topic", "issues", "complaint_count", "severity_sum", "mean_severity", "priority_score"])
 
     summary = {"issues_ranked": len(base), "baseline_records": len(membership),
                "top5_actionable": [(r["issue_id"], r["priority_score"]) for r in actionable[:5]],

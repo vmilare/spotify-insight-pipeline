@@ -7,6 +7,7 @@ Routes:
   GET /api/areas                  product-area roll-up + severity mix (live SQL over reviews)
   GET /api/trend                  monthly complaint share per product area (live SQL over reviews)
   GET /api/ranking?kind=...       baseline | actionable | without_needs_review
+  GET /api/appendix               memo appendix tables: baseline top 10 (with actionable rank) and the ranking by topic
   GET /api/issues/{issue_id}      issue detail, severity mix, evidence quotes
   GET /api/recommendations        AI recommendations, memo, claims checked against the ranking
 """
@@ -110,6 +111,24 @@ def ranking(kind: str = Query("baseline", pattern="^(baseline|actionable|without
             FROM ranking k JOIN issues i USING (issue_id) WHERE k.kind = %s ORDER BY k.rank""", (kind,)).fetchall()
     return {"kind": kind, "rows": rows,
             "formula": "priority_score = severity_sum = complaint_count x mean_severity; ties by issue_id"}
+
+
+@app.get("/api/appendix")
+def appendix():
+    with db() as conn:
+        baseline = conn.execute("""
+            SELECT b.rank, b.issue_id, i.name, i.area, b.complaint_count, b.severity_sum, b.mean_severity, b.priority_score,
+                   a.rank AS actionable_rank
+            FROM ranking b JOIN issues i USING (issue_id)
+            LEFT JOIN ranking a ON a.issue_id = b.issue_id AND a.kind = 'actionable'
+            WHERE b.kind = 'baseline' ORDER BY b.rank LIMIT 10""").fetchall()
+        total = conn.execute("SELECT count(*) AS n FROM ranking WHERE kind = 'baseline'").fetchone()["n"]
+        topics = conn.execute("""SELECT rank, topic, area, issues, complaint_count, severity_sum, mean_severity, priority_score
+                                 FROM topic_ranking ORDER BY rank""").fetchall()
+    return {"baseline_top10": baseline, "issues_ranked": total, "topics": topics,
+            "formula": "priority_score = severity_sum = complaint_count x mean_severity; ties by id",
+            "note": "Appendix A of the memo: required baseline (the actionable view drops only OTH-GENERAL). "
+                    "Appendix B: the same arithmetic with each issue summed into its contract topic."}
 
 
 @app.get("/api/issues/{issue_id}")

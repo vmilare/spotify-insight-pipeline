@@ -8,7 +8,7 @@ playback, or billing/support?*
 | | |
 |---|---|
 | **Live dashboard** | **https://spotify-insight-pipeline.vercel.app** — public, no login. The first load of the trend chart can take ~2 s (computed live over all 660k rows in the database). |
-| Backend API (same site) | `/api/health`, `/api/summary`, `/api/areas`, `/api/trend`, `/api/ranking?kind=baseline\|actionable\|without_needs_review`, `/api/issues/{issue_id}`, `/api/recommendations`; docs at `/api/docs` |
+| Backend API (same site) | `/api/health`, `/api/summary`, `/api/areas`, `/api/trend`, `/api/ranking?kind=baseline\|actionable\|without_needs_review`, `/api/appendix` (memo appendix tables A and B), `/api/issues/{issue_id}`, `/api/recommendations`; docs at `/api/docs` |
 | Decision memo | [`memo.md`](memo.md) (memo-v4: baseline ranking basis + every non-ranking number sourced to the evidence pack; earlier versions kept: [`memo_v1.md`](runs/analysis/spotify_reviews_18months/memo_v1.md), [`memo_v2.md`](runs/analysis/spotify_reviews_18months/memo_v2.md), [`memo_v3.md`](runs/analysis/spotify_reviews_18months/memo_v3.md), [`memo_v4a.md`](runs/analysis/spotify_reviews_18months/memo_v4a.md)) |
 | Grading export | [`grading/`](grading/) — course self-check `check_submission.py`: **status pass, no issues** |
 | Cost calculator | [`cost/`](cost/) — `python cost/calculator.py` (offline replay, default) · report: [`cost/report.md`](cost/report.md) |
@@ -94,7 +94,7 @@ flowchart TD
 | 2 Enrich | Jev + code ([`pipeline/enrich.py`](pipeline/enrich.py), [`pipeline/jev.py`](pipeline/jev.py), [`pipeline/extract.py`](pipeline/extract.py)) | pending distinct texts → validated records | Invalid → 1 retry → quarantine; HTTP errors → 3 attempts with backoff; 5 consecutive failed requests → stop; budget cap → stop; Ctrl+C → finish in-flight, save, stop; restart dispatches only pending texts | Topic, intent and severity need language judgment; Jev answers fixed-choice questions with probabilities. Quote, entities, sentiment mapping and flags are code |
 | 3 Verify | Claude Haiku 5.5 + code ([`pipeline/verify.py`](pipeline/verify.py)) | random sample (500) → [`verify_report.json`](runs/analysis/spotify_reviews_18months/verify/verify_report.json), [`disagreements.csv`](runs/analysis/spotify_reviews_18months/verify/disagreements.csv) | Unknown/missing keys ignored and counted; bounded retries | An independent reader of the same text; code does the comparison |
 | 4 Group | code + Claude Haiku 5.5 ([`pipeline/group.py`](pipeline/group.py), [`pipeline/group_review.py`](pipeline/group_review.py)) | records + [`config/issues.yaml`](config/issues.yaml) → [`membership.csv`](runs/analysis/spotify_reviews_18months/membership.csv), [`issue_review.csv`](runs/analysis/spotify_reviews_18months/issue_review.csv) | Every complaint lands in exactly one issue (catch-all per topic) | Membership must be reproducible → code. The model names issues and audits a bounded sample; it never changes membership |
-| 5 Rank | code ([`pipeline/rank.py`](pipeline/rank.py)) | membership + records → [`ranking.csv`](runs/analysis/spotify_reviews_18months/ranking.csv), [`ranking_actionable.csv`](runs/analysis/spotify_reviews_18months/ranking_actionable.csv), [`ranking_without_needs_review.csv`](runs/analysis/spotify_reviews_18months/ranking_without_needs_review.csv), [`aggregates.csv`](runs/analysis/spotify_reviews_18months/aggregates.csv) | Deterministic | Arithmetic is code's job |
+| 5 Rank | code ([`pipeline/rank.py`](pipeline/rank.py)) | membership + records → [`ranking.csv`](runs/analysis/spotify_reviews_18months/ranking.csv), [`ranking_actionable.csv`](runs/analysis/spotify_reviews_18months/ranking_actionable.csv), [`ranking_without_needs_review.csv`](runs/analysis/spotify_reviews_18months/ranking_without_needs_review.csv), [`ranking_topics.csv`](runs/analysis/spotify_reviews_18months/ranking_topics.csv), [`aggregates.csv`](runs/analysis/spotify_reviews_18months/aggregates.csv) | Deterministic | Arithmetic is code's job |
 | 6 Recommend | Claude Sonnet 5.5 + code ([`pipeline/recommend.py`](pipeline/recommend.py)) | [`evidence_pack.json`](runs/analysis/spotify_reviews_18months/evidence_pack.json) → [`memo.md`](memo.md), [`claims.csv`](grading/claims.csv), [`recommendations.json`](runs/analysis/spotify_reviews_18months/recommendations.json) | Checker rejects unknown issue IDs, claim values ≠ ranking, a missing baseline rank-1 claim, review IDs not in the pack, any prose number not backed by a claim or an `other_quantities` entry whose pack path resolves to that value → 1 corrective retry → marked failed | Writing an argument needs a model; it reads only saved aggregates and ≤3 quotes per top issue, never the raw dataset |
 
 Distinct roles = separate instructions ([`prompts/`](prompts/), [`config/labels.yaml`](config/labels.yaml)), inputs, outputs and saved
@@ -235,7 +235,14 @@ exit 0), the saved state again, and the final resume (`phase: resume`; of the 3,
   half-up to 6 decimals; sorted by score descending, then issue ID ascending. Regenerate without any model call with
   `python -m pipeline rerank` (byte-identical output on rerun).
 - **Additional views:** `ranking_actionable.csv` drops OTH-GENERAL ("worst app"-type complaints with no specific defect,
-  85,894 records); `ranking_without_needs_review.csv` is the sensitivity check.
+  85,894 records); `ranking_without_needs_review.csv` is the sensitivity check; `ranking_topics.csv` applies the same
+  arithmetic and tie rule at the level of the eight contract topics (rank 1 other 184,827 · usability 174,227 · playback
+  169,903 · billing 151,779 · catalog 46,245 · access 45,817 · downloads 23,227 · support 2,286).
+- **In the memo and dashboard:** [`memo.md`](memo.md) ends with code-built tables — A: baseline top 10 with each issue's
+  actionable rank; B: ranking by topic; C: claims; D: other quantities with their evidence-pack fields. The dashboard's
+  "Memo appendices: ranking tables" card shows A and B from the database (`/api/appendix`).
+  `python -m pipeline memo-render` rebuilds memo.md and its appendices from the saved model output (`memo_output.json`)
+  without a model call.
 
 | Actionable issue | Complaints | Priority | Mean sev. | Priority without needs_review | Verifier topic agreement (sample) |
 |---|---|---|---|---|---|
@@ -343,6 +350,7 @@ python -m pipeline group   --input path/to.csv
 python -m pipeline group-review --input path/to.csv
 python -m pipeline rerank  --input path/to.csv
 python -m pipeline recommend --input path/to.csv
+python -m pipeline memo-render --input path/to.csv              # memo.md + appendix tables from saved output, no model call
 python -m pipeline export-grading                               # grading/ for the full file
 python cost/calculator.py pilot                                 # paid 100-review cold/warm pilot
 python -m evals.system_tests                                    # system tests (a few cents)

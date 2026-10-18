@@ -54,6 +54,10 @@ def main():
     p.add_argument("--input", type=Path, default=None, help=f"Input CSV (default: $DATA_DIR/{FULL_CSV_NAME})")
     p.add_argument("--workspace", default="main")
 
+    p = commands.add_parser("memo-render", help="Rebuild memo.md and its appendix tables from the saved memo output (no model calls)")
+    p.add_argument("--input", type=Path, default=None, help=f"Input CSV (default: $DATA_DIR/{FULL_CSV_NAME})")
+    p.add_argument("--workspace", default="main")
+
     p = commands.add_parser("load-db", help="Load processed results into the dashboard Postgres DB (needs DATABASE_URL)")
     p.add_argument("--input", type=Path, default=None, help=f"Input CSV (default: $DATA_DIR/{FULL_CSV_NAME})")
     p.add_argument("--workspace", default="main")
@@ -150,6 +154,9 @@ def main():
         from . import export
         print(json.dumps(export.run(args.input or dataset_file(FULL_CSV_NAME), args.workspace, args.before_run,
                                     args.after_run), indent=2))
+    elif args.command == "memo-render":
+        from . import recommend
+        print(json.dumps(recommend.render(args.input or dataset_file(FULL_CSV_NAME), args.workspace), indent=2))
     elif args.command == "rerank":
         from . import group, rank
         folder = args.folder or group.analysis_dir(args.input or dataset_file(FULL_CSV_NAME), args.workspace)

@@ -93,6 +93,12 @@ td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
 tbody tr { cursor: pointer; }
 tbody tr:hover { background: var(--wash); }
 .table-wrap { overflow-x: auto; }
+.appendix h3 { font-size: 15px; margin: 14px 0 2px; }
+.appendix .static tbody tr { cursor: default; }
+.appendix .static tbody tr:hover { background: none; }
+.appendix tr.excluded td { color: var(--muted); }
+.appendix td:nth-child(2) { white-space: nowrap; }
+.swatch { width: 10px; height: 10px; border-radius: 2px; display: inline-block; margin-right: 6px; vertical-align: -1px; }
 .drawer { border-top: 1px solid var(--grid); margin-top: 14px; padding-top: 14px; }
 .quote { border-left: 3px solid var(--grid); padding: 4px 0 4px 12px; margin: 10px 0; }
 .quote .meta { font-size: 12px; color: var(--muted); }
@@ -152,6 +158,16 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
     <div id="issueDrawer" class="drawer" hidden></div>
   </section>
 
+  <section class="card appendix" id="appendixCard">
+    <div class="card-head"><div><h2>Memo appendices: ranking tables</h2><div class="small" id="appendixFormula"></div></div></div>
+    <h3>A · Required baseline ranking (top issues)</h3>
+    <div class="small">Every complaint and cancellation review, including OTH-GENERAL. The actionable view removes only OTH-GENERAL; every other issue keeps the same numbers. Select a row to open the issue.</div>
+    <div class="table-wrap" id="appendixA"></div>
+    <h3>B · Ranking by topic</h3>
+    <div class="small">Same arithmetic and tie rule, with every issue summed into its topic (the eight topics of the shared label set). The product areas above combine playback with downloads and billing with support.</div>
+    <div class="table-wrap static" id="appendixB"></div>
+  </section>
+
   <section class="card">
     <div class="card-head"><div><h2>Complaint share over time</h2><div class="small">Complaint and cancellation reviews in each area as a share of all classified reviews that month. First and last months are partial.</div></div>
       <button class="btn" id="trendTableBtn" aria-pressed="false" type="button">Table view</button></div>
@@ -179,7 +195,7 @@ const NS = "http://www.w3.org/2000/svg";
 const $ = (id) => document.getElementById(id);
 const fmt = (n) => Number(n).toLocaleString("en-US");
 const pct = (a, b) => b ? (100 * a / b).toFixed(1) + "%" : "–";
-const state = { kind: "actionable", rankings: {}, summary: null, areas: null, trend: null, recs: null, table: false, trendTable: false };
+const state = { kind: "actionable", rankings: {}, summary: null, areas: null, trend: null, recs: null, appendix: null, table: false, trendTable: false };
 
 function el(tag, attrs = {}, text) {
   const n = document.createElement(tag);
@@ -452,6 +468,39 @@ document.querySelectorAll("[data-kind]").forEach((b) => b.addEventListener("clic
 }));
 $("tableBtn").addEventListener("click", () => { state.table = !state.table; $("tableBtn").setAttribute("aria-pressed", String(state.table)); renderRanking(); });
 
+/* ---------- memo appendices A and B ---------- */
+function simpleTable(target, headers, numFrom, rows, onRow) {
+  const box = $(target); box.replaceChildren();
+  const table = el("table"), head = el("tr");
+  headers.forEach((h, i) => head.append(el("th", { class: i >= numFrom ? "num" : "" }, h)));
+  { const th = el("thead"); th.append(head); table.append(th); }
+  const tb = el("tbody");
+  for (const r of rows) {
+    const tr = el("tr", onRow ? { tabindex: 0 } : {});
+    if (r.cls) tr.classList.add(r.cls);
+    r.cells.forEach((v, i) => {
+      const td = el("td", { class: i >= numFrom ? "num" : "" });
+      if (i === r.swatchAt) { const sw = el("i", { class: "swatch" }); sw.style.background = areaColor(r.area); td.append(sw); }
+      td.append(document.createTextNode(String(v))); tr.append(td);
+    });
+    if (onRow) { tr.addEventListener("click", () => onRow(r)); tr.addEventListener("keydown", (e) => { if (e.key === "Enter") onRow(r); }); }
+    tb.append(tr);
+  }
+  table.append(tb); box.append(table);
+}
+function renderAppendix() {
+  const d = state.appendix; if (!d) return;
+  $("appendixFormula").textContent = d.formula + " · the same tables close the decision memo";
+  simpleTable("appendixA", ["Baseline rank", "Issue", "Name", "Complaints", "Severity sum", "Mean severity", "Priority score", "Actionable rank"], 3,
+    d.baseline_top10.map((r) => ({ issue_id: r.issue_id, area: r.area, swatchAt: 1, cls: r.actionable_rank == null ? "excluded" : "",
+      cells: [r.rank, r.issue_id, r.name, fmt(r.complaint_count), fmt(r.severity_sum), r.mean_severity, fmt(r.priority_score),
+              r.actionable_rank == null ? "— (excluded)" : r.actionable_rank] })),
+    (r) => openIssue(r.issue_id, true));
+  simpleTable("appendixB", ["Rank", "Topic", "Issues", "Complaints", "Severity sum", "Mean severity", "Priority score"], 2,
+    d.topics.map((t) => ({ area: t.area, swatchAt: 1,
+      cells: [t.rank, t.topic, t.issues, fmt(t.complaint_count), fmt(t.severity_sum), t.mean_severity, fmt(t.priority_score)] })));
+}
+
 async function openIssue(id, scroll) {
   const box = $("issueDrawer"); box.hidden = false; box.replaceChildren(el("div", { class: "small" }, "Loading " + id + "…"));
   if (scroll) $("rankCard").scrollIntoView({ behavior: "smooth", block: "start" });
@@ -550,13 +599,13 @@ function renderNotes() {
   for (const t of items) if (t) ul.append(el("li", {}, t));
 }
 
-function renderAll() { renderTiles(); renderRecs(); renderAreas(); renderRanking(); renderTrend(); renderNotes(); }
+function renderAll() { renderTiles(); renderRecs(); renderAreas(); renderRanking(); renderAppendix(); renderTrend(); renderNotes(); }
 let resizeT; window.addEventListener("resize", () => { clearTimeout(resizeT); resizeT = setTimeout(renderAll, 150); });
 
 (async function main() {
   try {
-    const [summary, areas, trend, recs] = await Promise.all([api("summary"), api("areas"), api("trend"), api("recommendations")]);
-    Object.assign(state, { summary, areas, trend, recs });
+    const [summary, areas, trend, recs, appendix] = await Promise.all([api("summary"), api("areas"), api("trend"), api("recommendations"), api("appendix")]);
+    Object.assign(state, { summary, areas, trend, recs, appendix });
     await loadRanking(state.kind);
     renderAll();
   } catch (e) {
