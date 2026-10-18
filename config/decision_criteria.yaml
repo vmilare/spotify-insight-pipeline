@@ -1,0 +1,14 @@
+# Leadership direction for the decision memo (read into evidence_pack.json as `decision_criteria`).
+# This is a business judgment made by the project author, NOT something derived from the review data.
+# The memo must follow it, say so openly, and still report what the data says against it.
+source: "Product leadership direction (project author decision, 2026-10-17); not derived from the review data"
+focus_areas: [playback, usability]   # area keys as in the evidence pack's area_rollup
+rule: >-
+  Fund the areas the product team controls and the community needs most. Playback (including downloads) and
+  usability (including the ad experience: ad frequency, length and loudness) are in scope as product work.
+  Billing/support changes that require a different pricing or plan structure or new billing contracts are out of
+  scope for this quarter's product effort and go to leadership as business decisions; product-side entitlement
+  defects (paid features that do not work) may still be noted.
+rationale:
+  - "Playback (incl. downloads) and usability are the two largest specific areas by full-period severity sum."
+  - "Their fixes are within the product team's control; pricing and plan structure are not."

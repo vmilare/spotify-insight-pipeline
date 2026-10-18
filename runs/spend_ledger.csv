@@ -54,3 +54,4 @@ pilot-20261011T215750-cost_100-groupreview-20261012T094120663,cost_100.csv,claud
 pilot-20261011T215750-cost_100-memo-20261012T094132297,cost_100.csv,claude-sonnet-5-5+memo-v3+effort-high+fallbacks-default,2026-10-12T16:41:32+00:00,2026-10-12T16:42:07+00:00,1,0,13336,0.076082,0,0,0,passed
 main-spotify_reviews_18months-memo-20261017T165306447,spotify_reviews_18months.csv,claude-sonnet-5-5+memo-v4+effort-high+fallbacks-default,2026-10-17T23:53:06+00:00,2026-10-17T23:55:15+00:00,2,0,31938,0.256506,0,0,0,passed
 main-spotify_reviews_18months-memo-20261017T165643941,spotify_reviews_18months.csv,claude-sonnet-5-5+memo-v4+effort-high+fallbacks-default,2026-10-17T23:56:43+00:00,2026-10-17T23:59:00+00:00,2,0,32797,0.282554,0,0,0,passed
+main-spotify_reviews_18months-memo-20261017T173434033,spotify_reviews_18months.csv,claude-sonnet-5-5+memo-v5+effort-high+fallbacks-default,2026-10-18T00:34:34+00:00,2026-10-18T00:36:59+00:00,2,0,36874,0.305778,0,0,0,passed

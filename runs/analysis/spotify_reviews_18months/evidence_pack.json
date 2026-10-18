@@ -5,6 +5,7 @@
       "cancellation_count": 4574,
       "complaint_count": 57248,
       "label": "playback (incl. downloads)",
+      "mean_severity": "3.373568",
       "severity_sum": 193130,
       "share_of_baseline_complaints_pct": 19.7,
       "topics": [
@@ -17,6 +18,7 @@
       "cancellation_count": 6067,
       "complaint_count": 87972,
       "label": "other (general dissatisfaction)",
+      "mean_severity": "2.100975",
       "severity_sum": 184827,
       "share_of_baseline_complaints_pct": 30.3,
       "topics": [
@@ -28,6 +30,7 @@
       "cancellation_count": 5759,
       "complaint_count": 66495,
       "label": "usability",
+      "mean_severity": "2.620152",
       "severity_sum": 174227,
       "share_of_baseline_complaints_pct": 22.9,
       "topics": [
@@ -39,6 +42,7 @@
       "cancellation_count": 8263,
       "complaint_count": 51040,
       "label": "billing/support",
+      "mean_severity": "3.018515",
       "severity_sum": 154065,
       "share_of_baseline_complaints_pct": 17.6,
       "topics": [
@@ -51,6 +55,7 @@
       "cancellation_count": 970,
       "complaint_count": 16321,
       "label": "catalog",
+      "mean_severity": "2.833466",
       "severity_sum": 46245,
       "share_of_baseline_complaints_pct": 5.6,
       "topics": [
@@ -62,6 +67,7 @@
       "cancellation_count": 679,
       "complaint_count": 11644,
       "label": "access",
+      "mean_severity": "3.934816",
       "severity_sum": 45817,
       "share_of_baseline_complaints_pct": 4.0,
       "topics": [
@@ -69,6 +75,18 @@
       ]
     }
   ],
+  "decision_criteria": {
+    "focus_areas": [
+      "playback",
+      "usability"
+    ],
+    "rationale": [
+      "Playback (incl. downloads) and usability are the two largest specific areas by full-period severity sum.",
+      "Their fixes are within the product team's control; pricing and plan structure are not."
+    ],
+    "rule": "Fund the areas the product team controls and the community needs most. Playback (including downloads) and usability (including the ad experience: ad frequency, length and loudness) are in scope as product work. Billing/support changes that require a different pricing or plan structure or new billing contracts are out of scope for this quarter's product effort and go to leadership as business decisions; product-side entitlement defects (paid features that do not work) may still be noted.",
+    "source": "Product leadership direction (project author decision, 2026-10-17); not derived from the review data"
+  },
   "definitions": {
     "area_mapping": "playback area includes downloads (offline playback); billing/support = billing + support topics",
     "priority_score": "severity_sum = complaint_count x mean_severity (required baseline)",
@@ -946,6 +964,102 @@
       "severity_sum": "25732",
       "share_of_baseline_complaints_pct": 3.2,
       "topic": "billing"
+    },
+    {
+      "cancellation_count": 343,
+      "complaint_count": "5409",
+      "issue_id": "PLY-CRASH",
+      "mean_severity": "3.677390",
+      "membership_fit_rate_in_sample": "0.833",
+      "model_description": "The app crashes, closes unexpectedly, or refuses to open or start playing after updates.",
+      "name": "App crashes / won't open",
+      "needs_review_count": 1946,
+      "priority_score": "19891",
+      "quotes": [
+        {
+          "date": "2023-03-21",
+          "helpful_votes": 41,
+          "intent": "complaint",
+          "quote": "Constantly crashing or loading for 10 minutes.",
+          "review_id": "82c4dec1-9ea4-440a-bd47-32dc19b504a9",
+          "severity": 5
+        },
+        {
+          "date": "2023-06-03",
+          "helpful_votes": 38,
+          "intent": "complaint",
+          "quote": "The app crashes a lot.",
+          "review_id": "d29c1b8a-2f02-4487-9744-b70a93a75eca",
+          "severity": 5
+        },
+        {
+          "date": "2022-05-31",
+          "helpful_votes": 7,
+          "intent": "complaint",
+          "quote": "I am unable to play anything, when I tap on music I am presented with a black screen.",
+          "review_id": "4538a329-fb56-4a15-8efa-4358b507f6f3",
+          "severity": 5
+        }
+      ],
+      "rank": "9",
+      "severity_counts": {
+        "1": 1,
+        "2": 10,
+        "3": 1771,
+        "4": 3578,
+        "5": 49
+      },
+      "severity_sum": "19891",
+      "share_of_baseline_complaints_pct": 1.9,
+      "topic": "playback"
+    },
+    {
+      "cancellation_count": 647,
+      "complaint_count": "5747",
+      "issue_id": "PLY-STOPS",
+      "mean_severity": "3.367148",
+      "membership_fit_rate_in_sample": "0.833",
+      "model_description": "Playback randomly pauses, stops mid-song, or gets stuck and requires restarting the app.",
+      "name": "Music stops, pauses or cuts out",
+      "needs_review_count": 2634,
+      "priority_score": "19351",
+      "quotes": [
+        {
+          "date": "2022-09-27",
+          "helpful_votes": 145,
+          "intent": "cancellation",
+          "quote": "If any BT device connects to my phone it starts playing even after force stopping app.",
+          "review_id": "3d702696-8185-467c-9b17-9c6cbae8ce3e",
+          "severity": 5
+        },
+        {
+          "date": "2023-08-16",
+          "helpful_votes": 24,
+          "intent": "cancellation",
+          "quote": "Music keeps pausing or stopping and it takes ages to get some sound back.",
+          "review_id": "2434ad2c-e150-4aac-8254-3583d647da4c",
+          "severity": 5
+        },
+        {
+          "date": "2022-08-05",
+          "helpful_votes": 21,
+          "intent": "cancellation",
+          "quote": "Very annoyingly automatically plays via Bluetooth, no matter even if the app is closed, it wakes up and starts playing.",
+          "review_id": "ff02a63c-9d3f-4f6a-a19b-63a247f1a8b5",
+          "severity": 5
+        }
+      ],
+      "rank": "10",
+      "severity_counts": {
+        "1": 1,
+        "2": 82,
+        "3": 3511,
+        "4": 2112,
+        "5": 41
+      },
+      "severity_sum": "19351",
+      "share_of_baseline_complaints_pct": 2.0,
+      "topic": "playback"
     }
   ],
   "verification": {

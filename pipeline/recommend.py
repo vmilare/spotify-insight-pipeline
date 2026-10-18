@@ -16,10 +16,14 @@ from pathlib import Path
 
 from tools.check_submission import sha, write_json
 
+import yaml
+
 from . import claude, enrich, group, rates, store, verify
+from .rank import mean6
 from .paths import REPO
 
-PROMPT_VERSION = "memo-v4"  # v2: per-issue/area verification; v3: monthly trend; v4: baseline ranking basis + sourced quantities
+PROMPT_VERSION = "memo-v5"  # v2: per-issue/area verification; v3: monthly trend; v4: baseline ranking basis + sourced
+# quantities; v5: leadership decision criteria (config/decision_criteria.yaml), up to two recommended areas
 METRICS = ("complaint_count", "severity_sum", "mean_severity", "priority_score")
 AREAS = {"access": ["access"], "usability": ["usability"], "playback": ["playback", "downloads"],
          "billing_support": ["billing", "support"], "catalog": ["catalog"], "other": ["other"]}
@@ -33,7 +37,8 @@ PATH_PART = re.compile(r"\[([^=\]]+)=([^\]]+)\]|\[(\d+)\]|([^.\[\]]+)")
 SCHEMA = {
     "type": "object",
     "properties": {
-        "recommended_area": {"type": "string", "enum": ["access", "usability", "playback", "billing_support"]},
+        "recommended_areas": {"type": "array", "items": {"type": "string",
+                              "enum": ["access", "usability", "playback", "billing_support"]}},
         "headline": {"type": "string"},
         "memo_markdown": {"type": "string"},
         "claims": {"type": "array", "items": {"type": "object", "properties": {
@@ -49,7 +54,7 @@ SCHEMA = {
             "review_ids": {"type": "array", "items": {"type": "string"}}},
             "required": ["title", "rationale", "claim_ids", "review_ids"], "additionalProperties": False}},
     },
-    "required": ["recommended_area", "headline", "memo_markdown", "claims", "other_quantities", "recommendations"],
+    "required": ["recommended_areas", "headline", "memo_markdown", "claims", "other_quantities", "recommendations"],
     "additionalProperties": False,
 }
 
@@ -115,7 +120,7 @@ def monthly_trend(records, membership, meta):
                                   "first and last months are partial"}
 
 
-def build_pack(input_path, workspace="main", top_n=8, quotes_per_issue=3):
+def build_pack(input_path, workspace="main", top_n=10, quotes_per_issue=3):
     folder = group.analysis_dir(input_path, workspace)
     records = {json.loads(l)["review_id"]: json.loads(l) for l in (folder / "enriched.jsonl").open(encoding="utf-8")}
     ranking = read_csv(folder / "ranking.csv")
@@ -145,7 +150,7 @@ def build_pack(input_path, workspace="main", top_n=8, quotes_per_issue=3):
     for area, topics in AREAS.items():
         c = sum(topic_totals[t][0] for t in topics); s = sum(topic_totals[t][1] for t in topics)
         area_rollup.append({"area": area, "label": AREA_LABELS.get(area, area), "topics": topics,
-                            "complaint_count": c, "severity_sum": s,
+                            "complaint_count": c, "severity_sum": s, "mean_severity": mean6(s, c) if c else "",
                             "share_of_baseline_complaints_pct": pct(c, baseline),
                             "cancellation_count": sum(topic_totals[t][2] for t in topics)})
     area_rollup.sort(key=lambda x: -x["severity_sum"])
@@ -174,6 +179,8 @@ def build_pack(input_path, workspace="main", top_n=8, quotes_per_issue=3):
                         "intent_agreement": v["agreement"]["intent"], "severity_exact_agreement": v["agreement"]["severity_exact"],
                         "note": "independent model re-label (blind); agreement counts out of sample_size"}
         verification.update(verification_breakdown(folder, records, membership))
+    criteria_file = REPO / "config" / "decision_criteria.yaml"
+    criteria = yaml.safe_load(criteria_file.read_text(encoding="utf-8")) if criteria_file.exists() else None
     pack = {
         "question": "Where should the next quarter of product effort go: access, usability, playback, or billing/support?",
         "scope": {"input": Path(input_path).name, "source_rows": total_rows, "completed_classifications": completed,
@@ -196,6 +203,7 @@ def build_pack(input_path, workspace="main", top_n=8, quotes_per_issue=3):
                                           "other issues keep identical numbers and order",
                             "without_needs_review": "sensitivity check: recomputed after dropping records flagged needs_review"}},
         "area_rollup": area_rollup,
+        **({"decision_criteria": criteria} if criteria else {}),
         "ranking_baseline_top10": ranking[:10],
         "ranking_actionable_top10 (excludes OTH-GENERAL)": actionable[:10],
         "ranking_without_needs_review_top5": sens[:5],
@@ -257,6 +265,12 @@ def check(out, pack, ranking):
     errors += [f"review id not in evidence pack: {r}" for r in sorted(used_ids - pack_ids)]
     for rec in out["recommendations"]:
         errors += [f"recommendation cites unknown claim {c}" for c in rec["claim_ids"] if c not in claim_ids]
+    # Leadership direction: the recommended areas must be exactly the declared focus areas.
+    focus = (pack.get("decision_criteria") or {}).get("focus_areas")
+    if not out["recommended_areas"] or len(out["recommended_areas"]) > 2 or len(set(out["recommended_areas"])) != len(out["recommended_areas"]):
+        errors.append("recommended_areas must list one or two distinct areas")
+    elif focus and set(out["recommended_areas"]) != set(focus):
+        errors.append(f"recommended_areas {out['recommended_areas']} must match decision_criteria.focus_areas {focus}")
     # The required baseline must be represented: its rank-1 issue named in the prose and backed by a claim.
     top = ranking[0]["issue_id"]
     if top not in text or not any(c["issue_id"] == top for c in out["claims"]):
@@ -323,9 +337,12 @@ def render(input_path, workspace="main"):
     folder = group.analysis_dir(Path(input_path), workspace)
     saved = json.loads((folder / "memo_output.json").read_text(encoding="utf-8"))
     out, status = saved["output"], json.loads((folder / "memo_check.json").read_text(encoding="utf-8"))["status"]
+    areas = out.get("recommended_areas") or [out["recommended_area"]]
     scope = json.loads((folder / "evidence_pack.json").read_text(encoding="utf-8"))["scope"]
     header = (f"# Decision memo: {out['headline']}\n\n"
-              f"*Recommended area: **{out['recommended_area'].replace('_', '/')}** · Generated by `{saved['served_model']}` "
+              f"*Recommended {'areas' if len(areas) > 1 else 'area'}: **{' + '.join(AREA_LABELS.get(a, a) for a in areas)}**"
+              f"{' (leadership direction: `config/decision_criteria.yaml`)' if saved.get('decision_criteria') else ''}"
+              f" · Generated by `{saved['served_model']}` "
               f"(effort high) from `evidence_pack.json` · Checker: **{status}** · Input `{Path(input_path).name}` · "
               f"{scope['completed_classifications']} classified reviews, {scope['pending_unclassified']} unclassified.*\n\n")
     tables = appendix(out, read_csv(folder / "ranking.csv"), read_csv(folder / "ranking_actionable.csv"),
@@ -376,10 +393,12 @@ def run(input_path, workspace="main", phase="memo"):
             w.writerow(["claim_id", "issue_id", "metric", "value"])
             for c in out["claims"]:
                 w.writerow([c["claim_id"], c["issue_id"], c["metric"], str(c["value"]).strip()])
-        write_json(folder / "recommendations.json", {"recommended_area": out["recommended_area"], "headline": out["headline"],
+        write_json(folder / "recommendations.json", {"recommended_area": out["recommended_areas"][0],
+                                                     "recommended_areas": out["recommended_areas"], "headline": out["headline"],
                                                      "recommendations": out["recommendations"], "check_status": status})
         served = next((c["model"] for c in reversed(log) if c["outcome"] == "succeeded"), claude.SONNET)
-        write_json(folder / "memo_output.json", {"run_id": run_id, "served_model": served, "output": out})
+        write_json(folder / "memo_output.json", {"run_id": run_id, "served_model": served, "output": out,
+                                                 "decision_criteria": pack.get("decision_criteria")})
         with (folder / "memo_quantities.csv").open("w", newline="", encoding="utf-8") as f:
             w = csv.writer(f, lineterminator="\n")
             w.writerow(["value", "meaning", "pack_path"])
@@ -389,7 +408,8 @@ def run(input_path, workspace="main", phase="memo"):
     summary = {"run_id": run_id, "status": status, "errors": errors, "warnings": warnings, "attempts": attempts,
                "stage_cache_hits": stats["cache_hits"], "requests": len(log), "usage": tokens, "cost_usd": round(spent["usd"], 6),
                "wall_clock_seconds": round(time.monotonic() - t0, 2),
-               "recommended_area": out["recommended_area"] if out else None}
+               "recommended_area": out["recommended_areas"][0] if out else None,
+               "recommended_areas": out["recommended_areas"] if out else None}
     enrich.append_ledger({"run_id": run_id, "input": input_path.name, "label_config": mconf, "started_at": started,
                           "ended_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "requests": len(log),
                           "failed_requests": sum(c["outcome"] == "failed" for c in log), "input_tokens": tokens["input_tokens"],

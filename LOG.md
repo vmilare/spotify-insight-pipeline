@@ -485,3 +485,24 @@ unless marked *estimate*. Per-run spend is tracked automatically in `runs/spend_
   downloads, support) with a note naming the excluded topic. DB `topic_ranking` gained `kind` (all | actionable);
   `/api/appendix` returns `topics` (specific) and `topics_excluded`. memo-render (body unchanged), DB reloaded,
   self-check unaffected (grading/ unchanged).
+
+## 2026-10-17 — memo-v5: playback + usability under a leadership direction ($0.3058)
+- User decision: focus on usability and playback — highest full-period severity totals, fixes within the product
+  team's control, no change to billing structure. Asked how to treat ads under "what we control" (USA-ADS is half of
+  usability's severity sum and tied to the ad business): **user chose to keep ads in usability**.
+- Assistant's assessment given before regenerating: agree on playback (largest area incl. downloads, 193,130, mean
+  3.37, engineering-owned); usability is large by volume but has the lowest mean severity of the specific topics
+  (2.62); the choice sets aside the strongest recent signal (billing/support 26.3% of Oct 2023 reviews); playback has the
+  weakest label agreement (34/53; 7 of 20 PLY-WONTPLAY sampled went to usability — free-tier "can't play the song I
+  want"); access (mean 3.93) is a cheap side fix.
+- `config/decision_criteria.yaml` (source: author decision; focus_areas playback, usability; rule; rationale) is read
+  into the evidence pack as `decision_criteria`. Schema: `recommended_areas` (1–2 areas); checker requires it to equal
+  the declared focus areas. Pack also gains area `mean_severity` and issue cards for the actionable top 10 (adds
+  PLY-CRASH, PLY-STOPS). Prompt `prompts/memo_v5.md` (rule 11: follow the direction, say it is leadership's choice, put
+  billing/support under Alternatives with its numbers and surge, put the evidence against the scope under Risks).
+- Regenerated once: passed on attempt 2, 11 claims, $0.3058. Prose checked by hand against the pack (quotes, issue
+  descriptions, ranks, comparisons): supported; one overstatement ("Timing confirms usability") disclosed in README §8.
+  memo-v4 kept (`memo_v4.md`, `claims_v4.csv`, `recommendations_v4.json`, `memo_check_v4.json`,
+  `memo_quantities_v4.csv`, `memo_output_v4.json`, `evidence_pack_v4.json`).
+- Dashboard headline shows both areas. grading/ re-exported (48,458 calls), self-check pass. DB reloaded.
+- Project spend: $10.8970 of $11 — no budget left for another memo regeneration.

@@ -337,8 +337,9 @@ function renderRecs() {
   b.append(dot, document.createTextNode(check.status === "passed" ? "Claims checked against ranking: passed" : "Claim check: " + (check.status || "unknown")));
   badge.append(b);
   const hero = el("div", { class: "hero" });
-  hero.append(el("div", { class: "small" }, "Recommended focus area"));
-  const name = el("div", { class: "area-name" }, AREA_LABEL[r.recommended_area] || r.recommended_area);
+  const focus = r.recommended_areas || [r.recommended_area];
+  hero.append(el("div", { class: "small" }, focus.length > 1 ? "Recommended focus areas (leadership direction: product-controlled fixes; pricing and plan changes out of scope)" : "Recommended focus area"));
+  const name = el("div", { class: "area-name" }, focus.map((a) => AREA_LABEL[a] || a).join(" + "));
   hero.append(name, el("p", { class: "sub" }, r.headline));
   body.append(hero);
   const claims = Object.fromEntries((d.claims || []).map((c) => [c.claim_id, c]));

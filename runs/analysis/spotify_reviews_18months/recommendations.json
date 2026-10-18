@@ -1,6 +1,6 @@
 {
   "check_status": "passed",
-  "headline": "Fund billing/support next quarter, led by BIL-PAYWALL, the top actionable issue and the area whose complaint share rose most steeply at the end of the window",
+  "headline": "Fund playback (incl. downloads) first and usability second, starting with songs that won't play and ad experience; billing/support is out of scope by leadership rule despite its late surge.",
   "recommendations": [
     {
       "claim_ids": [
@@ -8,44 +8,47 @@
         "C4",
         "C5"
       ],
-      "rationale": "BIL-PAYWALL is the top actionable issue by priority score and carries many cancellation-language records.",
+      "rationale": "PLY-WONTPLAY has a high priority score and high mean severity, though label agreement in the sample is weaker.",
       "review_ids": [
-        "1be24878-5115-490a-bb7f-dad95d0630ab",
-        "b5543c5b-e63b-4e70-a915-de5d3a01f9d3"
+        "e44f51bb-e199-4c8a-bece-ede36c1e800a"
       ],
-      "title": "Fund BIL-PAYWALL fixes first"
+      "title": "Fix songs that won't play or play the wrong tracks"
     },
     {
       "claim_ids": [
-        "C3"
+        "C7",
+        "C8"
       ],
-      "rationale": "Billing/support share rose sharply in the last full month, which confirms the case for prioritising it now.",
-      "review_ids": [
-        "cff065a1-e826-4ea2-af1d-dd43f7ebcf4f"
-      ],
-      "title": "Act on the end-of-window billing/support surge"
-    },
-    {
-      "claim_ids": [
-        "C7"
-      ],
-      "rationale": "USA-ADS is a strong runner-up with reliable labels, and the billing/usability boundary overlaps.",
+      "rationale": "USA-ADS is the largest usability issue, with a high complaint count and strong label agreement in the sample.",
       "review_ids": [
         "25c1050d-94e0-4cfc-a08a-2392f03a307f"
       ],
-      "title": "Pair with a usability ads review"
+      "title": "Rework ad experience (frequency, length, loudness)"
     },
     {
       "claim_ids": [
-        "C6",
-        "C8"
+        "C9",
+        "C6"
       ],
-      "rationale": "Playback is larger over the full period but its labels are less certain, and ACC-LOGIN is very severe but small.",
+      "rationale": "USA-REDESIGN and PLY-GENERAL are specific, product-controlled issues that rank behind the top two.",
       "review_ids": [
-        "efad1c88-44f9-4448-b330-599e0aac4003"
+        "c84d504f-4edc-4090-a5de-9ab8f05ae083"
       ],
-      "title": "Keep playback and login on watch"
+      "title": "Address redesign regressions and playlist behaviour"
+    },
+    {
+      "claim_ids": [
+        "C10",
+        "C11"
+      ],
+      "rationale": "BIL-PAYWALL is large and surging, but pricing and plan structure are business decisions outside this quarter's product scope.",
+      "review_ids": [],
+      "title": "Route billing/support surge to leadership"
     }
   ],
-  "recommended_area": "billing_support"
+  "recommended_area": "playback",
+  "recommended_areas": [
+    "playback",
+    "usability"
+  ]
 }

@@ -1,4 +1,16 @@
 {
+  "decision_criteria": {
+    "focus_areas": [
+      "playback",
+      "usability"
+    ],
+    "rationale": [
+      "Playback (incl. downloads) and usability are the two largest specific areas by full-period severity sum.",
+      "Their fixes are within the product team's control; pricing and plan structure are not."
+    ],
+    "rule": "Fund the areas the product team controls and the community needs most. Playback (including downloads) and usability (including the ad experience: ad frequency, length and loudness) are in scope as product work. Billing/support changes that require a different pricing or plan structure or new billing contracts are out of scope for this quarter's product effort and go to leadership as business decisions; product-side entitlement defects (paid features that do not work) may still be noted.",
+    "source": "Product leadership direction (project author decision, 2026-10-17); not derived from the review data"
+  },
   "output": {
     "claims": [
       {
@@ -15,27 +27,27 @@
       },
       {
         "claim_id": "C3",
-        "issue_id": "BIL-PAYWALL",
-        "metric": "priority_score",
-        "value": "118521"
-      },
-      {
-        "claim_id": "C4",
-        "issue_id": "BIL-PAYWALL",
-        "metric": "complaint_count",
-        "value": "38784"
-      },
-      {
-        "claim_id": "C5",
-        "issue_id": "BIL-PAYWALL",
-        "metric": "mean_severity",
-        "value": "3.055925"
-      },
-      {
-        "claim_id": "C6",
         "issue_id": "PLY-WONTPLAY",
         "metric": "priority_score",
         "value": "58604"
+      },
+      {
+        "claim_id": "C4",
+        "issue_id": "PLY-WONTPLAY",
+        "metric": "complaint_count",
+        "value": "16888"
+      },
+      {
+        "claim_id": "C5",
+        "issue_id": "PLY-WONTPLAY",
+        "metric": "mean_severity",
+        "value": "3.470156"
+      },
+      {
+        "claim_id": "C6",
+        "issue_id": "PLY-GENERAL",
+        "metric": "priority_score",
+        "value": "46627"
       },
       {
         "claim_id": "C7",
@@ -45,46 +57,99 @@
       },
       {
         "claim_id": "C8",
-        "issue_id": "ACC-LOGIN",
-        "metric": "mean_severity",
-        "value": "3.972966"
+        "issue_id": "USA-ADS",
+        "metric": "complaint_count",
+        "value": "35935"
+      },
+      {
+        "claim_id": "C9",
+        "issue_id": "USA-REDESIGN",
+        "metric": "priority_score",
+        "value": "34446"
+      },
+      {
+        "claim_id": "C10",
+        "issue_id": "BIL-PAYWALL",
+        "metric": "priority_score",
+        "value": "118521"
+      },
+      {
+        "claim_id": "C11",
+        "issue_id": "BIL-PAYWALL",
+        "metric": "complaint_count",
+        "value": "38784"
       }
     ],
-    "headline": "Fund billing/support next quarter, led by BIL-PAYWALL, the top actionable issue and the area whose complaint share rose most steeply at the end of the window",
-    "memo_markdown": "## Recommendation\nFund **billing/support** next quarter, starting with **BIL-PAYWALL** (features such as song choice and skips locked behind Premium, including paying users who still find features not working). It is the top actionable issue by priority score [C3]. It is also where the end-of-window movement is clearest. Playback and usability remain close alternatives, discussed below.\n\n## Ranking basis\nThe required baseline ranking has OTH-GENERAL (general dissatisfaction, no specific defect) at baseline rank 1, with complaint_count 85894 [C1] and priority_score 180521 [C2]. BIL-PAYWALL is at baseline rank 2, with priority_score 118521 [C3]. `ranking_actionable_top10` is an additional view that drops only OTH-GENERAL, because no team can fix a complaint that names no specific defect. It does not change any other issue's numbers. In that actionable view BIL-PAYWALL is at rank 1. In the without_needs_review sensitivity ranking it is at rank 3, behind OTH-GENERAL and USA-ADS.\n\n## Evidence\n- BIL-PAYWALL has complaint_count 38784 [C4] and mean_severity 3.055925 [C5]. That is 13.3 percent of baseline complaint records, and 6494 of its records carry cancellation language (expressed intent, not observed churn).\n- At area level, billing/support has 51040 complaint records, severity_sum 154065, and 8263 cancellation records. 8263 is larger than the cancellation count of every other area in area_rollup.\n- Timing strongly favors this area. Billing/support's monthly complaint share was 13.5 percent (5601 records) in 2023-09 and 26.3 percent (23442 records) in 2023-10, the last full month. In the partial final month, 2023-11, it was 19.7 percent (6805 records). In 2023-10, usability was 13.0 percent, playback 7.8 percent and access 1.4 percent. So recent movement sharpens the full-period picture, in which billing/support is not the largest area.\n- Representative reviews: 1be24878-5115-490a-bb7f-dad95d0630ab (cancelled Premium over the lock-in), b5543c5b-e63b-4e70-a915-de5d3a01f9d3 (payment changes plus intrusive ads even with Premium), and cff065a1-e826-4ea2-af1d-dd43f7ebcf4f (rejoining Premium).\n\n## Alternatives considered\n- **Playback (incl. downloads):** over the full period it is larger on severity_sum (193130) and complaint count (57248) than billing/support. PLY-WONTPLAY has priority_score 58604 [C6]. Label reliability is weaker, though. The verifier agreed on area for 34 of 53 sampled playback complaints. It agreed on topic for only 2 of 12 sampled PLY-GENERAL records and 11 of 20 PLY-WONTPLAY records, so playback labels are less certain. Its share was also flat in the last full month (7.8 percent).\n- **Usability:** 66495 complaint records and severity_sum 174227. USA-ADS has priority_score 87029 [C7], and its labels held up well (35 of 37 topic agreement). It is a strong runner-up. Of 44 sampled BIL-PAYWALL records, the verifier placed 9 in usability, so the billing/usability boundary overlaps (skips, ads in Premium). Coordinate the two teams.\n- **Access:** small by volume (11644 complaint records, severity_sum 45817), but ACC-LOGIN has mean_severity 3.972966 [C8] and 12 of 13 sampled topic agreement. It is a targeted fix, not the quarter's main bet.\n\n## Risks and limitations\n- Reviews are self-selected and historical. There is no revenue, plan tier or confirmed churn data, so nothing here estimates revenue, churn or users affected.\n- Labels come from a classifier. The needs_review share is 31.9 percent of all classified reviews (210531 records). Non-English reviews are flagged needs_review. 13 records were quarantined out of 660609 completed classifications.\n- Label agreement for BIL-PAYWALL was 35 of 44 sampled records, and billing/support area agreement was 45 of 57. Samples are small, so these are indicative only.\n- The spike in 2023-10 coincides with a large review volume (89102 classified reviews). It may reflect a specific event, and the data cannot show cause.\n\n## Next steps\n1. Audit a fresh sample of BIL-PAYWALL reviews with humans, splitting true paywall complaints from ads and usability complaints.\n2. Map which gated features (skips, song choice, playlist use) drive the most severe complaints, and scope messaging or entitlement fixes.\n3. Check whether paying users report features not working, and open a support-side fix for entitlement errors.\n4. Run a joint billing and usability review of Premium ad exposure (USA-ADS overlap).\n5. Track monthly billing/support share after the final partial month and re-rank when more data arrives.",
+    "headline": "Fund playback (incl. downloads) first and usability second, starting with songs that won't play and ad experience; billing/support is out of scope by leadership rule despite its late surge.",
+    "memo_markdown": "## Recommendation\nFund **playback (incl. downloads)** first and **usability** second. In playback, fund PLY-WONTPLAY, PLY-GENERAL and PLY-CRASH first. In usability, fund USA-ADS (ad frequency, length and loudness) and USA-REDESIGN first. This scope follows leadership direction, not the data alone: pricing, plan structure and billing contracts are out of scope for product effort. The data's top actionable issue, BIL-PAYWALL, sits in billing/support.\n\n## Ranking basis\nIn the required baseline ranking, rank 1 is OTH-GENERAL (general dissatisfaction with no specific defect), with 85894 complaints [C1] and a priority score of 180521 [C2]. In the baseline ranking, USA-ADS is rank 3 and PLY-WONTPLAY is rank 4. `ranking_actionable_top10` is an additional view that drops only OTH-GENERAL, because no team can fix a complaint that names no specific defect. It does not change any other issue's numbers. The recommendation rests on specific issues, not on OTH-GENERAL.\n\n## Evidence\nBy area_rollup, playback (incl. downloads) has 57248 complaints, a severity sum of 193130 and a mean severity of 3.373568. Usability has 66495 complaints, a severity sum of 174227 and a mean severity of 2.620152.\n- **PLY-WONTPLAY:** priority score 58604 [C3] from 16888 complaints [C4], with mean severity 3.470156 [C5]. Example: review e44f51bb-e199-4c8a-bece-ede36c1e800a (a playlist plays songs that are not on it).\n- **PLY-GENERAL:** priority score 46627 [C6].\n- **USA-ADS:** priority score 87029 [C7] from 35935 complaints [C8]. Example: review 25c1050d-94e0-4cfc-a08a-2392f03a307f (a full-screen ad on opening the app).\n- **USA-REDESIGN:** priority score 34446 [C9]. Example: review c84d504f-4edc-4090-a5de-9ab8f05ae083.\n\nTiming confirms usability. In 2023-10 usability's monthly share was 13.0 percent against playback's 7.8 percent. In the partial month 2023-11 the figures were 12.5 percent and 8.2 percent. Playback's recent share is modest, so playback work should be driven by severity rather than by growing volume.\n\n## Alternatives considered\n**Billing/support** has 51040 complaints, a severity sum of 154065 and 8263 cancellation-intent records (expressed intent, not observed churn). BIL-PAYWALL has a priority score of 118521 [C10] from 38784 complaints [C11], so it is the largest actionable issue in the baseline excerpt. Its monthly share rose from 13.5 percent in 2023-09 to 26.3 percent in 2023-10 (23442 complaints), and was 19.7 percent in the partial month 2023-11. It is excluded by the leadership rule, since fixing most of it needs pricing or plan changes. Product-side entitlement defects, such as paid features that do not work, can still be handled and flagged. **Access** has 11644 complaints and a severity sum of 45817. Its mean severity of 3.934816 is the highest of the four areas, but it is far smaller by volume and total severity.\n\n## Risks and limitations\n- Billing/support's end-of-window surge is the strongest evidence against this scope.\n- Label agreement is weaker in playback. For PLY-WONTPLAY, the verifier agreed on the topic in 11 of 20 sampled records, and 7 of those were relabelled usability. For PLY-GENERAL it agreed in only 2 of 12. Area-level agreement for playback was 34 of 53, against 65 of 74 for usability. Samples are small.\n- Usability's mean severity (2.620152) is lower than billing/support's (3.018515) and access's (3.934816).\n- Without needs_review records, USA-ADS ranks 2 and PLY-WONTPLAY ranks 4 in that sensitivity ranking.\n- The needs_review share is 31.9 percent of all classified reviews.\n- Reviews are self-selected and historical, and the labels come from a classifier. No revenue, churn or causal conclusions are drawn.\n\n## Next steps\n1. Investigate PLY-WONTPLAY failures (wrong or skipped tracks) and ship a fix plan for the worst cases.\n2. Triage PLY-GENERAL and PLY-CRASH after a manual re-label of a sample, given the low agreement.\n3. Review ad frequency, length and loudness controls for USA-ADS, and the removed basic functions behind USA-REDESIGN.\n4. Hand the BIL-PAYWALL pricing and plan questions to leadership, and keep a product list of entitlement defects.\n5. Track monthly area shares through the next quarter.",
     "other_quantities": [
       {
-        "meaning": "OTH-GENERAL baseline rank",
+        "meaning": "baseline rank of OTH-GENERAL",
         "pack_path": "ranking_baseline_top10[issue_id=OTH-GENERAL].rank",
         "value": "1"
       },
       {
-        "meaning": "BIL-PAYWALL baseline rank",
-        "pack_path": "ranking_baseline_top10[issue_id=BIL-PAYWALL].rank",
-        "value": "2"
-      },
-      {
-        "meaning": "BIL-PAYWALL actionable rank",
-        "pack_path": "top_actionable_issues[issue_id=BIL-PAYWALL].rank",
-        "value": "1"
-      },
-      {
-        "meaning": "BIL-PAYWALL rank without needs_review",
-        "pack_path": "ranking_without_needs_review_top5[issue_id=BIL-PAYWALL].rank",
+        "meaning": "baseline rank of USA-ADS",
+        "pack_path": "ranking_baseline_top10[issue_id=USA-ADS].rank",
         "value": "3"
       },
       {
-        "meaning": "BIL-PAYWALL share of baseline complaints pct",
-        "pack_path": "top_actionable_issues[issue_id=BIL-PAYWALL].share_of_baseline_complaints_pct",
-        "value": "13.3"
+        "meaning": "baseline rank of PLY-WONTPLAY",
+        "pack_path": "ranking_baseline_top10[issue_id=PLY-WONTPLAY].rank",
+        "value": "4"
       },
       {
-        "meaning": "BIL-PAYWALL cancellation records",
-        "pack_path": "top_actionable_issues[issue_id=BIL-PAYWALL].cancellation_count",
-        "value": "6494"
+        "meaning": "playback area complaint count",
+        "pack_path": "area_rollup[area=playback].complaint_count",
+        "value": "57248"
       },
       {
-        "meaning": "billing/support complaint records",
+        "meaning": "playback area severity sum",
+        "pack_path": "area_rollup[area=playback].severity_sum",
+        "value": "193130"
+      },
+      {
+        "meaning": "playback area mean severity",
+        "pack_path": "area_rollup[area=playback].mean_severity",
+        "value": "3.373568"
+      },
+      {
+        "meaning": "usability area complaint count",
+        "pack_path": "area_rollup[area=usability].complaint_count",
+        "value": "66495"
+      },
+      {
+        "meaning": "usability area severity sum",
+        "pack_path": "area_rollup[area=usability].severity_sum",
+        "value": "174227"
+      },
+      {
+        "meaning": "usability area mean severity",
+        "pack_path": "area_rollup[area=usability].mean_severity",
+        "value": "2.620152"
+      },
+      {
+        "meaning": "usability monthly share 2023-10",
+        "pack_path": "monthly_complaint_share.rows[month=2023-10].usability_share_pct",
+        "value": "13.0"
+      },
+      {
+        "meaning": "playback monthly share 2023-10",
+        "pack_path": "monthly_complaint_share.rows[month=2023-10].playback_share_pct",
+        "value": "7.8"
+      },
+      {
+        "meaning": "usability monthly share 2023-11",
+        "pack_path": "monthly_complaint_share.rows[month=2023-11].usability_share_pct",
+        "value": "12.5"
+      },
+      {
+        "meaning": "playback monthly share 2023-11",
+        "pack_path": "monthly_complaint_share.rows[month=2023-11].playback_share_pct",
+        "value": "8.2"
+      },
+      {
+        "meaning": "billing/support complaint count",
         "pack_path": "area_rollup[area=billing_support].complaint_count",
         "value": "51040"
       },
@@ -94,84 +159,49 @@
         "value": "154065"
       },
       {
-        "meaning": "billing/support cancellation records",
+        "meaning": "billing/support cancellation-intent records",
         "pack_path": "area_rollup[area=billing_support].cancellation_count",
         "value": "8263"
       },
       {
-        "meaning": "billing/support share 2023-09 pct",
+        "meaning": "billing/support monthly share 2023-09",
         "pack_path": "monthly_complaint_share.rows[month=2023-09].billing_support_share_pct",
         "value": "13.5"
       },
       {
-        "meaning": "billing/support records 2023-09",
-        "pack_path": "monthly_complaint_share.rows[month=2023-09].billing_support_complaints",
-        "value": "5601"
-      },
-      {
-        "meaning": "billing/support share 2023-10 pct",
+        "meaning": "billing/support monthly share 2023-10",
         "pack_path": "monthly_complaint_share.rows[month=2023-10].billing_support_share_pct",
         "value": "26.3"
       },
       {
-        "meaning": "billing/support records 2023-10",
+        "meaning": "billing/support complaints 2023-10",
         "pack_path": "monthly_complaint_share.rows[month=2023-10].billing_support_complaints",
         "value": "23442"
       },
       {
-        "meaning": "billing/support share 2023-11 pct (partial)",
+        "meaning": "billing/support monthly share 2023-11",
         "pack_path": "monthly_complaint_share.rows[month=2023-11].billing_support_share_pct",
         "value": "19.7"
       },
       {
-        "meaning": "billing/support records 2023-11 (partial)",
-        "pack_path": "monthly_complaint_share.rows[month=2023-11].billing_support_complaints",
-        "value": "6805"
+        "meaning": "access complaint count",
+        "pack_path": "area_rollup[area=access].complaint_count",
+        "value": "11644"
       },
       {
-        "meaning": "usability share 2023-10 pct",
-        "pack_path": "monthly_complaint_share.rows[month=2023-10].usability_share_pct",
-        "value": "13.0"
+        "meaning": "access severity sum",
+        "pack_path": "area_rollup[area=access].severity_sum",
+        "value": "45817"
       },
       {
-        "meaning": "playback share 2023-10 pct",
-        "pack_path": "monthly_complaint_share.rows[month=2023-10].playback_share_pct",
-        "value": "7.8"
+        "meaning": "access mean severity",
+        "pack_path": "area_rollup[area=access].mean_severity",
+        "value": "3.934816"
       },
       {
-        "meaning": "access share 2023-10 pct",
-        "pack_path": "monthly_complaint_share.rows[month=2023-10].access_share_pct",
-        "value": "1.4"
-      },
-      {
-        "meaning": "playback severity sum",
-        "pack_path": "area_rollup[area=playback].severity_sum",
-        "value": "193130"
-      },
-      {
-        "meaning": "playback complaint records",
-        "pack_path": "area_rollup[area=playback].complaint_count",
-        "value": "57248"
-      },
-      {
-        "meaning": "playback sampled complaints with verifier same area",
-        "pack_path": "verification.by_area_in_sample.playback.verifier_same_area",
-        "value": "34"
-      },
-      {
-        "meaning": "playback sampled complaints",
-        "pack_path": "verification.by_area_in_sample.playback.sampled_complaints",
-        "value": "53"
-      },
-      {
-        "meaning": "PLY-GENERAL topic agreements in sample",
-        "pack_path": "verification.by_issue_in_sample.PLY-GENERAL.topic_agree",
-        "value": "2"
-      },
-      {
-        "meaning": "PLY-GENERAL sampled records",
-        "pack_path": "verification.by_issue_in_sample.PLY-GENERAL.sampled",
-        "value": "12"
+        "meaning": "billing/support mean severity",
+        "pack_path": "area_rollup[area=billing_support].mean_severity",
+        "value": "3.018515"
       },
       {
         "meaning": "PLY-WONTPLAY topic agreements in sample",
@@ -184,94 +214,54 @@
         "value": "20"
       },
       {
-        "meaning": "usability complaint records",
-        "pack_path": "area_rollup[area=usability].complaint_count",
-        "value": "66495"
+        "meaning": "PLY-WONTPLAY relabelled usability by verifier",
+        "pack_path": "verification.by_issue_in_sample.PLY-WONTPLAY.verifier_other_topics.usability",
+        "value": "7"
       },
       {
-        "meaning": "usability severity sum",
-        "pack_path": "area_rollup[area=usability].severity_sum",
-        "value": "174227"
+        "meaning": "PLY-GENERAL topic agreements in sample",
+        "pack_path": "verification.by_issue_in_sample.PLY-GENERAL.topic_agree",
+        "value": "2"
       },
       {
-        "meaning": "USA-ADS topic agreements in sample",
-        "pack_path": "verification.by_issue_in_sample.USA-ADS.topic_agree",
-        "value": "35"
-      },
-      {
-        "meaning": "USA-ADS sampled records",
-        "pack_path": "verification.by_issue_in_sample.USA-ADS.sampled",
-        "value": "37"
-      },
-      {
-        "meaning": "BIL-PAYWALL sampled records",
-        "pack_path": "verification.by_issue_in_sample.BIL-PAYWALL.sampled",
-        "value": "44"
-      },
-      {
-        "meaning": "BIL-PAYWALL topic agreements in sample",
-        "pack_path": "verification.by_issue_in_sample.BIL-PAYWALL.topic_agree",
-        "value": "35"
-      },
-      {
-        "meaning": "BIL-PAYWALL sampled records verifier placed in usability",
-        "pack_path": "verification.by_issue_in_sample.BIL-PAYWALL.verifier_other_topics.usability",
-        "value": "9"
-      },
-      {
-        "meaning": "billing/support sampled complaints with verifier same area",
-        "pack_path": "verification.by_area_in_sample.billing_support.verifier_same_area",
-        "value": "45"
-      },
-      {
-        "meaning": "billing/support sampled complaints",
-        "pack_path": "verification.by_area_in_sample.billing_support.sampled_complaints",
-        "value": "57"
-      },
-      {
-        "meaning": "access complaint records",
-        "pack_path": "area_rollup[area=access].complaint_count",
-        "value": "11644"
-      },
-      {
-        "meaning": "access severity sum",
-        "pack_path": "area_rollup[area=access].severity_sum",
-        "value": "45817"
-      },
-      {
-        "meaning": "ACC-LOGIN topic agreements in sample",
-        "pack_path": "verification.by_issue_in_sample.ACC-LOGIN.topic_agree",
+        "meaning": "PLY-GENERAL sampled records",
+        "pack_path": "verification.by_issue_in_sample.PLY-GENERAL.sampled",
         "value": "12"
       },
       {
-        "meaning": "ACC-LOGIN sampled records",
-        "pack_path": "verification.by_issue_in_sample.ACC-LOGIN.sampled",
-        "value": "13"
+        "meaning": "playback area same-area agreements",
+        "pack_path": "verification.by_area_in_sample.playback.verifier_same_area",
+        "value": "34"
       },
       {
-        "meaning": "needs_review share of all classified reviews pct",
+        "meaning": "playback area sampled complaints",
+        "pack_path": "verification.by_area_in_sample.playback.sampled_complaints",
+        "value": "53"
+      },
+      {
+        "meaning": "usability area same-area agreements",
+        "pack_path": "verification.by_area_in_sample.usability.verifier_same_area",
+        "value": "65"
+      },
+      {
+        "meaning": "usability area sampled complaints",
+        "pack_path": "verification.by_area_in_sample.usability.sampled_complaints",
+        "value": "74"
+      },
+      {
+        "meaning": "USA-ADS rank without needs_review",
+        "pack_path": "ranking_without_needs_review_top5[issue_id=USA-ADS].rank",
+        "value": "2"
+      },
+      {
+        "meaning": "PLY-WONTPLAY rank without needs_review",
+        "pack_path": "ranking_without_needs_review_top5[issue_id=PLY-WONTPLAY].rank",
+        "value": "4"
+      },
+      {
+        "meaning": "needs_review share of all classified reviews (percent)",
         "pack_path": "scope.needs_review_share_of_all_classified_pct",
         "value": "31.9"
-      },
-      {
-        "meaning": "needs_review records",
-        "pack_path": "scope.needs_review_records",
-        "value": "210531"
-      },
-      {
-        "meaning": "quarantined records",
-        "pack_path": "scope.quarantined",
-        "value": "13"
-      },
-      {
-        "meaning": "completed classifications",
-        "pack_path": "scope.completed_classifications",
-        "value": "660609"
-      },
-      {
-        "meaning": "classified reviews in 2023-10",
-        "pack_path": "monthly_complaint_share.rows[month=2023-10].classified_reviews",
-        "value": "89102"
       }
     ],
     "recommendations": [
@@ -281,47 +271,49 @@
           "C4",
           "C5"
         ],
-        "rationale": "BIL-PAYWALL is the top actionable issue by priority score and carries many cancellation-language records.",
+        "rationale": "PLY-WONTPLAY has a high priority score and high mean severity, though label agreement in the sample is weaker.",
         "review_ids": [
-          "1be24878-5115-490a-bb7f-dad95d0630ab",
-          "b5543c5b-e63b-4e70-a915-de5d3a01f9d3"
+          "e44f51bb-e199-4c8a-bece-ede36c1e800a"
         ],
-        "title": "Fund BIL-PAYWALL fixes first"
+        "title": "Fix songs that won't play or play the wrong tracks"
       },
       {
         "claim_ids": [
-          "C3"
+          "C7",
+          "C8"
         ],
-        "rationale": "Billing/support share rose sharply in the last full month, which confirms the case for prioritising it now.",
-        "review_ids": [
-          "cff065a1-e826-4ea2-af1d-dd43f7ebcf4f"
-        ],
-        "title": "Act on the end-of-window billing/support surge"
-      },
-      {
-        "claim_ids": [
-          "C7"
-        ],
-        "rationale": "USA-ADS is a strong runner-up with reliable labels, and the billing/usability boundary overlaps.",
+        "rationale": "USA-ADS is the largest usability issue, with a high complaint count and strong label agreement in the sample.",
         "review_ids": [
           "25c1050d-94e0-4cfc-a08a-2392f03a307f"
         ],
-        "title": "Pair with a usability ads review"
+        "title": "Rework ad experience (frequency, length, loudness)"
       },
       {
         "claim_ids": [
-          "C6",
-          "C8"
+          "C9",
+          "C6"
         ],
-        "rationale": "Playback is larger over the full period but its labels are less certain, and ACC-LOGIN is very severe but small.",
+        "rationale": "USA-REDESIGN and PLY-GENERAL are specific, product-controlled issues that rank behind the top two.",
         "review_ids": [
-          "efad1c88-44f9-4448-b330-599e0aac4003"
+          "c84d504f-4edc-4090-a5de-9ab8f05ae083"
         ],
-        "title": "Keep playback and login on watch"
+        "title": "Address redesign regressions and playlist behaviour"
+      },
+      {
+        "claim_ids": [
+          "C10",
+          "C11"
+        ],
+        "rationale": "BIL-PAYWALL is large and surging, but pricing and plan structure are business decisions outside this quarter's product scope.",
+        "review_ids": [],
+        "title": "Route billing/support surge to leadership"
       }
     ],
-    "recommended_area": "billing_support"
+    "recommended_areas": [
+      "playback",
+      "usability"
+    ]
   },
-  "run_id": "main-spotify_reviews_18months-memo-20261017T165643941",
+  "run_id": "main-spotify_reviews_18months-memo-20261017T173434033",
   "served_model": "claude-sonnet-5-5"
 }
