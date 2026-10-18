@@ -1,0 +1,50 @@
+{
+  "check_status": "passed",
+  "headline": "Fund billing/support first: BIL-PAYWALL leads the actionable ranking and billing/support complaint share surged in the last full month",
+  "recommendations": [
+    {
+      "claim_ids": [
+        "C3",
+        "C4",
+        "C5"
+      ],
+      "rationale": "It is the top-ranked specific issue in the actionable view, with high severity and the largest cancellation-intent count in its area.",
+      "review_ids": [
+        "1be24878-5115-490a-bb7f-dad95d0630ab",
+        "b5543c5b-e63b-4e70-a915-de5d3a01f9d3"
+      ],
+      "title": "Fund the BIL-PAYWALL fix first"
+    },
+    {
+      "claim_ids": [
+        "C6",
+        "C7"
+      ],
+      "rationale": "USA-ADS is the next-largest specific issue and overlaps with paywall complaints in labels and in review text.",
+      "review_ids": [
+        "02ab45da-773e-42fd-93b5-6bc77ed11944"
+      ],
+      "title": "Plan ads and paywall work together"
+    },
+    {
+      "claim_ids": [
+        "C3"
+      ],
+      "rationale": "BIL-PAYWALL has many needs_review records and only moderate verifier agreement, so a human-reviewed sample should confirm the defect.",
+      "review_ids": [],
+      "title": "Validate labels before committing scope"
+    },
+    {
+      "claim_ids": [
+        "C8",
+        "C10"
+      ],
+      "rationale": "PLY-WONTPLAY is sizable but less reliably labelled, and ACC-LOGIN is severe but small.",
+      "review_ids": [
+        "efad1c88-44f9-4448-b330-599e0aac4003"
+      ],
+      "title": "Keep targeted playback and login fixes small"
+    }
+  ],
+  "recommended_area": "billing_support"
+}

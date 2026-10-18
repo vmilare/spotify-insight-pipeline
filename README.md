@@ -9,7 +9,7 @@ playback, or billing/support?*
 |---|---|
 | **Live dashboard** | **https://spotify-insight-pipeline.vercel.app** — public, no login. The first load of the trend chart can take ~2 s (computed live over all 660k rows in the database). |
 | Backend API (same site) | `/api/health`, `/api/summary`, `/api/areas`, `/api/trend`, `/api/ranking?kind=baseline\|actionable\|without_needs_review`, `/api/issues/{issue_id}`, `/api/recommendations`; docs at `/api/docs` |
-| Decision memo | [`memo.md`](memo.md) (memo-v3; earlier versions kept: [`memo_v1.md`](runs/analysis/spotify_reviews_18months/memo_v1.md), [`memo_v2.md`](runs/analysis/spotify_reviews_18months/memo_v2.md)) |
+| Decision memo | [`memo.md`](memo.md) (memo-v4: baseline ranking basis + every non-ranking number sourced to the evidence pack; earlier versions kept: [`memo_v1.md`](runs/analysis/spotify_reviews_18months/memo_v1.md), [`memo_v2.md`](runs/analysis/spotify_reviews_18months/memo_v2.md), [`memo_v3.md`](runs/analysis/spotify_reviews_18months/memo_v3.md), [`memo_v4a.md`](runs/analysis/spotify_reviews_18months/memo_v4a.md)) |
 | Grading export | [`grading/`](grading/) — course self-check `check_submission.py`: **status pass, no issues** |
 | Cost calculator | [`cost/`](cost/) — `python cost/calculator.py` (offline replay, default) · report: [`cost/report.md`](cost/report.md) |
 | Project log | [`LOG.md`](LOG.md) — every step, decision, experiment, bug and cost, in order · plan and checklist: [`Plan.md`](Plan.md) · run manifest: [`runs/final_run_manifest.json`](runs/final_run_manifest.json) |
@@ -34,15 +34,16 @@ playback, or billing/support?*
 | Independent verifier (blind, random 500) | topic **413/500**, intent **462/500**, severity exact **378/500**; planted-error test **96/100** caught |
 | Model calls in the grading log | **48,452** logged attempts, **0 failed** ([`grading/calls.jsonl.gz`](grading/calls.jsonl.gz)) |
 | Enrichment wall clock (full file) | 62.6 min over 3 runs (29.2 + 1.0 interrupted + 32.4), 2 workers, ~118–137 texts/s |
-| API spend, whole project | **$10.05** of an $11 cap (full-file Jev enrichment **$9.41**) — [`runs/spend_ledger.csv`](runs/spend_ledger.csv) |
+| API spend, whole project | **$10.59** of an $11 cap (full-file Jev enrichment **$9.41**) — [`runs/spend_ledger.csv`](runs/spend_ledger.csv) |
 
 **Estimated before the run vs actual:** the calculator projected $9.79 (base) / $10.63 (conservative) for the full run;
 actual full-file enrichment was $9.41, plus $0.17 of development runs whose results were reused (470.9 tokens/text vs
 468.4 projected). Accounted-for rows (660,622) and completed classifications (660,609) are reported separately everywhere.
 
-**Recommendation (memo-v3, [`memo.md`](memo.md)):** fund **billing/support**, led by the Premium paywall (BIL-PAYWALL, the
-largest actionable issue: 38,784 complaints [C2], priority 118,521 [C1]) and BIL-GENERAL (25,732 [C3]), coordinated with
-the usability team on ads (USA-ADS, 87,029 [C5]); treat playback as a real but uncertain second priority that needs a
+**Recommendation (memo-v4, [`memo.md`](memo.md)):** fund **billing/support**, led by the Premium paywall (BIL-PAYWALL:
+baseline rank 2 behind OTH-GENERAL — general dissatisfaction with no specific defect, 85,894 complaints [C1], priority
+180,521 [C2] — and rank 1 in the actionable view; 38,784 complaints [C4], priority 118,521 [C3]), coordinated with
+the usability team on ads (USA-ADS, 87,029 [C7]); treat playback as a real but uncertain second priority that needs a
 label audit; scope a small login fix. The decisive evidence is timing: billing/support complaints were 4–6% of monthly
 reviews through Aug 2023, then **13.5% (Sep), 26.3% (Oct), 19.7% (Nov, partial)**, while no other area moved.
 
@@ -50,7 +51,8 @@ reviews through Aug 2023, then **13.5% (Sep), 26.3% (Oct), 19.7% (Nov, partial)*
 roll-up ranks playback first and billing/support third; excluding needs_review records puts ads ahead of the paywall; the
 playback issues have the weakest verifier agreement. The recommendation changed as evidence was added to the memo's
 evidence pack — billing (500-review development sample) → playback (full data, memo-v1) → usability (+ per-issue
-verification, memo-v2) → billing/support (+ monthly trend, memo-v3). Each version is kept and the reason for each
+verification, memo-v2) → billing/support (+ monthly trend, memo-v3; memo-v4 kept the answer and added the baseline
+ranking basis and sourced quantities). Each version is kept and the reason for each
 regeneration is in [`LOG.md`](LOG.md); the top areas are close and the answer depends on label reliability and timing.
 
 ---
@@ -93,7 +95,7 @@ flowchart TD
 | 3 Verify | Claude Haiku 5.5 + code ([`pipeline/verify.py`](pipeline/verify.py)) | random sample (500) → [`verify_report.json`](runs/analysis/spotify_reviews_18months/verify/verify_report.json), [`disagreements.csv`](runs/analysis/spotify_reviews_18months/verify/disagreements.csv) | Unknown/missing keys ignored and counted; bounded retries | An independent reader of the same text; code does the comparison |
 | 4 Group | code + Claude Haiku 5.5 ([`pipeline/group.py`](pipeline/group.py), [`pipeline/group_review.py`](pipeline/group_review.py)) | records + [`config/issues.yaml`](config/issues.yaml) → [`membership.csv`](runs/analysis/spotify_reviews_18months/membership.csv), [`issue_review.csv`](runs/analysis/spotify_reviews_18months/issue_review.csv) | Every complaint lands in exactly one issue (catch-all per topic) | Membership must be reproducible → code. The model names issues and audits a bounded sample; it never changes membership |
 | 5 Rank | code ([`pipeline/rank.py`](pipeline/rank.py)) | membership + records → [`ranking.csv`](runs/analysis/spotify_reviews_18months/ranking.csv), [`ranking_actionable.csv`](runs/analysis/spotify_reviews_18months/ranking_actionable.csv), [`ranking_without_needs_review.csv`](runs/analysis/spotify_reviews_18months/ranking_without_needs_review.csv), [`aggregates.csv`](runs/analysis/spotify_reviews_18months/aggregates.csv) | Deterministic | Arithmetic is code's job |
-| 6 Recommend | Claude Sonnet 5.5 + code ([`pipeline/recommend.py`](pipeline/recommend.py)) | [`evidence_pack.json`](runs/analysis/spotify_reviews_18months/evidence_pack.json) → [`memo.md`](memo.md), [`claims.csv`](grading/claims.csv), [`recommendations.json`](runs/analysis/spotify_reviews_18months/recommendations.json) | Checker rejects unknown issue IDs, claim values ≠ ranking, review IDs not in the pack, numbers not in the pack → 1 corrective retry → marked failed | Writing an argument needs a model; it reads only saved aggregates and ≤3 quotes per top issue, never the raw dataset |
+| 6 Recommend | Claude Sonnet 5.5 + code ([`pipeline/recommend.py`](pipeline/recommend.py)) | [`evidence_pack.json`](runs/analysis/spotify_reviews_18months/evidence_pack.json) → [`memo.md`](memo.md), [`claims.csv`](grading/claims.csv), [`recommendations.json`](runs/analysis/spotify_reviews_18months/recommendations.json) | Checker rejects unknown issue IDs, claim values ≠ ranking, a missing baseline rank-1 claim, review IDs not in the pack, any prose number not backed by a claim or an `other_quantities` entry whose pack path resolves to that value → 1 corrective retry → marked failed | Writing an argument needs a model; it reads only saved aggregates and ≤3 quotes per top issue, never the raw dataset |
 
 Distinct roles = separate instructions ([`prompts/`](prompts/), [`config/labels.yaml`](config/labels.yaml)), inputs, outputs and saved
 evidence. Every model attempt is logged (request ID, role, model, label_config, review IDs sent, usage, outcome, phase);
@@ -106,7 +108,7 @@ the verifier's labels, issue names/fit audit, and the memo's argument.
 - Enrich: `jev-1.13.0` (TypeSafe `/v1/systemone`), question set `jev-q-tiny-v1` ([`prompts/jev_tiny_v1.yaml`](prompts/jev_tiny_v1.yaml)),
   10 reviews per request, `label_config = jev-1.13.0+jev-q-tiny-v1-pack10+schema-v1+quote-v1+sent-from-intent-v1`.
 - Verify and group review: `claude-haiku-5-5`, effort low, thinking off, JSON-schema structured output.
-- Memo: `claude-sonnet-5-5`, effort high, adaptive thinking, server-side `fallbacks: "default"`; prompt `memo-v3` ([`prompts/memo_v3.md`](prompts/memo_v3.md)).
+- Memo: `claude-sonnet-5-5`, effort high, adaptive thinking, server-side `fallbacks: "default"`; prompt `memo-v4` ([`prompts/memo_v4.md`](prompts/memo_v4.md)).
 
 ---
 
@@ -124,7 +126,7 @@ Review **`4b5220da-4c26-4a20-aff8-d5caab56255a`** (row 206,953, 2022-12-13, app 
 | Verification | In the random verify sample: Haiku 5.5, blind → playback / complaint / 3 / −0.5 — agrees |
 | Issue membership | Playback rules are checked in order; "glitch" matches **PLY-WONTPLAY** before "stop" (PLY-STOPS) is reached — it arguably fits both, a visible example of the keyword-order limitation ([`membership.csv`](runs/analysis/spotify_reviews_18months/membership.csv)) |
 | Ranking | PLY-WONTPLAY: baseline rank 4, 16,888 complaints, severity sum 58,604, mean 3.470156 |
-| Memo claim | memo-v3 **[C7]** `PLY-WONTPLAY priority_score 58604` and **[C8]** mean severity 3.470156 (the playback alternative) — checked against `ranking.csv` (✓ chips on the dashboard) |
+| Memo claim | memo-v4 **[C6]** `PLY-WONTPLAY priority_score 58604` (the playback alternative) — checked against `ranking.csv` (✓ chips on the dashboard) |
 
 **A failed / ambiguous case and its handling.** Golden review `46c0b49f…`: *"Listening to music in a normal volume and
 suddenly an add starts and my ears feel like they explode!!"*. Human label: playback / complaint / 2 (labeler note: the
@@ -272,8 +274,11 @@ Issue taxonomy history: v1 → v2 (500-sample inspection) → v3 (full-data catc
 - Issue membership uses keyword rules within each topic (84% fit in a sampled audit; order matters, see §3); catch-all
   issues remain.
 - The memo is model-written from a bounded evidence pack and checked for numbers, not for judgment; its recommendation is
-  sensitive to the factors in §7. It was regenerated twice, each time after new evidence was added to the pack
-  (per-issue verification → memo-v2; monthly trend → memo-v3); all versions are kept.
+  sensitive to the factors in §7. It was regenerated after new evidence was added to the pack (per-issue verification → memo-v2;
+  monthly trend → memo-v3) and to meet the contract's ranking rules (memo-v4: baseline ranking basis, every non-ranking
+  number listed with its evidence-pack field and resolved by code); all versions are kept. Known wording slip in memo-v4:
+  "13 records were quarantined out of 660609 completed classifications" — the 13 are empty texts among the 660,622
+  source rows and were never classified.
 - Missing data: 159,701 reviews (24%) have no app version; they were classified normally (version is not a label input)
   but version-level analysis would exclude them. Review dates have no time zone; the first and last months are partial.
 - Jev is not perfectly repeatable run to run (1–3 of 50 labels differed in identical dev reruns); saved results make the
@@ -363,7 +368,7 @@ http://localhost:8765.
 README.md  memo.md  LOG.md  Plan.md  requirements.txt  .env.example  .gitignore
 docs/      label_examples.md · schema.md
 config/    labels.yaml · issues.yaml · settings.yaml · sentiment_from_intent.yaml · source_manifest.json
-prompts/   jev_tiny_v1.yaml (used) · jev_short_v1.yaml · verify_v1.md · group_review_v1.md · memo_v1.md · memo_v2.md · memo_v3.md (used)
+prompts/   jev_tiny_v1.yaml (used) · jev_short_v1.yaml · verify_v1.md · group_review_v1.md · memo_v1.md · memo_v2.md · memo_v3.md · memo_v4.md (used)
 pipeline/  __main__ (CLI incl. run) · ingest · enrich · jev · claude · extract · verify · group · group_review · rank · recommend · load_db · export · manifest · store · rates
 web/       app.py (FastAPI) · public/index.html (dashboard) · dev_server.py · vercel.json · requirements.txt
 cost/      calculator.py · rates.csv · assumptions.yaml · usage.csv · pilot_*.jsonl · pilot_measurements.json · report.md

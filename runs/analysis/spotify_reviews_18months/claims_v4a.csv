@@ -1,0 +1,11 @@
+claim_id,issue_id,metric,value
+C1,OTH-GENERAL,complaint_count,85894
+C2,OTH-GENERAL,priority_score,180521
+C3,BIL-PAYWALL,complaint_count,38784
+C4,BIL-PAYWALL,priority_score,118521
+C5,BIL-PAYWALL,mean_severity,3.055925
+C6,USA-ADS,priority_score,87029
+C7,USA-ADS,complaint_count,35935
+C8,PLY-WONTPLAY,priority_score,58604
+C9,BIL-GENERAL,priority_score,25732
+C10,ACC-LOGIN,mean_severity,3.972966

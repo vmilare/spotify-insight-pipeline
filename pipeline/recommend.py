@@ -18,12 +18,16 @@ from tools.check_submission import sha, write_json
 from . import claude, enrich, group, rates, store, verify
 from .paths import REPO
 
-PROMPT_VERSION = "memo-v3"  # v2: weigh per-issue/area verification; v3: weigh the recent monthly trend
+PROMPT_VERSION = "memo-v4"  # v2: per-issue/area verification; v3: monthly trend; v4: baseline ranking basis + sourced quantities
 METRICS = ("complaint_count", "severity_sum", "mean_severity", "priority_score")
 AREAS = {"access": ["access"], "usability": ["usability"], "playback": ["playback", "downloads"],
          "billing_support": ["billing", "support"], "catalog": ["catalog"], "other": ["other"]}
+AREA_LABELS = {"playback": "playback (incl. downloads)", "billing_support": "billing/support",
+               "other": "other (general dissatisfaction)"}
 UUID = re.compile(r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", re.I)
 NUMBER = re.compile(r"(?<![A-Za-z#])\d[\d,]*(?:\.\d+)?")
+DATE = re.compile(r"\b\d{4}-\d{2}(?:-\d{2})?\b")
+PATH_PART = re.compile(r"\[([^=\]]+)=([^\]]+)\]|\[(\d+)\]|([^.\[\]]+)")
 
 SCHEMA = {
     "type": "object",
@@ -35,13 +39,16 @@ SCHEMA = {
             "claim_id": {"type": "string"}, "issue_id": {"type": "string"},
             "metric": {"type": "string", "enum": list(METRICS)}, "value": {"type": "string"}},
             "required": ["claim_id", "issue_id", "metric", "value"], "additionalProperties": False}},
+        "other_quantities": {"type": "array", "items": {"type": "object", "properties": {
+            "value": {"type": "string"}, "meaning": {"type": "string"}, "pack_path": {"type": "string"}},
+            "required": ["value", "meaning", "pack_path"], "additionalProperties": False}},
         "recommendations": {"type": "array", "items": {"type": "object", "properties": {
             "title": {"type": "string"}, "rationale": {"type": "string"},
             "claim_ids": {"type": "array", "items": {"type": "string"}},
             "review_ids": {"type": "array", "items": {"type": "string"}}},
             "required": ["title", "rationale", "claim_ids", "review_ids"], "additionalProperties": False}},
     },
-    "required": ["recommended_area", "headline", "memo_markdown", "claims", "recommendations"],
+    "required": ["recommended_area", "headline", "memo_markdown", "claims", "other_quantities", "recommendations"],
     "additionalProperties": False,
 }
 
@@ -136,7 +143,8 @@ def build_pack(input_path, workspace="main", top_n=8, quotes_per_issue=3):
     area_rollup = []
     for area, topics in AREAS.items():
         c = sum(topic_totals[t][0] for t in topics); s = sum(topic_totals[t][1] for t in topics)
-        area_rollup.append({"area": area, "topics": topics, "complaint_count": c, "severity_sum": s,
+        area_rollup.append({"area": area, "label": AREA_LABELS.get(area, area), "topics": topics,
+                            "complaint_count": c, "severity_sum": s,
                             "share_of_baseline_complaints_pct": pct(c, baseline),
                             "cancellation_count": sum(topic_totals[t][2] for t in topics)})
     area_rollup.sort(key=lambda x: -x["severity_sum"])
@@ -170,12 +178,22 @@ def build_pack(input_path, workspace="main", top_n=8, quotes_per_issue=3):
         "scope": {"input": Path(input_path).name, "source_rows": total_rows, "completed_classifications": completed,
                   "quarantined": status.get("quarantined", 0), "pending_unclassified": status.get("pending", 0),
                   "baseline_complaint_and_cancellation_records": baseline,
-                  "needs_review_records": needs_review, "needs_review_share_pct": pct(needs_review, completed),
+                  "needs_review_records": needs_review,
+                  "needs_review_share_of_all_classified_pct": pct(needs_review, completed),
+                  "issues_in_baseline_ranking": len(ranking),
+                  "highest_mean_severity_issue_in_full_ranking": max(
+                      ({"issue_id": r["issue_id"], "mean_severity": r["mean_severity"], "baseline_rank": r["rank"]}
+                       for r in ranking), key=lambda x: float(x["mean_severity"])),
                   "first_review_date": min(m[1] for m in meta.values())[:10],
                   "last_review_date": max(m[1] for m in meta.values())[:10]},
         "definitions": {"priority_score": "severity_sum = complaint_count x mean_severity (required baseline)",
                         "severity": "1 no problem ... 4 core task blocked, 5 explicit financial/privacy/data harm",
-                        "area_mapping": "playback area includes downloads (offline playback); billing/support = billing + support topics"},
+                        "area_mapping": "playback area includes downloads (offline playback); billing/support = billing + support topics",
+                        "ranking_views": {
+                            "baseline": "required ranking (grading contract): every complaint/cancellation record, incl. OTH-GENERAL",
+                            "actionable": "additional view: the baseline with only OTH-GENERAL removed (no specific defect); "
+                                          "other issues keep identical numbers and order",
+                            "without_needs_review": "sensitivity check: recomputed after dropping records flagged needs_review"}},
         "area_rollup": area_rollup,
         "ranking_baseline_top10": ranking[:10],
         "ranking_actionable_top10 (excludes OTH-GENERAL)": actionable[:10],
@@ -192,6 +210,28 @@ def build_pack(input_path, workspace="main", top_n=8, quotes_per_issue=3):
     }
     write_json(folder / "evidence_pack.json", pack)
     return pack, ranking
+
+
+def resolve(pack, path):
+    """Value at a pack path such as area_rollup[area=playback].severity_sum or rows[0].x; KeyError if absent."""
+    cur = pack
+    for field, match, index, key in PATH_PART.findall(path):
+        if key:
+            cur = cur[key]
+        elif index:
+            cur = cur[int(index)]
+        else:
+            cur = next((x for x in cur if isinstance(x, dict) and str(x.get(field)) == match), None)
+            if cur is None:
+                raise KeyError(f"[{field}={match}]")
+    return cur
+
+
+def same_number(a, b):
+    try:
+        return float(str(a).replace(",", "")) == float(str(b).replace(",", ""))
+    except ValueError:
+        return False
 
 
 def check(out, pack, ranking):
@@ -216,15 +256,50 @@ def check(out, pack, ranking):
     errors += [f"review id not in evidence pack: {r}" for r in sorted(used_ids - pack_ids)]
     for rec in out["recommendations"]:
         errors += [f"recommendation cites unknown claim {c}" for c in rec["claim_ids"] if c not in claim_ids]
-    # Every number in the prose must appear somewhere in the pack (or be a claim value / small ordinal).
-    pack_numbers = {n.replace(",", "") for n in NUMBER.findall(json.dumps(pack))}
-    allowed = pack_numbers | {str(c["value"]) for c in out["claims"]} | {str(i) for i in range(0, 11)}
-    stripped = UUID.sub(" ", re.sub(r"\[C\d+\]", " ", text))
+    # The required baseline must be represented: its rank-1 issue named in the prose and backed by a claim.
+    top = ranking[0]["issue_id"]
+    if top not in text or not any(c["issue_id"] == top for c in out["claims"]):
+        errors.append(f"baseline rank-1 issue {top} must be named in the memo and backed by a claim")
+    # Non-ranking quantities: each listed path must resolve in the pack to the stated value.
+    sourced = set()
+    for q in out["other_quantities"]:
+        try:
+            found = resolve(pack, q["pack_path"])
+        except (KeyError, IndexError, TypeError, ValueError):
+            errors.append(f"other_quantities: path not in evidence pack: {q['pack_path']}")
+            continue
+        if not same_number(found, q["value"]):
+            errors.append(f"other_quantities: {q['pack_path']} is {found}, memo says {q['value']}")
+        else:
+            sourced.add(q["value"].replace(",", ""))
+    # Every number in the prose must be a claim value, a sourced quantity, or a small ordinal (dates excluded).
+    allowed = sourced | {str(c["value"]) for c in out["claims"]} | {str(i) for i in range(0, 11)}
+    stripped = DATE.sub(" ", UUID.sub(" ", re.sub(r"\[C\d+\]", " ", text)))
     for n in NUMBER.findall(stripped):
         v = n.replace(",", "").rstrip(".")
-        if v not in allowed and v.rstrip("0").rstrip(".") not in allowed:
-            errors.append(f"number not in evidence pack: {n}")
+        if not any(v == a or same_number(v, a) for a in allowed):
+            errors.append(f"number not backed by a claim or other_quantities entry: {n}")
     return errors, warnings
+
+
+def appendix(out, ranking, actionable):
+    """Code-built tables: the required baseline ranking, the claims, and the sourced non-ranking quantities."""
+    act_rank = {r["issue_id"]: r["rank"] for r in actionable}
+    lines = ["## Appendix A: required baseline ranking (top 10 of "
+             f"{len(ranking)}, from `ranking.csv`)", "",
+             "Priority score = severity sum = complaint count × mean severity. The actionable view removes only "
+             "OTH-GENERAL; every other issue keeps the same numbers.", "",
+             "| Baseline rank | Issue | Complaints | Severity sum | Mean severity | Priority score | Actionable rank |",
+             "|---|---|---|---|---|---|---|"]
+    lines += [f"| {r['rank']} | {r['issue_id']} | {r['complaint_count']} | {r['severity_sum']} | {r['mean_severity']} | "
+              f"{r['priority_score']} | {act_rank.get(r['issue_id'], '— (excluded)')} |" for r in ranking[:10]]
+    lines += ["", "## Appendix B: claims (checked against `ranking.csv`; exported as `claims.csv`)", "",
+              "| Claim | Issue | Metric | Value |", "|---|---|---|---|"]
+    lines += [f"| {c['claim_id']} | {c['issue_id']} | {c['metric']} | {c['value']} |" for c in out["claims"]]
+    lines += ["", "## Appendix C: other quantities (not ranking metrics; each checked against `evidence_pack.json`)", "",
+              "| Value | Meaning | Evidence-pack field |", "|---|---|---|"]
+    lines += [f"| {q['value']} | {q['meaning']} | `{q['pack_path']}` |" for q in out["other_quantities"]]
+    return "\n".join(lines)
 
 
 def run(input_path, workspace="main", phase="memo"):
@@ -277,9 +352,12 @@ def run(input_path, workspace="main", phase="memo"):
                   f"(effort high) from `evidence_pack.json` · Checker: **{status}** · Input `{input_path.name}` · "
                   f"{pack['scope']['completed_classifications']} classified reviews, "
                   f"{pack['scope']['pending_unclassified']} unclassified.*\n\n")
-        appendix = "\n\n## Appendix: claims (checked against ranking.csv)\n\n| Claim | Issue | Metric | Value |\n|---|---|---|---|\n" + \
-            "\n".join(f"| {c['claim_id']} | {c['issue_id']} | {c['metric']} | {c['value']} |" for c in out["claims"])
-        (folder / "memo.md").write_text(header + out["memo_markdown"].strip() + appendix + "\n", encoding="utf-8")
+        tables = appendix(out, ranking, read_csv(folder / "ranking_actionable.csv"))
+        (folder / "memo.md").write_text(header + out["memo_markdown"].strip() + "\n\n" + tables + "\n", encoding="utf-8")
+        with (folder / "memo_quantities.csv").open("w", newline="", encoding="utf-8") as f:
+            w = csv.writer(f, lineterminator="\n")
+            w.writerow(["value", "meaning", "pack_path"])
+            w.writerows([q["value"], q["meaning"], q["pack_path"]] for q in out["other_quantities"])
     tokens = {k: sum(c.get(k, 0) or 0 for c in log) for k in rates.ITEMS}
     summary = {"run_id": run_id, "status": status, "errors": errors, "warnings": warnings, "attempts": attempts,
                "stage_cache_hits": stats["cache_hits"], "requests": len(log), "usage": tokens, "cost_usd": round(spent["usd"], 6),

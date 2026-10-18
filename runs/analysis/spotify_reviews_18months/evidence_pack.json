@@ -4,6 +4,7 @@
       "area": "playback",
       "cancellation_count": 4574,
       "complaint_count": 57248,
+      "label": "playback (incl. downloads)",
       "severity_sum": 193130,
       "share_of_baseline_complaints_pct": 19.7,
       "topics": [
@@ -15,6 +16,7 @@
       "area": "other",
       "cancellation_count": 6067,
       "complaint_count": 87972,
+      "label": "other (general dissatisfaction)",
       "severity_sum": 184827,
       "share_of_baseline_complaints_pct": 30.3,
       "topics": [
@@ -25,6 +27,7 @@
       "area": "usability",
       "cancellation_count": 5759,
       "complaint_count": 66495,
+      "label": "usability",
       "severity_sum": 174227,
       "share_of_baseline_complaints_pct": 22.9,
       "topics": [
@@ -35,6 +38,7 @@
       "area": "billing_support",
       "cancellation_count": 8263,
       "complaint_count": 51040,
+      "label": "billing/support",
       "severity_sum": 154065,
       "share_of_baseline_complaints_pct": 17.6,
       "topics": [
@@ -46,6 +50,7 @@
       "area": "catalog",
       "cancellation_count": 970,
       "complaint_count": 16321,
+      "label": "catalog",
       "severity_sum": 46245,
       "share_of_baseline_complaints_pct": 5.6,
       "topics": [
@@ -56,6 +61,7 @@
       "area": "access",
       "cancellation_count": 679,
       "complaint_count": 11644,
+      "label": "access",
       "severity_sum": 45817,
       "share_of_baseline_complaints_pct": 4.0,
       "topics": [
@@ -66,6 +72,11 @@
   "definitions": {
     "area_mapping": "playback area includes downloads (offline playback); billing/support = billing + support topics",
     "priority_score": "severity_sum = complaint_count x mean_severity (required baseline)",
+    "ranking_views": {
+      "actionable": "additional view: the baseline with only OTH-GENERAL removed (no specific defect); other issues keep identical numbers and order",
+      "baseline": "required ranking (grading contract): every complaint/cancellation record, incl. OTH-GENERAL",
+      "without_needs_review": "sensitivity check: recomputed after dropping records flagged needs_review"
+    },
     "severity": "1 no problem ... 4 core task blocked, 5 explicit financial/privacy/data harm"
   },
   "limitations": [
@@ -537,10 +548,16 @@
     "baseline_complaint_and_cancellation_records": 290720,
     "completed_classifications": 660609,
     "first_review_date": "2022-05-17",
+    "highest_mean_severity_issue_in_full_ranking": {
+      "baseline_rank": "27",
+      "issue_id": "ACC-ACCOUNT",
+      "mean_severity": "4.004955"
+    },
     "input": "spotify_reviews_18months.csv",
+    "issues_in_baseline_ranking": 33,
     "last_review_date": "2023-11-15",
     "needs_review_records": 210531,
-    "needs_review_share_pct": 31.9,
+    "needs_review_share_of_all_classified_pct": 31.9,
     "pending_unclassified": 0,
     "quarantined": 13,
     "source_rows": 660622

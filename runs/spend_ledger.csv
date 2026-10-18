@@ -52,3 +52,5 @@ pilot-20261011T215750-cost_100-20261012T094120645,cost_100.csv,jev-1.13.0+jev-q-
 pilot-20261011T215750-cost_100-verify-20261012T094120648,cost_100.csv,claude-haiku-5-5+verify-v1+effort-low+thinking-off,2026-10-12T16:41:20+00:00,2026-10-12T16:41:20+00:00,0,0,0,0.0,20,0,0,complete
 pilot-20261011T215750-cost_100-groupreview-20261012T094120663,cost_100.csv,claude-haiku-5-5+group-review-v1+effort-low+thinking-off,2026-10-12T16:41:20+00:00,2026-10-12T16:41:32+00:00,5,0,6650,0.001361,0,0,0,complete
 pilot-20261011T215750-cost_100-memo-20261012T094132297,cost_100.csv,claude-sonnet-5-5+memo-v3+effort-high+fallbacks-default,2026-10-12T16:41:32+00:00,2026-10-12T16:42:07+00:00,1,0,13336,0.076082,0,0,0,passed
+main-spotify_reviews_18months-memo-20261017T165306447,spotify_reviews_18months.csv,claude-sonnet-5-5+memo-v4+effort-high+fallbacks-default,2026-10-17T23:53:06+00:00,2026-10-17T23:55:15+00:00,2,0,31938,0.256506,0,0,0,passed
+main-spotify_reviews_18months-memo-20261017T165643941,spotify_reviews_18months.csv,claude-sonnet-5-5+memo-v4+effort-high+fallbacks-default,2026-10-17T23:56:43+00:00,2026-10-17T23:59:00+00:00,2,0,32797,0.282554,0,0,0,passed

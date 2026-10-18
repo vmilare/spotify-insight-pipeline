@@ -437,3 +437,28 @@ unless marked *estimate*. Per-run spend is tracked automatically in `runs/spend_
   7. README: Kaggle source URL, missing app versions (159,701), quarantine log path, run command, docs links.
 - DB reloaded (memo-v3), grading/ re-exported (48,452 calls), self-check pass (no issues).
 - Project spend: $10.0522 of $11.
+
+## 2026-10-17 — memo-v4: ranking rules from the grading contract reflected in the memo ($0.5391)
+- Audit against the course folder (GRADING_CONTRACT.md, COST_CALCULATOR.md, check_submission.py — identical to
+  tools/): self-check pass, cost replay and rate-doubling check OK. Gaps were in the memo: memo-v3 never showed the
+  required baseline ranking (OTH-GENERAL rank 1, 85,894 complaints, priority 180,521) and called BIL-PAYWALL "top
+  actionable" without saying it is baseline rank 2; ~20 non-ranking numbers had no stated source (contract: "explain
+  other quantities separately"); "Playback" area total silently included downloads; one wrong comparison (usability's
+  area total is larger than billing/support's, not smaller).
+- Code: evidence pack gains area `label`s, `definitions.ranking_views`, `scope.issues_in_baseline_ranking`,
+  `scope.highest_mean_severity_issue_in_full_ranking`; `needs_review_share_pct` renamed
+  `needs_review_share_of_all_classified_pct`. Schema gains `other_quantities` {value, meaning, pack_path}; the checker
+  resolves each path, requires the baseline rank-1 issue to be named and claimed, and rejects any prose number not
+  backed by a claim or a sourced quantity (memo-v3 fails it with 40 errors). Memo appendix is code-built: A baseline
+  top 10 with actionable rank, B claims, C other quantities (also `memo_quantities.csv`). Prompt `prompts/memo_v4.md`.
+- First v4 run ($0.2565, passed on attempt 2) had three meaning errors a number checker cannot catch: needs_review
+  31.9% described as "of baseline records" (it is of all classified reviews); ACC-LOGIN called the highest mean
+  severity "of any ranked issue" (ACC-ACCOUNT, rank 27, is higher; the pack held only the top 10); BIL-GENERAL called
+  "more reliable" on 9/11 vs 35/44. Kept as `memo_v4a.md`. Fixed by the pack/prompt changes above (rule 11) and
+  regenerated once ($0.2826, passed on attempt 2): **recommended area unchanged, billing/support**; 8 claims.
+  Remaining wording slip, disclosed in README §8: "13 records were quarantined out of 660609 completed
+  classifications" (they are empty texts among 660,622 source rows). Stopped regenerating.
+- memo-v3 outputs kept (`memo_v3.md`, `claims_v3.csv`, `recommendations_v3.json`, `memo_check_v3.json`,
+  `evidence_pack_v3.json`). grading/ re-exported (48,456 calls; records unchanged), self-check pass (no issues).
+  Dashboard DB not yet reloaded (still serves memo-v3).
+- Project spend: $10.5913 of $11.

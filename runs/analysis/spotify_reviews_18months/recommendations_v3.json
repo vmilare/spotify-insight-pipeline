@@ -1,0 +1,53 @@
+{
+  "check_status": "passed",
+  "headline": "Fund billing/support first: the Premium-paywall complaint is the top specific issue and billing/support complaint share surged at the end of the window",
+  "recommendations": [
+    {
+      "claim_ids": [
+        "C1",
+        "C2",
+        "C4"
+      ],
+      "rationale": "BIL-PAYWALL is the top actionable issue by priority score and billing/support share surged at the end of the window.",
+      "review_ids": [
+        "1be24878-5115-490a-bb7f-dad95d0630ab",
+        "b5543c5b-e63b-4e70-a915-de5d3a01f9d3"
+      ],
+      "title": "Fix Premium-paywall friction first"
+    },
+    {
+      "claim_ids": [
+        "C5",
+        "C6"
+      ],
+      "rationale": "USA-ADS is the second-ranked actionable issue with reliable labels and overlaps with paywall complaints.",
+      "review_ids": [
+        "25c1050d-94e0-4cfc-a08a-2392f03a307f"
+      ],
+      "title": "Pair with an ads and prompts review"
+    },
+    {
+      "claim_ids": [
+        "C7",
+        "C8",
+        "C9"
+      ],
+      "rationale": "Playback leads the full-period area severity sum but its labels agree weakly with the independent re-label and its recent share is flat.",
+      "review_ids": [
+        "6c7d8912-de88-4636-95b8-7618937e1258"
+      ],
+      "title": "Audit playback labels before committing"
+    },
+    {
+      "claim_ids": [
+        "C10"
+      ],
+      "rationale": "ACC-LOGIN is the most severe issue but has a small volume, so it needs a scoped fix rather than the main effort.",
+      "review_ids": [
+        "efad1c88-44f9-4448-b330-599e0aac4003"
+      ],
+      "title": "Schedule a small login reliability fix"
+    }
+  ],
+  "recommended_area": "billing_support"
+}

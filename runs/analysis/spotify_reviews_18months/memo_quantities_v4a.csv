@@ -1,0 +1,33 @@
+value,meaning,pack_path
+51040,billing/support complaints,area_rollup[area=billing_support].complaint_count
+154065,billing/support severity sum,area_rollup[area=billing_support].severity_sum
+8263,billing/support cancellation-intent records,area_rollup[area=billing_support].cancellation_count
+57248,playback complaints,area_rollup[area=playback].complaint_count
+193130,playback severity sum,area_rollup[area=playback].severity_sum
+4574,playback cancellation-intent records,area_rollup[area=playback].cancellation_count
+66495,usability complaints,area_rollup[area=usability].complaint_count
+174227,usability severity sum,area_rollup[area=usability].severity_sum
+11644,access complaints,area_rollup[area=access].complaint_count
+45817,access severity sum,area_rollup[area=access].severity_sum
+2.7,billing/support share in January,monthly_complaint_share.rows[month=2023-01].billing_support_share_pct
+13.5,billing/support share in September,monthly_complaint_share.rows[month=2023-09].billing_support_share_pct
+26.3,billing/support share in October,monthly_complaint_share.rows[month=2023-10].billing_support_share_pct
+19.7,billing/support share in partial November,monthly_complaint_share.rows[month=2023-11].billing_support_share_pct
+7.8,playback share in October,monthly_complaint_share.rows[month=2023-10].playback_share_pct
+8.2,playback share in November,monthly_complaint_share.rows[month=2023-11].playback_share_pct
+13.0,usability share in October,monthly_complaint_share.rows[month=2023-10].usability_share_pct
+89102,classified reviews in October,monthly_complaint_share.rows[month=2023-10].classified_reviews
+31.9,needs_review share of baseline records,scope.needs_review_share_pct
+24756,BIL-PAYWALL needs_review records,top_actionable_issues[issue_id=BIL-PAYWALL].needs_review_count
+13,quarantined records,scope.quarantined
+35,BIL-PAYWALL sampled records where verifier agreed on topic,verification.by_issue_in_sample.BIL-PAYWALL.topic_agree
+44,BIL-PAYWALL sampled records,verification.by_issue_in_sample.BIL-PAYWALL.sampled
+9,BIL-PAYWALL sampled records the verifier placed in usability,verification.by_issue_in_sample.BIL-PAYWALL.verifier_other_topics.usability
+34,playback sampled complaints with verifier same area,verification.by_area_in_sample.playback.verifier_same_area
+53,playback sampled complaints,verification.by_area_in_sample.playback.sampled_complaints
+11,PLY-WONTPLAY sampled records with topic agreement,verification.by_issue_in_sample.PLY-WONTPLAY.topic_agree
+20,PLY-WONTPLAY sampled records,verification.by_issue_in_sample.PLY-WONTPLAY.sampled
+35,USA-ADS sampled records with topic agreement,verification.by_issue_in_sample.USA-ADS.topic_agree
+37,USA-ADS sampled records,verification.by_issue_in_sample.USA-ADS.sampled
+12,ACC-LOGIN sampled records with topic agreement,verification.by_issue_in_sample.ACC-LOGIN.topic_agree
+13,ACC-LOGIN sampled records,verification.by_issue_in_sample.ACC-LOGIN.sampled

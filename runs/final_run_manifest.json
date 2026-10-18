@@ -1,12 +1,12 @@
 {
   "analysis_runs": {
     "group_review": "main-spotify_reviews_18months-groupreview-20261012T091104678",
-    "memo": "main-spotify_reviews_18months-memo-20261012T094001050",
-    "memo_prompt": "claude-sonnet-5-5+memo-v3+effort-high+fallbacks-default",
+    "memo": "main-spotify_reviews_18months-memo-20261017T165643941",
+    "memo_prompt": "claude-sonnet-5-5+memo-v4+effort-high+fallbacks-default",
     "verify": "main-spotify_reviews_18months-verify-20261012T090942768"
   },
   "code": {
-    "git_commit": "4f1dba9eed51903caf2d16ad7be7310cbcb3f34b",
+    "git_commit": "7e25df664a1ce99b13dde944d3a124794e7d0a91",
     "repository": "https://github.com/vmilare/spotify-insight-pipeline",
     "uncommitted_changes": true
   },
@@ -54,7 +54,7 @@
       "workers": 2
     }
   ],
-  "generated_at": "2026-10-12T16:44:56+00:00",
+  "generated_at": "2026-10-17T23:59:37+00:00",
   "label_config": "jev-1.13.0+jev-q-tiny-v1-pack10+schema-v1+quote-v1+sent-from-intent-v1",
   "models": {
     "enrich": "jev-1.13.0",
@@ -63,30 +63,30 @@
     "verify": "claude-haiku-5-5"
   },
   "outputs_sha256": {
-    "grading/calls.jsonl.gz": "bc86ba41536aec23b5ca9976a758b3ac988286d9dcc17ae6f580f6bffe6dcc43",
+    "grading/calls.jsonl.gz": "db39cc8d215eee9a7a43d2e09d4cba2952e29e2c24baa59728eaf781d76edc4e",
     "grading/checkpoint_after.json": "0c0dd99b6190731a452e4c9ab92cc462146136238077cdf63c6711c384bdb1ee",
     "grading/checkpoint_before.json": "96a044e339ab6b28843f01b5fb64d4905e1a8ced344d6da07793549e8f3464f4",
-    "grading/claims.csv": "ccd7025a42d1c7aa70441437fbb990e4235dbc4bbef8f4d849621044dc5cdcfb",
+    "grading/claims.csv": "95816380597e3d5aa940af2ff227ea6e888681c25a5c8c07db4583a2779b3157",
     "grading/ingestion.json": "5512dd793b0bde3bd51f28b20b440108f3c9bab31233819bea5f32ce19482153",
     "grading/membership.csv": "ae794a1b56edab8991d9ed4110dd0f5edcfadd33b21203ffdce6a0ddede7c475",
     "grading/ranking.csv": "f87d684d263a4a1fef57c17a2e05ebd43fdf40eb5bf5dc6ad2e4cc097be80bbf",
     "grading/records.jsonl.gz": "11e3be937c37c3e77dc0ba257753ac33d52d13e36484a5d0c8e4a49170fcc38d",
     "grading/run.json": "09bf8e059a1517c9fd5d01d2ab9f43731b5c8f0f9d51da89daa40288a574645e",
-    "memo.md": "23a0ca902d16a185d90458422209f719b5c06f1ef459eaa1fef441fd27a85039",
+    "memo.md": "8a113b821c27a63749c6b3b7a8a617facb122bfdac727c77dbe92598b3986031",
     "runs/analysis/spotify_reviews_18months/aggregates.csv": "d9a75fe60e674dbd149b702e4cc0227c059fce3b0139f81fb36a27864897ccfb",
-    "runs/analysis/spotify_reviews_18months/claims.csv": "ccd7025a42d1c7aa70441437fbb990e4235dbc4bbef8f4d849621044dc5cdcfb",
-    "runs/analysis/spotify_reviews_18months/evidence_pack.json": "03e70d8f31ca497580a6b620807ed13794e0f5a3daf8502ed9fbdf15c1ef8043",
+    "runs/analysis/spotify_reviews_18months/claims.csv": "95816380597e3d5aa940af2ff227ea6e888681c25a5c8c07db4583a2779b3157",
+    "runs/analysis/spotify_reviews_18months/evidence_pack.json": "a3660d15209b797f8494c1e44d751cdcbebba50083863af674b90b95bdbb5363",
     "runs/analysis/spotify_reviews_18months/issue_review.csv": "5aad6b79c9894d288dbce5b89382edbe5e0ae223badca9144aa39f65764c087d",
     "runs/analysis/spotify_reviews_18months/issues.csv": "5958c4a9167223b089ae2d01c3469602e920eb75098d6af148004b573f771d24",
     "runs/analysis/spotify_reviews_18months/membership.csv": "ae794a1b56edab8991d9ed4110dd0f5edcfadd33b21203ffdce6a0ddede7c475",
-    "runs/analysis/spotify_reviews_18months/memo.md": "23a0ca902d16a185d90458422209f719b5c06f1ef459eaa1fef441fd27a85039",
+    "runs/analysis/spotify_reviews_18months/memo.md": "8a113b821c27a63749c6b3b7a8a617facb122bfdac727c77dbe92598b3986031",
     "runs/analysis/spotify_reviews_18months/ranking.csv": "f87d684d263a4a1fef57c17a2e05ebd43fdf40eb5bf5dc6ad2e4cc097be80bbf",
     "runs/analysis/spotify_reviews_18months/ranking_actionable.csv": "ef10635ef714122e02fe611cf206165c01f70fbcf354e4ed85d21c4c765aa3d1",
     "runs/analysis/spotify_reviews_18months/ranking_without_needs_review.csv": "e936ff220396e6b51e5530251440ee94cdb8beb42124dd7eac93bc9865ec4084",
-    "runs/analysis/spotify_reviews_18months/recommendations.json": "0a489d265cec57374989fdcf9571a7681285abf3a5e070a221c7d2463a44cef5",
+    "runs/analysis/spotify_reviews_18months/recommendations.json": "fadcc9a46a62604cfd6653132ffdc26bd0e3564b37e8f5e2ba53bc4430660454",
     "runs/analysis/spotify_reviews_18months/verify/verify_report.json": "39ecb1b6a94a9ca0886051f2c995ff9067b88fad14bdeca606b037b45f12202b"
   },
-  "project_api_spend_usd": 10.0522,
+  "project_api_spend_usd": 10.5913,
   "prompts_and_configs_sha256": {
     "config/issues.yaml": "0ac1694a60e9fde079fb73331a64a38be8fee4bf66ee68a67a1990b6fea86fd6",
     "config/labels.yaml": "0e4953b6073d3689b7054f6d5ba193cf2d45ba5a72bde0ae700688d2467a6edf",
@@ -98,6 +98,7 @@
     "prompts/memo_v1.md": "43b83ff7b824ec1317686dd13961628ccaee8f7d58325d8ed3bcc4a505c62415",
     "prompts/memo_v2.md": "87f073c64377fda4ea788e4edc11ea3c16f92199de86e51a989f2256cd66dee2",
     "prompts/memo_v3.md": "5f09e4b755ea4f5b39dd0ef3c5b1813072c989c7635e5ae17b03e044badee547",
+    "prompts/memo_v4.md": "05aaf64357016633d7edae16a743c863b6f90b6d72de9824b21be900fd96fee1",
     "prompts/verify_v1.md": "0ddaa87f81da3aa1f57954a258253d6fa48c9e998706d7ecdffed030c17e75ed"
   },
   "settings": {

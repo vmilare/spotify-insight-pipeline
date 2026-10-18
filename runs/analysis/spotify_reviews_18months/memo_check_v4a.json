@@ -1,0 +1,8 @@
+{
+  "attempts": 2,
+  "config": "claude-sonnet-5-5+memo-v4+effort-high+fallbacks-default",
+  "errors": [],
+  "run_id": "main-spotify_reviews_18months-memo-20261017T165306447",
+  "status": "passed",
+  "warnings": []
+}
