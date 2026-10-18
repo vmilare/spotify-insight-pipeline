@@ -506,3 +506,19 @@ unless marked *estimate*. Per-run spend is tracked automatically in `runs/spend_
   `memo_quantities_v4.csv`, `memo_output_v4.json`, `evidence_pack_v4.json`).
 - Dashboard headline shows both areas. grading/ re-exported (48,458 calls), self-check pass. DB reloaded.
 - Project spend: $10.8970 of $11 — no budget left for another memo regeneration.
+
+## 2026-10-18 — Provider usage reconciliation (no model calls)
+- User downloaded the Anthropic Console usage export and the TypeSafe usage export (2026-10-18 00:45 UTC). Raw files
+  kept local and git-ignored (`cost/usageClaude.csv`, `cost/usageJEV.csv`): the Anthropic export also lists another API
+  key on the account (incl. Batch API usage, never used here). Sanitized copies (this project's key only; Jev key ID
+  and email columns dropped) in `cost/provider_usage/`.
+- `cost/reconcile.py` (offline): all saved call records (grading/calls.jsonl.gz + committed logs), de-duplicated by
+  request ID; the 20 failed calls are system-test failures simulated in-process and never sent. Jev bucketed by
+  completion time — the provider counts a request in the hour it completes (2 calls started < 0.1 s before 05:00 and
+  16:00 UTC; exact token match).
+- Jev: provider 48,618 requests / 228,518,879 input tokens = our 48,596 calls + 9 (smoke test + token probe, LOG.md
+  2026-10-11; tokens sum to 5,449 exactly) + 13 (first run of dev_compare_b, overwritten by its identical rerun;
+  78,291 tokens exactly). Residual 0 / 0. Provider-implied $9.5978 = spend-ledger Jev total $9.5978 (the ledger's
+  estimated dev-experiments row is confirmed by the provider counts).
+- Claude 2026-10-12: Sonnet exact; Haiku +16 input / +4 output tokens with no matching log (< $0.00001, left visible).
+  2026-10-17/18 memo runs ($0.8448) not yet in the Console export → pending; re-export and rerun the script to close.

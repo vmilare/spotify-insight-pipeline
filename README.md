@@ -11,7 +11,7 @@ playback, or billing/support?*
 | Backend API (same site) | `/api/health`, `/api/summary`, `/api/areas`, `/api/trend`, `/api/ranking?kind=baseline\|actionable\|without_needs_review`, `/api/appendix` (memo appendix tables A and B), `/api/issues/{issue_id}`, `/api/recommendations`; docs at `/api/docs` |
 | Decision memo | [`memo.md`](memo.md) (memo-v5: playback + usability under the leadership direction in [`config/decision_criteria.yaml`](config/decision_criteria.yaml); baseline ranking basis and every non-ranking number sourced to the evidence pack; earlier versions kept: [`memo_v1.md`](runs/analysis/spotify_reviews_18months/memo_v1.md), [`memo_v2.md`](runs/analysis/spotify_reviews_18months/memo_v2.md), [`memo_v3.md`](runs/analysis/spotify_reviews_18months/memo_v3.md), [`memo_v4a.md`](runs/analysis/spotify_reviews_18months/memo_v4a.md), [`memo_v4.md`](runs/analysis/spotify_reviews_18months/memo_v4.md)) |
 | Grading export | [`grading/`](grading/) — course self-check `check_submission.py`: **status pass, no issues** |
-| Cost calculator | [`cost/`](cost/) — `python cost/calculator.py` (offline replay, default) · report: [`cost/report.md`](cost/report.md) |
+| Cost calculator | [`cost/`](cost/) — `python cost/calculator.py` (offline replay, default) · report: [`cost/report.md`](cost/report.md) · provider reconciliation: [`cost/reconciliation.md`](cost/reconciliation.md) |
 | Project log | [`LOG.md`](LOG.md) — every step, decision, experiment, bug and cost, in order · plan and checklist: [`Plan.md`](Plan.md) · run manifest: [`runs/final_run_manifest.json`](runs/final_run_manifest.json) |
 | Labels and schema | [`docs/label_examples.md`](docs/label_examples.md) (worked examples) · [`docs/schema.md`](docs/schema.md) (output schema) |
 | Large files | GitHub release [**v1.0**](https://github.com/vmilare/spotify-insight-pipeline/releases/tag/v1.0) (full enriched records with model confidences) |
@@ -217,7 +217,13 @@ exit 0), the saved state again, and the final resume (`phase: resume`; of the 3,
 
 ## 6. Cost and runtime calculator
 
-[`cost/README.md`](cost/README.md) · [`cost/report.md`](cost/report.md).
+[`cost/README.md`](cost/README.md) · [`cost/report.md`](cost/report.md) · [`cost/reconciliation.md`](cost/reconciliation.md).
+
+**Reconciled with the providers' usage exports** (`python cost/reconcile.py`, offline): Jev matches our call logs
+hour by hour — the provider's 48,618 requests / 228,518,879 input tokens ($9.5978) equal our 48,596 logged calls plus
+two early batches without per-call records (the 9-request token probe and a 13-request dev rerun, both in LOG.md); the
+spend ledger's Jev total is the same $9.5978. Claude matches for 2026-10-12 (Sonnet exact; Haiku +16/+4 tokens,
+< $0.00001); the memo regenerations of 2026-10-17/18 ($0.8448) were not yet in the Console export and are marked pending.
 
 - **Real 100-review pilot** on `cost_100.csv` (checksum verified), fresh empty workspace, 1 worker, all stages
   (declared verify sample 20): **cold** 100/100 completed, **$0.0647**, 52.6 s end to end; **warm** **0** enrichment requests,
@@ -337,6 +343,7 @@ by `DATA_DIR`.
 **No API key needed (graders):**
 ```sh
 python cost/calculator.py                          # offline cost replay → cost/report.md
+python cost/reconcile.py                           # provider usage exports vs call logs → cost/reconciliation.md
 python -m pipeline ingest                          # full-file ingestion + profile (~16 s)
 python tools/check_submission.py reference --full "$DATA_DIR/spotify_reviews_18months.csv" \
        --analysis "$DATA_DIR/spotify_reviews_18months.csv" --out /tmp/local-reference.json

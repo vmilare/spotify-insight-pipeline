@@ -24,3 +24,7 @@ runs/*spotify_reviews_18months*/calls.jsonl
 runs/analysis/spotify_reviews_18months/enriched.jsonl
 *.jsonl.gz
 !grading/*.jsonl.gz
+
+# Raw provider usage exports (may list other keys/users on the account); sanitized copies live in cost/provider_usage/
+cost/usageClaude.csv
+cost/usageJEV.csv
