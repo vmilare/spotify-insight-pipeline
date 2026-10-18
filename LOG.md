@@ -528,3 +528,9 @@ unless marked *estimate*. Per-run spend is tracked automatically in `runs/spend_
   replay now reproduces the committed `cost/report.md` exactly (only the generated-at line differs).
 - From here on (user instruction): documentation, README and memo wording are written in the Claude Code session
   (subscription), never through the project's API keys; API calls only for pipeline stages, with explicit approval.
+
+## 2026-10-18 — Release v1.1
+- v1.0's `grading_export.zip` (2026-10-12) still held memo-v3 claims and lacked the later memo calls. Release v1.1:
+  `grading_export.zip` rebuilt from the committed `grading/` (9 files; self-check on the unzipped copy: pass, no
+  issues, 660,609 completed, 48,458 calls) and the unchanged `full_enriched_with_confidences.jsonl.gz`. v1.0 left as
+  published. README links point to v1.1.

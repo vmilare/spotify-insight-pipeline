@@ -14,7 +14,7 @@ playback, or billing/support?*
 | Cost calculator | [`cost/`](cost/) — `python cost/calculator.py` (offline replay, default) · report: [`cost/report.md`](cost/report.md) · provider reconciliation: [`cost/reconciliation.md`](cost/reconciliation.md) |
 | Project log | [`LOG.md`](LOG.md) — every step, decision, experiment, bug and cost, in order · plan and checklist: [`Plan.md`](Plan.md) · run manifest: [`runs/final_run_manifest.json`](runs/final_run_manifest.json) |
 | Labels and schema | [`docs/label_examples.md`](docs/label_examples.md) (worked examples) · [`docs/schema.md`](docs/schema.md) (output schema) |
-| Large files | GitHub release [**v1.0**](https://github.com/vmilare/spotify-insight-pipeline/releases/tag/v1.0) (full enriched records with model confidences) |
+| Large files | GitHub release [**v1.1**](https://github.com/vmilare/spotify-insight-pipeline/releases/tag/v1.1) (full enriched records with model confidences; `grading_export.zip` = current `grading/`). v1.0 (2026-10-12) is kept but its grading zip predates memo-v4/v5 |
 
 ---
 
@@ -309,7 +309,7 @@ Issue taxonomy history: v1 → v2 (500-sample inspection) → v3 (full-data catc
 
 | Rubric item | Evidence |
 |---|---|
-| **Deliverable quality** — accessible code, setup and artifacts | [§10 Setup](#10-setup-and-commands), this README, [`requirements.txt`](requirements.txt), [`.env.example`](.env.example), [`grading/`](grading/), release v1.0 |
+| **Deliverable quality** — accessible code, setup and artifacts | [§10 Setup](#10-setup-and-commands), this README, [`requirements.txt`](requirements.txt), [`.env.example`](.env.example), [`grading/`](grading/), release v1.1 |
 | — clear architecture, shared schema and provenance | [§2](#2-architecture), [`config/labels.yaml`](config/labels.yaml), [`docs/schema.md`](docs/schema.md), [`docs/label_examples.md`](docs/label_examples.md), [`prompts/`](prompts/), `label_config` on every record, run IDs, [`runs/final_run_manifest.json`](runs/final_run_manifest.json) (commit, prompt hashes, models, settings, output hashes), [`LOG.md`](LOG.md) |
 | — memo numbers linked to calculations and source evidence | [`memo.md`](memo.md) appendix, [`grading/claims.csv`](grading/claims.csv), [`evidence_pack.json`](runs/analysis/spotify_reviews_18months/evidence_pack.json), [`memo_check.json`](runs/analysis/spotify_reviews_18months/memo_check.json), [§3 trace](#3-one-review-traced-end-to-end), dashboard ✓ chips |
 | — recommendation, alternatives and limitations | [`memo.md`](memo.md), [§7](#7-results-ranking-rules-and-sensitivity), [§8](#8-limitations) |
